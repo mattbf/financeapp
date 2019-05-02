@@ -12,14 +12,17 @@ import requests
 api_token = 'B62IP93O6OGM4LCA'  # API token from alpha vantage
 api_url_base = 'https://www.alphavantage.co/query?'
 # ex. function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=5min&apikey=demo'
+#  api_url = '{}orgs/{}/repos'.format(api_url_base, username)
 
 # payload = {'key1': 'value1', 'key2': 'value2'}
 # r = requests.get('https://httpbin.org/get', params=payload)
 
 
-def get_data():
+def get_series_data():
 
     # api_url = '{0}account'.format(api_url_base)
+    # outputsize=compact change to full for all data
+    # change to TIME_SERIES_DAILY
     parameters = {'function': 'TIME_SERIES_INTRADAY',
                   'symbol': 'MSFT', 'interval': '5min', 'apikey': 'demo'}
     response = requests.get(api_url_base, params=parameters)
@@ -30,7 +33,7 @@ def get_data():
         return None
 
 
-data = get_data()
+data = get_series_data()
 
 if data is not None:
     print("Here's your info: ")
