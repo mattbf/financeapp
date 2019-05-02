@@ -4,11 +4,18 @@ import requests
 api_token = 'B62IP93O6OGM4LCA'
 api_url_base = 'https://www.alphavantage.co/query?'
 
+parameters = {'function': 'SYMBOL_SEARCH',
+              'keywords': 'Micro', 'apikey': 'demo'}
 
-def get_search():
-    parameters = {'function': 'SYMBOL_SEARCH',
-                  'keywords': 'Micro', 'apikey': 'demo'}
-    response = requests.get(api_url_base, params=parameters)
+req1 = {
+    'url': api_url_base,
+    'params': parameters,
+}
+
+
+def get_search(request):
+
+    response = requests.get(request['url'], params=request['params'])
 
     if response.status_code == 200:
         return json.loads(response.content.decode('utf-8'))
@@ -16,7 +23,7 @@ def get_search():
         return None
 
 
-data = get_search()
+data = get_search(req1)
 
 if data is not None:
     print("Here's your info: ")
