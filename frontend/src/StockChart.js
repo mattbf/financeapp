@@ -1,8 +1,56 @@
+import React, {useEffect, useState} from 'react'
 import Chart from 'react-google-charts';
 
 function StockChart(data) {
-  // pass data from parent compnoent and map to chart
+  const [chartData, setChartData] = useState({
+    chartData: [],
+    isLoaded: false,
+  })
+  const json = data.json()
+  const [metadata, dataObj] = json
+
+  const columns = [
+    { type: 'date', label: 'Year' },
+    { type: 'number', label: 'Debt' },
+  ]
+  let rows = []
+  const nonNullData = data.filter(row => row.value !== null)
+  for (let row of nonNullData) {
+    const { date, value } = row
+    rows.push([new Date(Date.parse(date)), value])
+  }
+  setChartData({
+    chartData: [columns, ...rows],
+    isLoaded: true,
+  })
+
+  return(
+    chartData.isLoaded ?
+      <Chart
+        chartType="LineChart"
+        data={chartData.chartData}
+        options={{
+          hAxis: {
+            format: 'yyyy',
+          },
+          vAxis: {
+            format: 'short',
+          },
+          title: 'Debt incurred over time.',
+        }}
+        rootProps={{ 'data-testid': '2' }}
+      />
+     :
+    <div>Fetching data from API</div>
+  )
 }
+
+
+export default StockChart
+
+
+/*
+
 
 <Component
   initialState={{ dataLoadingStatus: 'loading', chartData: [] }}
@@ -19,7 +67,7 @@ function StockChart(data) {
     const json = await response.json()
     const [metadata, data] = json
     {
-      /* console.log(data,metadata) */
+
     }
     const columns = [
       { type: 'date', label: 'Year' },
@@ -59,4 +107,4 @@ function StockChart(data) {
   }}
 </Component>
 
-export default StockChart
+*/
