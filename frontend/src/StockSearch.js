@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-function Stocks() {
+function StockSearch() {
   const [params, setParams] = useState({
     apikey: 'B62IP93O6OGM4LCA',
     function: 'SYMBOL_SEARCH',
@@ -41,7 +41,7 @@ function Stocks() {
   )
 }
 
-export default Stocks
+export default StockSearch
 
 /*
 {data.map(stock =>
