@@ -14,12 +14,20 @@ def get_stocks(request):
  Get stock info.
  """
     if request.method == 'GET':
-        data = requests.get(
-            'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=5min&apikey=demo')
 
-        return Response({'data': json.loads(data.content.decode('utf-8'))})
+        data = requests.get(
+            'https://www.alphavantage.co/query?',
+            params=request.query_params
+        )
+
+        return Response({'data': json.loads(data.content.decode('utf-8')),
+                         'request': {'method': request.method,
+                                     'path': request.path,
+                                     'params': request.query_params,
+                                     },
+                         })
 
 # requests.get(
 #     'https://www.alphavantage.co/query?',
-#     params=request['params']
+#     params=request.query_params
 # )
