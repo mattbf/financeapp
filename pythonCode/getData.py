@@ -25,10 +25,12 @@ def get_series_data():
     # change to TIME_SERIES_DAILY
     parameters = {'function': 'TIME_SERIES_INTRADAY',
                   'symbol': 'MSFT', 'interval': '5min', 'apikey': 'demo'}
-    response = requests.get(api_url_base, params=parameters)
-
+    # response = requests.get(api_url_base, params=parameters)
+    response = requests.get(
+        'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=5min&apikey=demo')
     if response.status_code == 200:
-        return json.loads(response.content.decode('utf-8'))
+        return Response({'data': json.loads(data.content.decode('utf-8')),
+                         })
     else:
         return None
 
