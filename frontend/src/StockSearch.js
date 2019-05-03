@@ -5,7 +5,7 @@ function StockSearch() {
   const [params, setParams] = useState({
     apikey: 'B62IP93O6OGM4LCA',
     function: 'SYMBOL_SEARCH',
-    keywords: "Mic",
+    keywords: " ",
   })
   const [req, setReq] = useState({
     method: 'GET',
@@ -28,7 +28,7 @@ function StockSearch() {
   return (
 
     <div>
-    { data.data &&
+    { data.data ?
       <ul>
       Hello
       {data.data.bestMatches.map((match, index) =>
@@ -36,31 +36,11 @@ function StockSearch() {
       )}
 
       </ul>
+      :
+      "Loading"
     }
     </div>
   )
 }
 
 export default StockSearch
-
-/*
-{data.map(stock =>
-  <
-)}
-
-params: {
-  function: 'TIME_SERIES_INTRADAY',
-  symbol: 'MSFT',
-  interval: '5min',
-  apikey: 'demo',
-},
-
-data.data["Time Series (5min)"].map(time =>
-  <div> {time['1. open']} </div>
-)
-
-apikey: "demo",
-function: "TIME_SERIES_INTRADAY",
-interval: "5min",
-symbol: "MSFT",
-*/
