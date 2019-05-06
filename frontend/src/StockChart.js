@@ -40,48 +40,30 @@ function StockChart() {
   let rows = []
   //const nonNullData = data.filter(row => row.value !== null)
   if (data.data) {
-    for (var row in data.data["Time Series (5min)"]) {
-      const { date, value } = row
-      // const date = Object.keys(row)
-      // const value = Object.vaues(row)
-      rows.push([new Date(date), value])
-      //console.log(row["1. open"])
-      //console.log(value)
-      const d = Object.keys(data.data["Time Series (5min)"])
-      const v = Object.values(data.data["Time Series (5min)"][row])
-      //console.log(v)
-
        var keys = Object.keys(data.data["Time Series (5min)"])
        keys.forEach(function(key){
-           //rows.push();
-           console.log(key)
-           console.log(data.data["Time Series (5min)"][key]["1. open"])
-
+           rows.push([new Date(Date.parse(key)), data.data["Time Series (5min)"][key]["1. open"]]);
+           //console.log(rows)
        });
-    }
-    // data.data["Time Series (5min)"].map((index, stock) =>
-    //   rows.push([new Date((Object.keys(stock))), stock["1. open"]])
-    // )
-    // console.log(data.data["Time Series (5min)"])
-    //console.log(rows)
-
   }
 
 
 
-  const stockDates = Object.keys(data)
-  const stockValues = Object.values(data)
+  // const stockDates = Object.keys(data)
+  // const stockValues = Object.values(data)
+  //
+  // const dataSet = [['DateTime', 'Stock Open']]
+  //  for (let i = 0; i < stockDates.length; i += 1) {
+  //    dataSet.push([stockDates[i], stockValues[i]])
+  //  }
 
-  const dataSet = [['DateTime', 'Stock Open']]
-   for (let i = 0; i < stockDates.length; i += 1) {
-     dataSet.push([stockDates[i], stockValues[i]])
-   }
    useEffect(() => {
      setChartState({
        chartData: [columns, ...rows],
        isLoaded: true,
      })
-   }, [])
+     console.log(chartState.chartData)
+   }, [data])
 
 
   return(
