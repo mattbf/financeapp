@@ -43,7 +43,7 @@ function StockChart() {
        var keys = Object.keys(data.data["Time Series (5min)"])
        keys.forEach(function(key){
            rows.push([new Date(Date.parse(key)), data.data["Time Series (5min)"][key]["1. open"]]);
-           //console.log(rows)
+           console.log(rows)
        });
   }
 
@@ -73,7 +73,7 @@ function StockChart() {
         data={chartState.chartData}
         options={{
           hAxis: {
-            format: 'yyyy',
+            format: 'MMMM dd',
           },
           vAxis: {
             format: 'short',
