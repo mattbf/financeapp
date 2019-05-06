@@ -19,7 +19,7 @@ function App() {
     <Fragment>
       <CssBaseline />
       <MuiThemeProvider theme={theme}>
-        <StockSearch/>
+        
         <StockInfo/>
       </MuiThemeProvider>
     </Fragment>

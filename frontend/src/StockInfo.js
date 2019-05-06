@@ -31,7 +31,7 @@ function StockInfo() {
   return (
 
     <div>
-      <StockChart data={data.data} />
+      <StockChart data={data} />
     </div>
   )
 }
