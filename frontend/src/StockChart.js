@@ -119,7 +119,7 @@ function StockChart() {
           <Line type="monotone" dataKey='open' stroke="#8884d8" />
           <CartesianGrid stroke="#ccc" />
           <XAxis dataKey="date" />
-          <YAxis />
+          <YAxis domain={[124, 130]} />
           <Tooltip />
           <Legend />
         </LineChart>

@@ -3,6 +3,8 @@ import StockSearch from './StockSearch.js';
 import StockInfo from './StockInfo.js';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import SearchBar from './SearchBar.js';
+import HomePage from './HomePage.js';
 
 import purple from '@material-ui/core/colors/purple';
 
@@ -19,8 +21,7 @@ function App() {
     <Fragment>
       <CssBaseline />
       <MuiThemeProvider theme={theme}>
-        
-        <StockInfo/>
+        <HomePage/>
       </MuiThemeProvider>
     </Fragment>
   );
