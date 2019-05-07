@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Chart from 'react-google-charts';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, } from 'recharts';
 import axios from 'axios';
 import {
   Button,
@@ -120,6 +120,8 @@ function StockChart() {
           <CartesianGrid stroke="#ccc" />
           <XAxis dataKey="date" />
           <YAxis />
+          <Tooltip />
+          <Legend />
         </LineChart>
       </div>
       :
