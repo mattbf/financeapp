@@ -109,7 +109,7 @@ function StockChart() {
         :
       <div>Fetching data from API</div>
       <LineChart width={800} height={300} data={testData}>
-        <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+        <Line type="monotone" dataKey="open" stroke="#8884d8" />
         <CartesianGrid stroke="#ccc" />
         <XAxis dataKey="date" />
         <YAxis />
