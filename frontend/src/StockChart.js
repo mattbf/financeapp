@@ -1,6 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import Chart from 'react-google-charts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
 import axios from 'axios';
+import {
+  Button,
+} from '@material-ui/core'
 
 function StockChart() {
   const [chartState, setChartState] = useState({
@@ -43,7 +47,7 @@ function StockChart() {
        var keys = Object.keys(data.data["Time Series (5min)"])
        keys.forEach(function(key){
            rows.push([new Date(Date.parse(key)), data.data["Time Series (5min)"][key]["1. open"]]);
-           console.log(rows)
+           //console.log(rows)
        });
   }
 
@@ -62,28 +66,56 @@ function StockChart() {
        chartData: [columns, ...rows],
        isLoaded: true,
      })
-     console.log(chartState.chartData)
+     //console.log(chartState.chartData)
    }, [data])
 
+   var json = JSON.stringify(rows);
+   const testData = [
+     {date: '2019-05-07T17:30:00.000Z',
+      open: 120.98,
+     },
+      {date: '2019-05-07T17:35:00.000Z',
+       open: 125.98,
+      },
+     {date: '2019-05-07T17:40:00.000Z',
+      open: 140.98,
+     },
+    {date: '2019-05-07T17:45:00.000Z',
+     open: 120.98,
+    },
+   ]
+
+   function logData() {
+     console.log(json)
+   }
 
   return(
-    chartState.isLoaded ?
-      <Chart
-        chartType="LineChart"
-        data={chartState.chartData}
-        options={{
-          hAxis: {
-            format: 'MMMM dd',
-          },
-          vAxis: {
-            format: 'short',
-          },
-          title: 'Chart title',
-        }}
-        rootProps={{ 'data-testid': '2' }}
-      />
-     :
-    <div>Fetching data from API</div>
+    <div>
+      chartState.isLoaded ?
+        <Chart
+          chartType="LineChart"
+          data={chartState.chartData}
+          options={{
+            hAxis: {
+              format: 'MMMM dd',
+            },
+            vAxis: {
+              format: 'short',
+            },
+            title: 'Chart title',
+          }}
+          rootProps={{ 'data-testid': '2' }}
+        />
+        :
+      <div>Fetching data from API</div>
+      <LineChart width={800} height={300} data={testData}>
+        <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+        <CartesianGrid stroke="#ccc" />
+        <XAxis dataKey="date" />
+        <YAxis />
+      </LineChart>
+      <Button onClick={logData}> click </Button>
+    </div>
   )
 }
 
