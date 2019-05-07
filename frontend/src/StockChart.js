@@ -24,11 +24,13 @@ function StockChart() {
     params: params
   })
   const [data, setData] = useState([])
+  const [json, setJson] = useState([])
 
   useEffect(() => {
     axios(req)
       .then(function(response) {
         setData(response.data)
+        setJson(response.data.data["Time Series (5min)"])
       })
       .catch(function (error) {
       // handle error
@@ -42,12 +44,18 @@ function StockChart() {
     { type: 'number', label: 'Stock Open' },
   ]
   let rows = []
+  let newJson = []
   //const nonNullData = data.filter(row => row.value !== null)
   if (data.data) {
        var keys = Object.keys(data.data["Time Series (5min)"])
        keys.forEach(function(key){
            rows.push([new Date(Date.parse(key)), data.data["Time Series (5min)"][key]["1. open"]]);
            //console.log(rows)
+           newJson.push({
+             date: new Date(Date.parse(key)),
+             open: data.data["Time Series (5min)"][key]["1. open"]
+           })
+           console.log(newJson)
        });
   }
 
@@ -69,7 +77,6 @@ function StockChart() {
      //console.log(chartState.chartData)
    }, [data])
 
-   var json = JSON.stringify(rows);
    const testData = [
      {date: '2019-05-07T17:30:00.000Z',
       open: 120.98,
@@ -85,13 +92,15 @@ function StockChart() {
     },
    ]
 
+
    function logData() {
-     console.log(json)
+     console.log(data.data["Time Series (5min)"])
    }
 
   return(
-    <div>
+
       chartState.isLoaded ?
+      <div>
         <Chart
           chartType="LineChart"
           data={chartState.chartData}
@@ -106,16 +115,19 @@ function StockChart() {
           }}
           rootProps={{ 'data-testid': '2' }}
         />
-        :
-      <div>Fetching data from API</div>
-      <LineChart width={800} height={300} data={testData}>
-        <Line type="monotone" dataKey="open" stroke="#8884d8" />
-        <CartesianGrid stroke="#ccc" />
-        <XAxis dataKey="date" />
-        <YAxis />
-      </LineChart>
-      <Button onClick={logData}> click </Button>
-    </div>
+        <LineChart width={800} height={300} data={newJson}>
+          <Line type="monotone" dataKey='open' stroke="#8884d8" />
+          <CartesianGrid stroke="#ccc" />
+          <XAxis dataKey="date" />
+          <YAxis />
+        </LineChart>
+      </div>
+      :
+      <div>
+        <div>Fetching data from API</div>
+        <Button onClick={logData}> click </Button>
+      </div>
+
   )
 }
 
