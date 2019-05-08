@@ -7,13 +7,13 @@ function useStockSearch(keywords) {
     function: 'SYMBOL_SEARCH',
     keywords: keywords,
   })
-  const [req, setReq] = useState({
+  const [request, setRequest] = useState({
     method: 'GET',
     url: 'http://localhost:8000/api/stocks/',
     params: params
   })
   const [results, setResults] = useState({
-    isSearched: false,
+    isLoading: false,
     results: [],
   })
 
@@ -24,11 +24,14 @@ function useStockSearch(keywords) {
       keywords: keywords,
     })
     console.log(params.keywords)
-    axios(req)
+    setResults({
+      isLoading: true,
+      results: []
+    })
+    axios(request)
       .then(function(response) {
-
         setResults({
-          isSearched: true,
+          isLoading: false,
           results: response.data,
         })
       })

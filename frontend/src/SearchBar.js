@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import useStockSearch from './useStockSearch.js';
-
 import {
   Paper,
   InputBase,
@@ -15,6 +14,8 @@ import {
   Search,
   Directions,
 } from '@material-ui/icons'
+
+import StockAPI from './StockAPI.js';
 
 const useStyles = makeStyles(
   createStyles({
@@ -42,17 +43,44 @@ const useStyles = makeStyles(
 
 function CustomizedInputBase() {
   const classes = useStyles();
-  const [keywords, setKeywords] = useState('test ')
-  const [results, setResults] = useState()
-  const res = useStockSearch(keywords);
+  //const [keywords, setKeywords] = useState("mic")
+  const [params, setParams] = useState({
+    apikey: 'B62IP93O6OGM4LCA',
+    function: 'SYMBOL_SEARCH',
+    keywords: "",
+  })
+  const [req, setReq] = useState({
+    method: 'GET',
+    url: 'http://localhost:8000/api/stocks/',
+    params: params
+  })
+  //const results = useStockSearch(keywords)
+  const [results, setResults] = useState([])
+  const {response, doPost} = StockAPI();
+  // useEffect(() => {
+  //   console.log(results)
+  // }, [keywords])
+    useEffect(() => {
+    setReq({
+      method: 'GET',
+      url: 'http://localhost:8000/api/stocks/',
+      params: params
+    })
+  }, [params])
 
-  useEffect((keywords) => {
+  function handleSearch() {
+    // StockAPI.doSearch(keywords).then(function (result) {
+    //   setResults(result)
+    // }
+    doPost(req)
+    console.log(response)
+  //)}
+  }
 
-    setResults(res)
-    // console.log("results at search: ")
-    // console.log(results)
-  }, [res])
-  console.log(res.results)
+  const handleSingleChange = name => event => {
+    setParams({ ...params, [name]: event.target.value });
+  };
+
   return (
     <div>
       <Paper className={classes.root}>
@@ -62,10 +90,14 @@ function CustomizedInputBase() {
         <InputBase
           className={classes.input}
           placeholder="Search"
-          value={keywords}
-          onChange={e => setKeywords(e.target.value)}
+          value={params.keywords}
+          onChange={handleSingleChange('keywords')}
          />
-        <IconButton className={classes.iconButton} aria-label="Search">
+        <IconButton
+          className={classes.iconButton}
+          aria-label="Search"
+          onClick={handleSearch}
+        >
           <Search />
         </IconButton>
         <Divider className={classes.divider} />
@@ -75,14 +107,16 @@ function CustomizedInputBase() {
       </Paper>
       <Typography>
         Results:
-        {res.isSearched ?
+        {!response.isLoading ?
         <ul>
-        {res.results.data.bestMatches.map((match, index) =>
-          <li key={index}> {match["1. symbol"]} </li>
-        )}
+          {response.results ?
+            "results is true"
+            :
+            "no search"
+          }
         </ul>
          :
-         "Broaden your search"
+         "Loading"
         }
 
       </Typography>
