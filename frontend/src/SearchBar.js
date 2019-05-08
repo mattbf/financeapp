@@ -50,7 +50,6 @@ function CustomizedInputBase() {
   const classes = useStyles();
   const searchRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
-  //const [keywords, setKeywords] = useState("mic")
   const [params, setParams] = useState({
     apikey: 'B62IP93O6OGM4LCA',
     function: 'SYMBOL_SEARCH',
@@ -61,12 +60,9 @@ function CustomizedInputBase() {
     url: 'http://localhost:8000/api/stocks/',
     params: params
   })
-  //const results = useStockSearch(keywords)
   const [results, setResults] = useState([])
   const {response, doPost} = StockAPI();
-  // useEffect(() => {
-  //   console.log(results)
-  // }, [keywords])
+
     useEffect(() => {
     setReq({
       method: 'GET',
@@ -76,12 +72,8 @@ function CustomizedInputBase() {
   }, [params])
 
   function handleSearch() {
-    // StockAPI.doSearch(keywords).then(function (result) {
-    //   setResults(result)
-    // }
     doPost(req)
     console.log(response)
-  //)}
   }
 
   const handleSingleChange = name => event => {
@@ -122,7 +114,7 @@ function CustomizedInputBase() {
             <ul>
               <li> Loading: {response.isLoading.toString()} </li>
               <li> Error: {response.isError.toString()} </li>
-              <li> Data: {response.results.data} </li>
+              <li> Data: config </li>
             </ul>
           </li>
           <li> keywords: {params.keywords}</li>
@@ -151,12 +143,16 @@ function CustomizedInputBase() {
           <Directions />
         </IconButton>
       </Paper>
-      <Typography>
+
         Results:
         {!response.isLoading ?
         <ul>
-          {response.results.data ?
-            "results is true"
+          {response.results.data && isVisible ?
+            <ul>
+            {response.results.data.bestMatches.map((match, index) =>
+              <li key={index}> {match["1. symbol"]} </li>
+            )}
+            </ul>
             :
             "no search"
           }
@@ -164,8 +160,6 @@ function CustomizedInputBase() {
          :
          "Loading"
         }
-
-      </Typography>
     </div>
   );
 }
