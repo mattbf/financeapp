@@ -1,5 +1,5 @@
 import React from 'react';
-import StockSearch from './StockSearch.js';
+import useStockSearch from './useStockSearch.js';
 import StockInfo from './StockInfo.js';
 import SearchBar from './SearchBar.js';
 import { createStyles, makeStyles } from '@material-ui/core/styles';

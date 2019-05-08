@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import StockSearch from './StockSearch.js';
+import useStockSearch from './useStockSearch.js';
 import StockInfo from './StockInfo.js';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';

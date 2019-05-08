@@ -1,35 +1,48 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-function StockSearch(keywords) {
+function useStockSearch(keywords) {
   const [params, setParams] = useState({
     apikey: 'B62IP93O6OGM4LCA',
     function: 'SYMBOL_SEARCH',
-    keywords: 'mic',
+    keywords: keywords,
   })
   const [req, setReq] = useState({
     method: 'GET',
     url: 'http://localhost:8000/api/stocks/',
     params: params
   })
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState({
+    isSearched: false,
+    results: [],
+  })
 
   useEffect(() => {
+    setParams({
+      apikey: 'B62IP93O6OGM4LCA',
+      function: 'SYMBOL_SEARCH',
+      keywords: keywords,
+    })
+    console.log(params.keywords)
     axios(req)
       .then(function(response) {
 
-        setResults(response.data)
+        setResults({
+          isSearched: true,
+          results: response.data,
+        })
       })
       .catch(function (error) {
       // handle error
       console.log(error);
   })
-}, [])
-  console.log(results)
+}, [keywords])
+  //console.log(results)
+
   return results
 }
 
-export default StockSearch
+export default useStockSearch
 
 
 /*

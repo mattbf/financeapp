@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import StockSearch from './StockSearch.js';
+import useStockSearch from './useStockSearch.js';
 
 import {
   Paper,
@@ -42,9 +42,17 @@ const useStyles = makeStyles(
 
 function CustomizedInputBase() {
   const classes = useStyles();
-  const [keywords, setKeywords] = useState([])
-  const results = StockSearch('micro');
+  const [keywords, setKeywords] = useState('test ')
+  const [results, setResults] = useState()
+  const res = useStockSearch(keywords);
 
+  useEffect((keywords) => {
+
+    setResults(res)
+    // console.log("results at search: ")
+    // console.log(results)
+  }, [res])
+  console.log(res.results)
   return (
     <div>
       <Paper className={classes.root}>
@@ -55,6 +63,7 @@ function CustomizedInputBase() {
           className={classes.input}
           placeholder="Search"
           value={keywords}
+          onChange={e => setKeywords(e.target.value)}
          />
         <IconButton className={classes.iconButton} aria-label="Search">
           <Search />
@@ -64,9 +73,33 @@ function CustomizedInputBase() {
           <Directions />
         </IconButton>
       </Paper>
-      <Typography> Results: {results.data && results.data.bestMatches[0]["1. symbol"]} </Typography>
+      <Typography>
+        Results:
+        {res.isSearched ?
+        <ul>
+        {res.results.data.bestMatches.map((match, index) =>
+          <li key={index}> {match["1. symbol"]} </li>
+        )}
+        </ul>
+         :
+         "Broaden your search"
+        }
+
+      </Typography>
     </div>
   );
 }
 
 export default CustomizedInputBase;
+
+// {keywords !== " " && res.results.data ?
+
+// {keywords !== " " && results.results.data ?
+// <ul>
+// {results.results.data.bestMatches.map((match, index) =>
+//   <li key={index}> {match["1. symbol"]} </li>
+// )}
+// </ul>
+//  :
+//  "Broaden your search"
+// }
