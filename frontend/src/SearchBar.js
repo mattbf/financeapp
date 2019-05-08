@@ -7,6 +7,9 @@ import {
   Divider,
   IconButton,
   Typography,
+  List,
+  ListItem,
+  ListItemText,
 } from '@material-ui/core'
 
 import {
@@ -17,14 +20,20 @@ import {
 
 import StockAPI from './StockAPI.js';
 
-const useStyles = makeStyles(
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: '2px 4px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    searchBar: {
       display: 'flex',
       alignItems: 'center',
-      width: 400,
+      padding: '2px 4px',
+      width: '100%',
       marginTop: 50,
+      zIndex: '99',
     },
     input: {
       marginLeft: 8,
@@ -42,7 +51,12 @@ const useStyles = makeStyles(
       display: 'absolute',
       marginTop: '25px',
       marginLeft: '25px',
-    }
+    },
+    list  : {
+      width: '100%',
+      maxWidth: 360,
+      backgroundColor: theme.palette.background.paper,
+    },
   }),
 );
 
@@ -106,7 +120,7 @@ function CustomizedInputBase() {
   }, [isVisible])
 
   return (
-    <div>
+    <div className={classes.root}>
       <div className={classes.StatusDiv}>
         <ul>
           <li> isVisible: {isVisible.toString()} </li>
@@ -120,7 +134,7 @@ function CustomizedInputBase() {
           <li> keywords: {params.keywords}</li>
         </ul>
       </div>
-      <Paper className={classes.root}>
+      <Paper className={classes.searchBar}>
         <IconButton className={classes.iconButton} aria-label="Menu">
           <Menu />
         </IconButton>
@@ -143,20 +157,17 @@ function CustomizedInputBase() {
           <Directions />
         </IconButton>
       </Paper>
-
-        Results:
         {!response.isLoading ?
-        <ul>
-          {response.results.data && isVisible ?
-            <ul>
-            {response.results.data.bestMatches.map((match, index) =>
-              <li key={index}> {match["1. symbol"]} </li>
-            )}
-            </ul>
-            :
-            "no search"
-          }
-        </ul>
+          <div className={classes.list}>
+            <List component="nav">
+              <ListItem button>
+                <ListItemText primary="Inbox" />
+              </ListItem>
+              <ListItem button>
+                <ListItemText primary="Drafts" />
+              </ListItem>
+            </List>
+          </div>
          :
          "Loading"
         }
