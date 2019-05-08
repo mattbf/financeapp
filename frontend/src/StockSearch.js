@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-function StockSearch() {
+function StockSearch(keywords) {
   const [params, setParams] = useState({
     apikey: 'B62IP93O6OGM4LCA',
     function: 'SYMBOL_SEARCH',
-    keywords: " ",
+    keywords: 'mic',
   })
   const [req, setReq] = useState({
     method: 'GET',
@@ -17,20 +17,16 @@ function StockSearch() {
   useEffect(() => {
     axios(req)
       .then(function(response) {
-        const srchRes = []
-        results.data.bestMatches.map((match, index) =>
-          srchRes.push([id: index, symbol: match["1. symbol"])
-          console.log(srchRes)
-        )
-        setResults(srchRes)
+
+        setResults(response.data)
       })
       .catch(function (error) {
       // handle error
       console.log(error);
   })
-  }, [])
-  console.log(results.data)
-  return
+}, [])
+  console.log(results)
+  return results
 }
 
 export default StockSearch
@@ -58,3 +54,10 @@ to return actualy data:
 )
 
 */
+
+// const srchRes = []
+//
+// results.data.bestMatches.map((match, index) =>
+//   srchRes.push([id: index, symbol: match["1. symbol"]])
+//   console.log(srchRes)
+// )

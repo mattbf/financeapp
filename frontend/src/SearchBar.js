@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import StockSearch from './StockSearch.js';
 
 import {
   Paper,
   InputBase,
   Divider,
   IconButton,
+  Typography,
 } from '@material-ui/core'
 
 import {
@@ -40,21 +42,30 @@ const useStyles = makeStyles(
 
 function CustomizedInputBase() {
   const classes = useStyles();
+  const [keywords, setKeywords] = useState([])
+  const results = StockSearch('micro');
 
   return (
-    <Paper className={classes.root}>
-      <IconButton className={classes.iconButton} aria-label="Menu">
-        <Menu />
-      </IconButton>
-      <InputBase className={classes.input} placeholder="Search" />
-      <IconButton className={classes.iconButton} aria-label="Search">
-        <Search />
-      </IconButton>
-      <Divider className={classes.divider} />
-      <IconButton color="primary" className={classes.iconButton} aria-label="Directions">
-        <Directions />
-      </IconButton>
-    </Paper>
+    <div>
+      <Paper className={classes.root}>
+        <IconButton className={classes.iconButton} aria-label="Menu">
+          <Menu />
+        </IconButton>
+        <InputBase
+          className={classes.input}
+          placeholder="Search"
+          value={keywords}
+         />
+        <IconButton className={classes.iconButton} aria-label="Search">
+          <Search />
+        </IconButton>
+        <Divider className={classes.divider} />
+        <IconButton color="primary" className={classes.iconButton} aria-label="Directions">
+          <Directions />
+        </IconButton>
+      </Paper>
+      <Typography> Results: {results} </Typography>
+    </div>
   );
 }
 

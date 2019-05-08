@@ -20,6 +20,7 @@ function HomePage() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+
       <SearchBar/>
     </div>
   )
