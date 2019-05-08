@@ -64,7 +64,7 @@ function CustomizedInputBase() {
           <Directions />
         </IconButton>
       </Paper>
-      <Typography> Results: {results} </Typography>
+      <Typography> Results: {results.data && results.data.bestMatches[0]["1. symbol"]} </Typography>
     </div>
   );
 }
