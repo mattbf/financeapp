@@ -159,7 +159,7 @@ function CustomizedInputBase() {
   }, [isVisible])
 
   function handleGetChart() {
-    setTest(getChart('MsdsdSFT'))
+    setTest(getChart('MSFT'))
     //console.log(test)
   }
 
@@ -257,7 +257,7 @@ function CustomizedInputBase() {
               chartData.data.length == 0 || chartData.data == null ?
                 "No data"
                 :
-                <div>show data</div>
+                <StockChart data={chartData.data} />
               :
               "Not req"
       }
