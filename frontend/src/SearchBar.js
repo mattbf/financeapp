@@ -186,8 +186,7 @@ function CustomizedInputBase() {
       </Paper>
       {response.isSearch ?
         !response.isLoading ?
-          response.results.data ?
-            // response.results.data.bestMatches ?
+          !response.results.data || !response.results.data.bestMatches ?
           <div className={classes.list}>
             <List component="nav">
                 <ListItem>
@@ -196,16 +195,26 @@ function CustomizedInputBase() {
             </List>
           </div>
           :
-          <div className={classes.list}>
-            <List component="nav">
-              {response.results.data.bestMatches.map((match, index) =>
-                <ListItem button key={index}>
-                  <ListItemText className={classes.symbol} primary={match["1. symbol"]} />
-                  <ListItemText className={classes.rightList} primary={match["2. name"]} />
-                </ListItem>
-              )}
-            </List>
-          </div>
+          response.results.data.bestMatches.length == 0 ?
+            <div className={classes.list}>
+              <List component="nav">
+                  <ListItem>
+                    <ListItemText primary="Try broadening your search" />
+                  </ListItem>
+              </List>
+            </div>
+            :
+            <div className={classes.list}>
+              <List component="nav">
+                {response.results.data.bestMatches.map((match, index) =>
+                  <ListItem button key={index}>
+                    <ListItemText className={classes.symbol} primary={match["1. symbol"]} />
+                    <ListItemText className={classes.rightList} primary={match["2. name"]} />
+                  </ListItem>
+                )}
+              </List>
+            </div>
+
          :
          "Loading"
         :

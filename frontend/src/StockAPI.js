@@ -11,7 +11,7 @@ function StockAPI() {
   })
 
   function doPost(req) {
-    if (req.params.keywords == null) {
+    if (req.params.keywords == " " || null) {
       setResponse({
         isLoading: false,
         isError: false,
