@@ -99,8 +99,9 @@ function CustomizedInputBase() {
     })
   }, [params])
 
-  function handleSearch() {
+  function handleSearch(event) {
     doPost(req)
+    //setIsVisible(true)
     console.log(response)
   }
 
@@ -146,6 +147,9 @@ function CustomizedInputBase() {
             <ul>
               <li> Loading: {response.isLoading.toString()} </li>
               <li> Error: {response.isError.toString()} </li>
+              <li> isSearch: {response.isSearch.toString()} </li>
+              <li> Data?: {response.results.data ? "true" : "false"} </li>
+              <li> length: {response.results.length} </li>
               <li> Data: config </li>
             </ul>
           </li>
@@ -182,6 +186,16 @@ function CustomizedInputBase() {
       </Paper>
       {response.isSearch ?
         !response.isLoading ?
+          response.results.data ?
+            // response.results.data.bestMatches ?
+          <div className={classes.list}>
+            <List component="nav">
+                <ListItem>
+                  <ListItemText primary="Try broadening your search" />
+                </ListItem>
+            </List>
+          </div>
+          :
           <div className={classes.list}>
             <List component="nav">
               {response.results.data.bestMatches.map((match, index) =>

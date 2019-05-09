@@ -11,31 +11,42 @@ function StockAPI() {
   })
 
   function doPost(req) {
-    setResponse({
-      isLoading: true,
-      isError: false,
-      isSearch: true,
-      results: [],
-    })
-    axios(req)
-      .then(function(response) {
-        setResponse({
-          isLoading: false,
-          isError: false,
-          isSearch: true,
-          results: response.data,
-        })
+    if (req.params.keywords == null) {
+      setResponse({
+        isLoading: false,
+        isError: false,
+        isSearch: true,
+        results: [],
       })
-      .catch(function (error) {
-        setResponse({
-          isLoading: false,
-          isError: true,
-          isSearch: true,
-          results: [],
-        })
-      console.log(error);
+      return response
+    } else {
+      setResponse({
+        isLoading: true,
+        isError: false,
+        isSearch: true,
+        results: [],
       })
+      axios(req)
+        .then(function(response) {
+          setResponse({
+            isLoading: false,
+            isError: false,
+            isSearch: true,
+            results: response.data,
+          })
+        })
+        .catch(function (error) {
+          setResponse({
+            isLoading: false,
+            isError: true,
+            isSearch: true,
+            results: [],
+          })
+        console.log(error);
+        })
+      }
     }
+
 
     return {response, doPost}
 
