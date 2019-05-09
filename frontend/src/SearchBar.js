@@ -80,6 +80,7 @@ function SearchBar() {
   const classes = useStyles();
   const searchRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false)
   const [params, setParams] = useState({
     apikey: 'xxx', //B62IP93O6OGM4LCA
     function: 'SYMBOL_SEARCH',
@@ -116,6 +117,8 @@ function SearchBar() {
 
   function handleSearch(event) {
     doPost(req)
+    setIsVisible(true)
+    setMenuOpen(true)
     //setIsVisible(true)
     console.log(response)
   }
@@ -142,6 +145,9 @@ function SearchBar() {
     }
     if (searchRef.current && searchRef.current.contains(event.target)) {
       setIsVisible(false);
+      setMenuOpen(false);
+      clearSearch();
+      getChart('RESET');
     }
   };
 
@@ -159,7 +165,8 @@ function SearchBar() {
   }, [isVisible])
 
   function handleGetChart(symbol) {
-      getChart(symbol)
+    setMenuOpen(false)
+    getChart(symbol)
   }
 
   return (
@@ -167,6 +174,7 @@ function SearchBar() {
       <div className={classes.StatusDiv}>
         <ul>
           <li> isVisible: {isVisible.toString()} </li>
+          <li> MenuOpen: {menuOpen.toString()} </li>
           <li> response:
             <ul>
               <li> Loading: {response.isLoading.toString()} </li>
@@ -210,6 +218,7 @@ function SearchBar() {
         </IconButton>
       </Paper>
       {response.isSearch ?
+        isVisible && menuOpen ?
         !response.isLoading ?
           !response.results.data || !response.results.data.bestMatches ?
           <div className={classes.list}>
@@ -243,9 +252,10 @@ function SearchBar() {
          :
          "Loading"
         :
-        "nothing"
+        null
+        :
+        null
       }
-      <Button onClick={(e) => handleGetChart()}> get </Button>
       { chartData.isReq ?
           chartData.isLoading ?
             chartData.isError ?

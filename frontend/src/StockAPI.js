@@ -91,6 +91,15 @@ function StockAPI() {
   }
 
   function getChart(symbol) {
+    if (symbol == 'RESET') {
+      setChartData({
+         isLoading: false,
+         isReq: false,
+         isError: false,
+         data: [],
+       })
+       return
+    }
         setChartData({
            isLoading: true,
            isReq: true,
