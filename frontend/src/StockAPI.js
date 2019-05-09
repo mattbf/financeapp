@@ -9,6 +9,28 @@ function StockAPI() {
     isSearch: false,
     results: [],
   })
+  const [getRes, setGetRes] = useState({
+    isLoading: false,
+    isError: false,
+    results: [],
+  })
+  const [chartReq, setChartReq] = useState({
+    method: 'GET',
+    url: 'http://localhost:8000/api/stocks/',
+    params: {
+      function: 'TIME_SERIES_INTRADAY',
+      symbol: ' ',
+      interval: '5min',
+      apikey: 'demo',
+    },
+  })
+  const [chartData, setChartData] = useState({
+    isLoading: false,
+    isReq: false,
+    isError: false,
+    data: [],
+  })
+  let newJson = []
 
   function doPost(req) {
     if (req.params.keywords == " " || null) {
@@ -47,8 +69,75 @@ function StockAPI() {
       }
     }
 
+  const doGet = (req) =>  {
 
-    return {response, doPost}
+      axios(req)
+        .then(function(response) {
+          setGetRes({
+            isLoading: false,
+            isError: false,
+            results: response.data,
+          })
+        })
+        .catch(function (error) {
+          setGetRes({
+            isLoading: false,
+            isError: true,
+            results: [],
+          })
+        console.log(error);
+        })
+    return getRes
+  }
+
+  function getChart(symbol) {
+    setChartData({
+      isLoading: true,
+      isReq: true,
+      isError: false,
+      data: [],
+    })
+    axios({
+      method: 'GET',
+      url: 'http://localhost:8000/api/stocks/',
+      params: {
+        function: 'TIME_SERIES_INTRADAY',
+        symbol: symbol,
+        interval: '5min',
+        apikey: 'demo',
+      },
+    })
+      .then(function(response) {
+        var keys = Object.keys(response.data.data["Time Series (5min)"])
+        keys.forEach(function(key){
+            newJson.push({
+              date: new Date(Date.parse(key)),
+              open: response.data.data["Time Series (5min)"][key]["1. open"]
+            })
+        });
+      }).then(function() {
+        setChartData({
+          isLoading: false,
+          isReq: true,
+          isError: false,
+          data: newJson
+        })
+      })
+      .catch(function (error) {
+        setChartData({
+          isLoading: false,
+          isReq: true,
+          isError: true,
+          data: [],
+        })
+      console.log(error);
+      console.log(chartData)
+  })
+  return chartData
+  }
+
+
+    return {response, doPost, doGet, chartData, getChart}
 
 }
 

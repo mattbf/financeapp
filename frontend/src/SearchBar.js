@@ -1,6 +1,7 @@
 import React, {useEffect, useState, createRef, useRef} from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import useStockSearch from './useStockSearch.js';
+import StockChart from './StockChart.js';
 import {
   Paper,
   InputBase,
@@ -10,6 +11,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Button,
 } from '@material-ui/core'
 
 import {
@@ -79,7 +81,7 @@ function CustomizedInputBase() {
   const searchRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const [params, setParams] = useState({
-    apikey: 'B62IP93O6OGM4LCA',
+    apikey: 'xxx', //B62IP93O6OGM4LCA
     function: 'SYMBOL_SEARCH',
     keywords: "",
   })
@@ -89,7 +91,20 @@ function CustomizedInputBase() {
     params: params
   })
   const [results, setResults] = useState([])
-  const {response, doPost} = StockAPI();
+  const {response, doPost, doGet, getChart, chartData} = StockAPI();
+
+  const [req2, setReq2] = useState({
+    method: 'GET',
+    url: 'http://localhost:8000/api/stocks/',
+    params: {
+      function: 'TIME_SERIES_INTRADAY',
+      symbol: 'MSFT',
+      interval: '5min',
+      apikey: 'demo',
+    }
+  })
+
+  const [test, setTest] = useState([])
 
     useEffect(() => {
     setReq({
@@ -110,7 +125,6 @@ function CustomizedInputBase() {
       handleSearch()
     }
   }
-
   const handleSingleChange = name => event => {
     setParams({ ...params, [name]: event.target.value });
   };
@@ -143,6 +157,11 @@ function CustomizedInputBase() {
       clearSearch();
     }
   }, [isVisible])
+
+  function handleGetChart() {
+    setTest(getChart('MsdsdSFT'))
+    //console.log(test)
+  }
 
   return (
     <div className={classes.root}>
@@ -226,6 +245,21 @@ function CustomizedInputBase() {
          "Loading"
         :
         "nothing"
+      }
+      <Button onClick={handleGetChart}> get </Button>
+      { chartData.isReq ?
+          chartData.isLoading ?
+            chartData.isError ?
+              "Error"
+            :
+              "Loading"
+              :
+              chartData.data.length == 0 || chartData.data == null ?
+                "No data"
+                :
+                <div>show data</div>
+              :
+              "Not req"
       }
     </div>
   );
