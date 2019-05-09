@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
       padding: '2px 4px',
-      width: '100%',
+      width: 400,
       marginTop: 50,
       zIndex: '99',
     },
@@ -240,7 +240,7 @@ function SearchBar() {
             :
             <div className={classes.list}>
               <List component="nav">
-                {response.results.data.bestMatches.map((match, index) =>
+                {response.results.data.bestMatches.slice(0, 6).map((match, index) =>
                   <ListItem button key={index} onClick={(e) => handleGetChart(match["1. symbol"])}>
                     <ListItemText className={classes.symbol} primary={match["1. symbol"]} />
                     <ListItemText className={classes.rightList} primary={match["2. name"]} />
