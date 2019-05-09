@@ -105,6 +105,12 @@ function CustomizedInputBase() {
     console.log(response)
   }
 
+  function handleKeyPress(e) {
+      if (e.key == "Enter") {
+      handleSearch()
+    }
+  }
+
   const handleSingleChange = name => event => {
     setParams({ ...params, [name]: event.target.value });
   };
@@ -166,6 +172,7 @@ function CustomizedInputBase() {
           placeholder="Search"
           value={params.keywords}
           onChange={handleSingleChange('keywords')}
+          onKeyPress={handleKeyPress}
          />
         <IconButton
           className={classes.iconButton}
