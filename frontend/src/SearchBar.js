@@ -16,7 +16,10 @@ import {
   Menu,
   Search,
   Directions,
+  Clear,
 } from '@material-ui/icons'
+
+import red from '@material-ui/core/colors/red';
 
 import StockAPI from './StockAPI.js';
 
@@ -42,6 +45,10 @@ const useStyles = makeStyles((theme: Theme) =>
     iconButton: {
       padding: 10,
     },
+    redButton: {
+      padding: 10,
+      color: red[600],
+    },
     divider: {
       width: 1,
       height: 28,
@@ -56,6 +63,13 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       maxWidth: 360,
       backgroundColor: theme.palette.background.paper,
+    },
+    rightList: {
+      alignItems: 'end',
+      textAlign: 'right',
+    },
+    symbol: {
+      fontWeight: 'bold',
     },
   }),
 );
@@ -110,13 +124,17 @@ function CustomizedInputBase() {
     }
   };
 
+  function clearSearch() {
+    setParams({
+    apikey: 'B62IP93O6OGM4LCA',
+    function: 'SYMBOL_SEARCH',
+    keywords: "",
+  })
+}
     useEffect(() => {
       if (isVisible) {
-      setParams({
-      apikey: 'B62IP93O6OGM4LCA',
-      function: 'SYMBOL_SEARCH',
-      keywords: "",
-    })}
+      clearSearch();
+    }
   }, [isVisible])
 
   return (
@@ -153,24 +171,32 @@ function CustomizedInputBase() {
           <Search />
         </IconButton>
         <Divider className={classes.divider} />
-        <IconButton color="primary" className={classes.iconButton} aria-label="Directions">
-          <Directions />
+        <IconButton
+          color="secondary"
+          className={classes.iconButton}
+          aria-label="Directions"
+          onClick={clearSearch}
+        >
+          <Clear />
         </IconButton>
       </Paper>
-        {!response.isLoading ?
+      {response.isSearch ?
+        !response.isLoading ?
           <div className={classes.list}>
             <List component="nav">
-              <ListItem button>
-                <ListItemText primary="Inbox" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Drafts" />
-              </ListItem>
+              {response.results.data.bestMatches.map((match, index) =>
+                <ListItem button key={index}>
+                  <ListItemText className={classes.symbol} primary={match["1. symbol"]} />
+                  <ListItemText className={classes.rightList} primary={match["2. name"]} />
+                </ListItem>
+              )}
             </List>
           </div>
          :
          "Loading"
-        }
+        :
+        "nothing"
+      }
     </div>
   );
 }

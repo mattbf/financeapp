@@ -6,6 +6,7 @@ function StockAPI() {
   const [response, setResponse] = useState({
     isLoading: false,
     isError: false,
+    isSearch: false,
     results: [],
   })
 
@@ -13,6 +14,7 @@ function StockAPI() {
     setResponse({
       isLoading: true,
       isError: false,
+      isSearch: true,
       results: [],
     })
     axios(req)
@@ -20,6 +22,7 @@ function StockAPI() {
         setResponse({
           isLoading: false,
           isError: false,
+          isSearch: true,
           results: response.data,
         })
       })
@@ -27,6 +30,7 @@ function StockAPI() {
         setResponse({
           isLoading: false,
           isError: true,
+          isSearch: true,
           results: [],
         })
       console.log(error);
