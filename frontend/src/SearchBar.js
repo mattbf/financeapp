@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function CustomizedInputBase() {
+function SearchBar() {
   const classes = useStyles();
   const searchRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -158,9 +158,8 @@ function CustomizedInputBase() {
     }
   }, [isVisible])
 
-  function handleGetChart() {
-    setTest(getChart('MSFT'))
-    //console.log(test)
+  function handleGetChart(symbol) {
+      getChart(symbol)
   }
 
   return (
@@ -233,7 +232,7 @@ function CustomizedInputBase() {
             <div className={classes.list}>
               <List component="nav">
                 {response.results.data.bestMatches.map((match, index) =>
-                  <ListItem button key={index}>
+                  <ListItem button key={index} onClick={(e) => handleGetChart(match["1. symbol"])}>
                     <ListItemText className={classes.symbol} primary={match["1. symbol"]} />
                     <ListItemText className={classes.rightList} primary={match["2. name"]} />
                   </ListItem>
@@ -246,7 +245,7 @@ function CustomizedInputBase() {
         :
         "nothing"
       }
-      <Button onClick={handleGetChart}> get </Button>
+      <Button onClick={(e) => handleGetChart()}> get </Button>
       { chartData.isReq ?
           chartData.isLoading ?
             chartData.isError ?
@@ -265,7 +264,7 @@ function CustomizedInputBase() {
   );
 }
 
-export default CustomizedInputBase;
+export default SearchBar;
 
 // {keywords !== " " && res.results.data ?
 
