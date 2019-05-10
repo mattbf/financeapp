@@ -230,7 +230,7 @@ function StockAPI() {
           isError: true,
           results: [],
         })
-      console.log(error.request);
+      console.log(error);
       })
     return
   }

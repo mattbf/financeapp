@@ -56,31 +56,25 @@ def get_stock_info(request):
  - add 'KPIs' to package
  """
     if request.method == 'GET':
-        print(request)
+        # return Response({})
         dailyParams = {
-            'symbol': 'MSFT',  # request.query_params.symbol
+            'symbol': request.query_params.get('symbol'),
             'function': 'TIME_SERIES_INTRADAY',
             'interval': '5min',
-            'apikey': 'B62IP93O6OGM4LCA',
+            'apikey': request.query_params.get('apikey'),
             'outputsize': 'compact',
         }
 
         historicParams = {
-            'symbol': 'MSFT',  # request.query_params.symbol
+            'symbol': request.query_params.get('symbol'),  # request.query_params.symbol
             'function': 'TIME_SERIES_DAILY',
-            'apikey': 'B62IP93O6OGM4LCA',
+            'apikey': request.query_params.get('apikey'),
             'outputsize': 'compact',
         }
 
         dailyData = requests.get(
             'https://www.alphavantage.co/query?',
-            params={
-                'symbol': 'MSFT',  # request.query_params.symbol
-                'function': 'TIME_SERIES_INTRADAY',
-                'interval': '5min',
-                'apikey': 'B62IP93O6OGM4LCA',
-                'outputsize': 'compact',
-            }
+            params=dailyParams,
         )
         dailyFormated = format_data(
             json.loads(dailyData.content.decode('utf-8')),
@@ -90,12 +84,7 @@ def get_stock_info(request):
 
         historicData = requests.get(
             'https://www.alphavantage.co/query?',
-            params={
-                'symbol': 'MSFT',  # request.query_params.symbol
-                'function': 'TIME_SERIES_DAILY',
-                'apikey': 'B62IP93O6OGM4LCA',
-                'outputsize': 'compact',
-            }
+            params=historicParams,
         )
         historicFormated = format_data(
             json.loads(historicData.content.decode('utf-8')),

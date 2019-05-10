@@ -12,7 +12,7 @@ function StockInfoPage() {
   } = StockAPI();
 
   function getinfo() {
-    symbolInfo('MSFT', 'B62IP93O6OGM4LCA')
+    symbolInfo('UBER', 'B62IP93O6OGM4LCA')
   }
   return (
     <div>
