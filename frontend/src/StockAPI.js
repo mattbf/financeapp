@@ -36,6 +36,12 @@ function StockAPI() {
     isError: false,
     data: [],
   })
+  const [symbolInfo, setSymbolInfo] = useState({
+    isLoading: false,
+    isReq: false,
+    isError: false,
+    data: [],
+  })
   let newDailyJson = []
   let newJson = []
 
@@ -207,7 +213,7 @@ function StockAPI() {
   }
 
   // get stock info for one SYMBOL
-  function symbolInfo(symbol, apikey) {
+  function getSymbolInfo(symbol, apikey) {
     axios({
       method: 'GET',
       url: 'http://localhost:8000/api/stocks/symbol/',
@@ -218,14 +224,14 @@ function StockAPI() {
     })
     .then(function(response) {
       console.log(response)
-      setGetRes({
+      setSymbolInfo({
         isLoading: false,
         isError: false,
         results: response.data,
       })
     })
       .catch(function (error) {
-        setGetRes({
+        setSymbolInfo({
           isLoading: false,
           isError: true,
           results: [],
@@ -245,6 +251,7 @@ function StockAPI() {
       getChart,
       chartData,
       symbolInfo,
+      getSymbolInfo,
     }
 
 }
