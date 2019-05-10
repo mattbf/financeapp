@@ -61,16 +61,16 @@ def get_stock_info(request):
         dailyParams = {
             'symbol': request.query_params.get('symbol'),
             'function': 'TIME_SERIES_INTRADAY',
-            'interval': '5min',
+            'interval': '30min',
             'apikey': request.query_params.get('apikey'),
-            'outputsize': 'compact',
+            'outputsize': 'full',
         }
 
         historicParams = {
             'symbol': request.query_params.get('symbol'),  # request.query_params.symbol
             'function': 'TIME_SERIES_DAILY',
             'apikey': request.query_params.get('apikey'),
-            'outputsize': 'compact',
+            'outputsize': 'full',
         }
 
         dailyData = requests.get(
@@ -79,8 +79,8 @@ def get_stock_info(request):
         )
         dailyFormated = format_data(
             json.loads(dailyData.content.decode('utf-8')),
-            "Time Series (5min)",
-            '%Y-%m-%d %H:%M:%S'
+            "Time Series (30min)",
+            '%H:%M:%S'
         )
 
         historicData = requests.get(
@@ -124,6 +124,8 @@ def get_stock_info(request):
                 'max': historicFormated,
             },
             'kpis': {
+                'open': 120,
+                'close': dailyFormated[-1],
                 'PE': 5,
             },
             'request': {'method': request.method,

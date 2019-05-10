@@ -10,7 +10,7 @@ import {
   MenuItem,
   FormControl,
   Select,
-
+  Typography,
 } from '@material-ui/core'
 
 import {
@@ -31,8 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
    },
    StockInfo: {
      border: 'solid',
-     width: '100px',
-     height: '40px',
    },
    formControl: {
     margin: theme.spacing(1),
@@ -45,12 +43,12 @@ const useStyles = makeStyles((theme: Theme) =>
 function StockChart(data) {
   const classes = useStyles();
   const [timeFrame, setTimeFrame] = useState({
-    historic: true,
-    period: 'fiveDays',
+    historic: false,
+    period: 'daily',
   });
   const [allData, setAllData] = useState(data.data.results.historic.fiveDays)
   const [open, setOpen] = useState(false);
-  console.log(data.data.results.historic.fiveDays)
+  console.log(data)
 
   function handleChange(event) {
     if (event.target.value == 'daily') {
@@ -104,15 +102,13 @@ function StockChart(data) {
         <Paper>
           <div className={classes.ChartHeading}>
           <div className={classes.StockInfo}>
-
+            <Typography variant='h3'>{data.data.results.kpis.close.close} </Typography>
           </div>
           <IconButton aria-label="Delete" className={classes.margin}>
             <Settings />
           </IconButton>
           </div>
-          <LineChart width={800} height={300}
-            data={allData}
-          >
+          <LineChart width={800} height={300} data={allData}>
             <Line type="monotone" dataKey='open' stroke="#8884d8" />
             <CartesianGrid  stroke="#ccc" strokeDasharray="3 3" />
             <XAxis dataKey="date"  />
@@ -138,6 +134,9 @@ function StockChart(data) {
               <MenuItem value={'daily'}>Today</MenuItem>
               <MenuItem value={'fiveDays'}>5 Days</MenuItem>
               <MenuItem value={'month'}>1 Month</MenuItem>
+              <MenuItem value={'sixMonths'}>6 Months</MenuItem>
+              <MenuItem value={'year'}>1 Year</MenuItem>
+              <MenuItem value={'max'}>Max</MenuItem>
             </Select>
           </FormControl>
         </Paper>
