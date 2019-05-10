@@ -92,7 +92,15 @@ function SearchBar() {
     params: params
   })
   const [results, setResults] = useState([])
-  const {response, doPost, doGet, getChart, chartData} = StockAPI();
+  const {
+    response,
+    doPost,
+    doGet,
+    getDailyChart,
+    chartDailyData,
+    getChart,
+    chartData,
+  } = StockAPI();
 
   const [req2, setReq2] = useState({
     method: 'GET',
@@ -147,7 +155,7 @@ function SearchBar() {
       setIsVisible(false);
       setMenuOpen(false);
       clearSearch();
-      getChart('RESET');
+      getDailyChart('RESET');
     }
   };
 

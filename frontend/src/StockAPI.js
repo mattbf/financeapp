@@ -14,15 +14,21 @@ function StockAPI() {
     isError: false,
     results: [],
   })
-  const [chartReq, setChartReq] = useState({
-    method: 'GET',
-    url: 'http://localhost:8000/api/stocks/',
-    params: {
-      function: 'TIME_SERIES_INTRADAY',
-      symbol: ' ',
-      interval: '5min',
-      apikey: 'demo',
-    },
+  // const [chartReq, setChartReq] = useState({
+  //   method: 'GET',
+  //   url: 'http://localhost:8000/api/stocks/',
+  //   params: {
+  //     function: 'TIME_SERIES_INTRADAY',
+  //     symbol: ' ',
+  //     interval: '5min',
+  //     apikey: 'demo',
+  //   },
+  // })
+  const [chartDailyData, setchartDailyData] = useState({
+    isLoading: false,
+    isReq: false,
+    isError: false,
+    data: [],
   })
   const [chartData, setChartData] = useState({
     isLoading: false,
@@ -30,8 +36,10 @@ function StockAPI() {
     isError: false,
     data: [],
   })
+  let newDailyJson = []
   let newJson = []
 
+  //General posting to api
   function doPost(req) {
     if (req.params.keywords == " " || null) {
       setResponse({
@@ -69,6 +77,7 @@ function StockAPI() {
       }
     }
 
+  //General getting data from api
   const doGet = (req) =>  {
 
       axios(req)
@@ -90,6 +99,61 @@ function StockAPI() {
     return getRes
   }
 
+  //Get the intra day stok price for one stock
+  function getDailyChart(symbol) {
+    if (symbol == 'RESET') {
+      setchartDailyData({
+         isLoading: false,
+         isReq: false,
+         isError: false,
+         data: [],
+       })
+       return
+    }
+        setchartDailyData({
+           isLoading: true,
+           isReq: true,
+           isError: false,
+           data: [],
+         })
+         axios({
+           method: 'GET',
+           url: 'http://localhost:8000/api/stocks/',
+           params: {
+             function: 'TIME_SERIES_INTRADAY',
+             symbol: symbol,
+             interval: '5min',
+             apikey: 'demo',
+           },
+         })
+           .then(function(response) {
+             var keys = Object.keys(response.data.data["Time Series (5min)"])
+             keys.forEach(function(key){
+                 newDailyJson.push({
+                   date: new Date(Date.parse(key)),
+                   open: response.data.data["Time Series (5min)"][key]["1. open"]
+                 })
+             });
+           }).then(function() {
+             setchartDailyData({
+               isLoading: false,
+               isReq: true,
+               isError: false,
+               data: newDailyJson
+             })
+           })
+           .catch(function (error) {
+             setchartDailyData({
+               isLoading: false,
+               isReq: true,
+               isError: true,
+               data: [],
+             })
+           console.log(error);
+       })
+  }
+
+  //Get historic stock price for one stock
   function getChart(symbol) {
     if (symbol == 'RESET') {
       setChartData({
@@ -110,18 +174,17 @@ function StockAPI() {
            method: 'GET',
            url: 'http://localhost:8000/api/stocks/',
            params: {
-             function: 'TIME_SERIES_INTRADAY',
+             function: 'TIME_SERIES_DAILY',
              symbol: symbol,
-             interval: '5min',
              apikey: 'demo',
            },
          })
            .then(function(response) {
-             var keys = Object.keys(response.data.data["Time Series (5min)"])
+             var keys = Object.keys(response.data.data["Time Series (Daily)"])
              keys.forEach(function(key){
                  newJson.push({
                    date: new Date(Date.parse(key)),
-                   open: response.data.data["Time Series (5min)"][key]["1. open"]
+                   open: response.data.data["Time Series (Daily)"][key]["1. open"]
                  })
              });
            }).then(function() {
@@ -140,12 +203,20 @@ function StockAPI() {
                data: [],
              })
            console.log(error);
-           console.log(chartData)
        })
   }
 
 
-    return {response, doPost, doGet, chartData, getChart}
+
+    return {
+      response,
+      doPost,
+      doGet,
+      chartDailyData,
+      getDailyChart,
+      getChart,
+      chartData,
+    }
 
 }
 
