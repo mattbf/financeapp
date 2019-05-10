@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 import json
 import requests
+from datetime import datetime
 
 # from .models import Customer
 # from .serializers import *
@@ -28,6 +29,22 @@ def get_stocks(request):
                          })
 
 
+def format_data(json, selector, dateFormat):
+    newObj = []
+    # print(json[selector])
+    for key in json[selector]:
+        # print(key)
+        newObj.append({
+            # (datetime.strptime(key, '%Y-%m-%d %H:%M:%S'))
+            # (datetime.strptime(key, dateFormat))
+            'date': key,
+            'open': json[selector][key]["1. open"],
+            'close': json[selector][key]["4. close"],
+            'volume': json[selector][key]["5. volume"],
+        })
+    return newObj
+
+
 @api_view(['GET', 'POST'])
 def get_stock_info(request):
     """
@@ -39,36 +56,83 @@ def get_stock_info(request):
  - add 'KPIs' to package
  """
     if request.method == 'GET':
-
+        print(request)
         dailyParams = {
-            'key': 'value',
+            'symbol': 'MSFT',  # request.query_params.symbol
+            'function': 'TIME_SERIES_INTRADAY',
+            'interval': '5min',
+            'apikey': 'B62IP93O6OGM4LCA',
+            'outputsize': 'compact',
         }
 
         historicParams = {
-            'key': 'value',
+            'symbol': 'MSFT',  # request.query_params.symbol
+            'function': 'TIME_SERIES_DAILY',
+            'apikey': 'B62IP93O6OGM4LCA',
+            'outputsize': 'compact',
         }
 
         dailyData = requests.get(
             'https://www.alphavantage.co/query?',
-            params=request.query_params
+            params={
+                'symbol': 'MSFT',  # request.query_params.symbol
+                'function': 'TIME_SERIES_INTRADAY',
+                'interval': '5min',
+                'apikey': 'B62IP93O6OGM4LCA',
+                'outputsize': 'compact',
+            }
+        )
+        dailyFormated = format_data(
+            json.loads(dailyData.content.decode('utf-8')),
+            "Time Series (5min)",
+            '%Y-%m-%d %H:%M:%S'
         )
 
         historicData = requests.get(
             'https://www.alphavantage.co/query?',
-            params=request.query_params
+            params={
+                'symbol': 'MSFT',  # request.query_params.symbol
+                'function': 'TIME_SERIES_DAILY',
+                'apikey': 'B62IP93O6OGM4LCA',
+                'outputsize': 'compact',
+            }
+        )
+        historicFormated = format_data(
+            json.loads(historicData.content.decode('utf-8')),
+            "Time Series (Daily)",
+            '%Y-%m-%d'
         )
 
         # Make calcs, categorize time data into slices,
         # add kpis, and package all together
 
-        return Response({'data': json.loads(data.content.decode('utf-8')),
-                         'request': {'method': request.method,
-                                     'path': request.path,
-                                     'params': request.query_params,
-                                     },
-                         })
+        # Response = {
+        #     'data': {
+        #         'daily': dailyFormated,
+        #         'historic': historicFormated,
+        #     },
+        #     'kpis': {
+        #         'PE': 5,
+        #     },
+        #     'request': {'method': request.method,
+        #                 'path': request.path,
+        #                 'params': request.query_params,
+        #                 },
+        #
+        # }
 
-# requests.get(
-#     'https://www.alphavantage.co/query?',
-#     params=request.query_params
-# )
+    if historicData.status_code == 200 and dailyData.status_code == 200:
+        return Response({
+            'daily': dailyFormated,
+            'historic': historicFormated,
+            'kpis': {
+                'PE': 5,
+            },
+            'request': {'method': request.method,
+                        'path': request.path,
+                        'params': request.query_params,
+                        },
+
+        })
+    else:
+        return None

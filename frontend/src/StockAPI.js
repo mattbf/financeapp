@@ -206,6 +206,34 @@ function StockAPI() {
        })
   }
 
+  // get stock info for one SYMBOL
+  function symbolInfo(symbol, apikey) {
+    axios({
+      method: 'GET',
+      url: 'http://localhost:8000/api/stocks/symbol/',
+      params: {
+        symbol: symbol,
+        apikey: apikey,
+      },
+    })
+    .then(function(response) {
+      console.log(response)
+      setGetRes({
+        isLoading: false,
+        isError: false,
+        results: response.data,
+      })
+    })
+      .catch(function (error) {
+        setGetRes({
+          isLoading: false,
+          isError: true,
+          results: [],
+        })
+      console.log(error.request);
+      })
+    return
+  }
 
 
     return {
@@ -216,6 +244,7 @@ function StockAPI() {
       getDailyChart,
       getChart,
       chartData,
+      symbolInfo,
     }
 
 }

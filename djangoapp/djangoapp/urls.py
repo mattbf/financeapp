@@ -21,4 +21,6 @@ from django.conf.urls import url
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api/stocks/$', views.get_stocks),
+    url(r'^api/stocks/symbol/$', views.get_stock_info),
+
 ]
