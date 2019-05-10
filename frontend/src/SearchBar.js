@@ -2,6 +2,8 @@ import React, {useEffect, useState, createRef, useRef} from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import useStockSearch from './useStockSearch.js';
 import StockChart from './StockChart.js';
+import { Link } from "react-router-dom";
+
 import {
   Paper,
   InputBase,
@@ -177,6 +179,10 @@ function SearchBar() {
     getChart(symbol)
   }
 
+  const StockInfoLink = React.forwardRef((props, ref) => (
+  <Link innerRef={ref} to="/MSFT/" {...props} />
+));
+
   return (
     <div className={classes.root}>
       <div className={classes.StatusDiv}>
@@ -274,8 +280,11 @@ function SearchBar() {
               chartData.data.length == 0 || chartData.data == null ?
                 "No data"
                 :
-                <StockChart data={chartData.data} />
-              :
+                <div>
+                  <StockChart data={chartData.data} />
+                  <Button component={StockInfoLink}> More info </Button>
+                </div>
+                :
               "Not req"
       }
     </div>

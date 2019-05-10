@@ -7,7 +7,7 @@ function GlobalRouter() {
   return (
     <Router>
       <Route exact path="/" component={HomePage} />
-      <Route path="/stockinfo" component={StockInfoPage} />
+      <Route path="/:symbol" component={StockInfoPage} />
     </Router>
   )
 }
