@@ -23,7 +23,12 @@ const useStyles = makeStyles((theme: Theme) =>
      margin: theme.spacing(1),
    },
    ChartHeading: {
-
+     display: 'flex',
+   },
+   StockInfo: {
+     border: 'solid',
+     width: '100px',
+     height: '40px',
    },
   })
 );
@@ -35,6 +40,9 @@ function StockChart(data) {
       <div className={classes.ChartContainer}>
         <Paper>
           <div className={classes.ChartHeading}>
+          <div className={classes.StockInfo}>
+
+          </div>
           <IconButton aria-label="Delete" className={classes.margin}>
             <Settings />
           </IconButton>
