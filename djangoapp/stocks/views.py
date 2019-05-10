@@ -4,6 +4,7 @@ from rest_framework import status
 import json
 import requests
 from datetime import datetime
+import array as arr
 
 # from .models import Customer
 # from .serializers import *
@@ -56,7 +57,7 @@ def get_stock_info(request):
  - add 'KPIs' to package
  """
     if request.method == 'GET':
-        # return Response({})
+
         dailyParams = {
             'symbol': request.query_params.get('symbol'),
             'function': 'TIME_SERIES_INTRADAY',
@@ -92,6 +93,7 @@ def get_stock_info(request):
             '%Y-%m-%d'
         )
 
+        # historicOrdered = arr.array('i', historicFormated)
         # Make calcs, categorize time data into slices,
         # add kpis, and package all together
 
@@ -113,7 +115,14 @@ def get_stock_info(request):
     if historicData.status_code == 200 and dailyData.status_code == 200:
         return Response({
             'daily': dailyFormated,
-            'historic': historicFormated,
+            'historic': {
+                'fiveDays': historicFormated[:5],
+                'month':  historicFormated[:30],
+                'sixMonths':  historicFormated[:180],
+                'year':  historicFormated[:365],
+                'fiveYears':  historicFormated[:1825],
+                'max': historicFormated,
+            },
             'kpis': {
                 'PE': 5,
             },
