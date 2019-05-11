@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import StockChart from './StockChart.js';
 import StockAPI from './StockAPI.js';
+import {match} from 'react-router-dom';
+
+//.match.params.userId
 
 import {
   Button,
 } from '@material-ui/core';
 
-function StockInfoPage() {
+function StockInfoPage({match}) {
   const {
     symbolInfo,
     getSymbolInfo,
@@ -17,9 +20,10 @@ function StockInfoPage() {
     console.log(symbolInfo)
   }
   //const [timeFrame, setTimeFrame] = useState('')
+  console.log(match.params.symbol)
 
   useEffect(() => {
-    getSymbolInfo('MSFT', 'B62IP93O6OGM4LCA')
+    getSymbolInfo(match.params.symbol, 'B62IP93O6OGM4LCA')
   }, [])
 
   return (

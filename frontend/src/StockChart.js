@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, } from 'recharts';
 import axios from 'axios';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import StockAPI from './StockAPI.js';
 
 import {
   Button,
@@ -41,6 +42,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 function StockChart(data) {
+  const {
+    symbolInfo,
+    getSymbolInfo,
+  } = StockAPI();
   const classes = useStyles();
   const [timeFrame, setTimeFrame] = useState({
     historic: false,
@@ -70,6 +75,11 @@ function StockChart(data) {
 
   function handleOpen() {
     setOpen(true);
+  }
+
+  function hanldeRefresh() {
+    getSymbolInfo('MSFT', 'B62IP93O6OGM4LCA')
+    setAllData(symbolInfo)
   }
 
   useEffect(() => {
@@ -102,16 +112,18 @@ function StockChart(data) {
         <Paper>
           <div className={classes.ChartHeading}>
           <div className={classes.StockInfo}>
-            <Typography variant='h3'>{data.data.results.kpis.close.close} </Typography>
+            <Typography variant='h3'>{data.data.results.request.params.symbol} </Typography>
+            <Typography variant='h4'>{data.data.results.kpis.close.close} </Typography>
           </div>
           <IconButton aria-label="Delete" className={classes.margin}>
             <Settings />
           </IconButton>
           </div>
-          <LineChart width={800} height={300} data={allData}>
-            <Line type="monotone" dataKey='open' stroke="#8884d8" />
+          <LineChart width={800} height={300} data={allData}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            <Line dot={false} type="monotone" dataKey='open' stroke="#8884d8" />
             <CartesianGrid  stroke="#ccc" strokeDasharray="3 3" />
-            <XAxis dataKey="date"  />
+            <XAxis dataKey="date" />
             <YAxis />
             <Tooltip />
             <Legend />
@@ -139,6 +151,7 @@ function StockChart(data) {
               <MenuItem value={'max'}>Max</MenuItem>
             </Select>
           </FormControl>
+          <Button onClick={hanldeRefresh}> Refresh </Button>
         </Paper>
       </div>
   )

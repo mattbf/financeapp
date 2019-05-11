@@ -180,7 +180,8 @@ function SearchBar() {
   }
 
   const StockInfoLink = React.forwardRef((props, ref) => (
-  <Link innerRef={ref} to="/MSFT/" {...props} />
+  <Link innerRef={ref} to={`/${props.symbol}`} {...props} />
+
 ));
 
   return (
@@ -255,10 +256,12 @@ function SearchBar() {
             <div className={classes.list}>
               <List component="nav">
                 {response.results.data.bestMatches.slice(0, 6).map((match, index) =>
-                  <ListItem button key={index} onClick={(e) => handleGetChart(match["1. symbol"])}>
-                    <ListItemText className={classes.symbol} primary={match["1. symbol"]} />
-                    <ListItemText className={classes.rightList} primary={match["2. name"]} />
-                  </ListItem>
+                  <Link to={`${match["1. symbol"]}`}>
+                    <ListItem button key={index} >
+                        <ListItemText className={classes.symbol} primary={match["1. symbol"]} />
+                        <ListItemText className={classes.rightList} primary={match["2. name"]} />
+                    </ListItem>
+                  </Link>
                 )}
               </List>
             </div>
