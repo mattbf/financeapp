@@ -78,8 +78,9 @@ function StockChart(data) {
   }
 
   function hanldeRefresh() {
-    getSymbolInfo('MSFT', 'B62IP93O6OGM4LCA')
-    setAllData(symbolInfo)
+    // getSymbolInfo('MSFT', 'B62IP93O6OGM4LCA')
+    // setAllData(symbolInfo)
+
   }
 
   useEffect(() => {
@@ -107,6 +108,7 @@ function StockChart(data) {
     }
   }, [timeFrame])
 
+  const fakeCond = true
   return(
       <div className={classes.ChartContainer}>
         <Paper>
@@ -131,7 +133,7 @@ function StockChart(data) {
                 <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
               </linearGradient>
             </defs>
-            <Area dot={false} type="monotone" dataKey='open' stroke="#8884d8" fill="url(#colorUv)" />
+            <Area dot={false} type="monotone" dataKey='open' stroke={fakeCond ? "#8884d8" : "#82ca9d" } fill={fakeCond ? "url(#colorPv)" : "url(#colorUv)"} />
             <CartesianGrid  stroke="#ccc" strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
