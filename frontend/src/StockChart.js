@@ -37,6 +37,13 @@ const useStyles = makeStyles((theme: Theme) =>
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  button: {
+    margin: theme.spacing(1),
+  },
+  TFBlock: {
+    display: 'flex',
+    alignItems: 'center',
+  }
   })
 );
 
@@ -108,7 +115,9 @@ function StockChart(data) {
     }
   }, [timeFrame])
 
-  const fakeCond = true
+  const fakeCond = false
+
+
   return(
       <div className={classes.ChartContainer}>
         <Paper>
@@ -122,7 +131,7 @@ function StockChart(data) {
           </IconButton>
           </div>
           <AreaChart width={800} height={300} data={allData}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+          margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
             <defs>
               <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
@@ -133,13 +142,43 @@ function StockChart(data) {
                 <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
               </linearGradient>
             </defs>
-            <Area dot={false} type="monotone" dataKey='open' stroke={fakeCond ? "#8884d8" : "#82ca9d" } fill={fakeCond ? "url(#colorPv)" : "url(#colorUv)"} />
+            <Area
+              dot={false}
+              type="monotone"
+              dataKey='open'
+              stroke={fakeCond ? "#8884d8" : "#82ca9d" }
+              fill={fakeCond ? "url(#colorUv)" : "url(#colorPv)"}
+              strokeWidth={3}
+            />
             <CartesianGrid  stroke="#ccc" strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip />
             <Legend />
           </AreaChart>
+          <div className={classes.TFBlock}>
+            <Button color="primary" className={classes.button}>
+              Today
+            </Button>
+            <Button color="primary" className={classes.button}>
+              5D
+            </Button>
+            <Button color="primary" className={classes.button}>
+              1M
+            </Button>
+            <Button color="primary" className={classes.button}>
+              6M
+            </Button>
+            <Button color="primary" className={classes.button}>
+              1Y
+            </Button>
+            <Button color="primary" className={classes.button}>
+              5Y
+            </Button>
+            <Button color="primary" className={classes.button}>
+              MAX
+            </Button>
+          </div>
           <FormControl className={classes.formControl}>
             <Select
               open={open}
