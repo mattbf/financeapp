@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, AreaChart, Area } from 'recharts';
 import axios from 'axios';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import StockAPI from './StockAPI.js';
@@ -119,15 +119,25 @@ function StockChart(data) {
             <Settings />
           </IconButton>
           </div>
-          <LineChart width={800} height={300} data={allData}
+          <AreaChart width={800} height={300} data={allData}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-            <Line dot={false} type="monotone" dataKey='open' stroke="#8884d8" />
+            <defs>
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
+                <stop offset="75%" stopColor="#8884d8" stopOpacity={0}/>
+              </linearGradient>
+              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
+                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
+              </linearGradient>
+            </defs>
+            <Area dot={false} type="monotone" dataKey='open' stroke="#8884d8" fill="url(#colorUv)" />
             <CartesianGrid  stroke="#ccc" strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip />
             <Legend />
-          </LineChart>
+          </AreaChart>
           <FormControl className={classes.formControl}>
             <Select
               open={open}
