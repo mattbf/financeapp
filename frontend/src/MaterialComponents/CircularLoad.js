@@ -8,15 +8,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function CircularIndeterminate() {
+function CircularLoad() {
   const classes = useStyles();
 
   return (
     <div>
       <CircularProgress className={classes.progress} />
-      <CircularProgress className={classes.progress} color="secondary" />
     </div>
   );
 }
 
-export default CircularIndeterminate;
+export default CircularLoad;

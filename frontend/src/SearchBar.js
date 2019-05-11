@@ -3,6 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import useStockSearch from './useStockSearch.js';
 import StockChart from './StockChart.js';
 import { Link } from "react-router-dom";
+import CircularLoad from './MaterialComponents/CircularLoad.js';
 
 import {
   Paper,
@@ -267,7 +268,13 @@ function SearchBar() {
             </div>
 
          :
-         "Loading"
+         <div className={classes.list}>
+           <List component="nav">
+               <ListItem>
+                 <CircularLoad/>
+               </ListItem>
+           </List>
+         </div>
         :
         null
         :
