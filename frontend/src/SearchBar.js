@@ -15,6 +15,8 @@ import {
   ListItem,
   ListItemText,
   Button,
+  ListItemIcon,
+  ClickAwayListener,
 } from '@material-ui/core'
 
 import {
@@ -22,6 +24,8 @@ import {
   Search,
   Directions,
   Clear,
+  Inbox,
+  Drafts,
 } from '@material-ui/icons'
 
 import red from '@material-ui/core/colors/red';
@@ -34,12 +38,17 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      width: '50%',
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
+
     },
     searchBar: {
       display: 'flex',
       alignItems: 'center',
       padding: '2px 4px',
-      width: 400,
+      width: '100%',
       marginTop: 50,
       zIndex: '99',
     },
@@ -76,6 +85,10 @@ const useStyles = makeStyles((theme: Theme) =>
     symbol: {
       fontWeight: 'bold',
     },
+    filterMenu: {
+      width: '100%',
+      backgroundColor: theme.palette.background.paper,
+  },
   }),
 );
 
@@ -83,6 +96,7 @@ function SearchBar() {
   const classes = useStyles();
   const searchRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [searchOpen, setsearchOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [params, setParams] = useState({
     apikey: 'xxx', //B62IP93O6OGM4LCA
@@ -129,9 +143,17 @@ function SearchBar() {
   function handleSearch(event) {
     doPost(req)
     setIsVisible(true)
-    setMenuOpen(true)
+    setsearchOpen(true)
     //setIsVisible(true)
     console.log(response)
+  }
+
+  function openMenu() {
+    setMenuOpen(true)
+  }
+
+  function closeMenu() {
+    setMenuOpen(false)
   }
 
   function handleKeyPress(e) {
@@ -156,9 +178,10 @@ function SearchBar() {
     }
     if (searchRef.current && searchRef.current.contains(event.target)) {
       setIsVisible(false);
-      setMenuOpen(false);
+      setsearchOpen(false);
       clearSearch();
       getDailyChart('RESET');
+      setMenuOpen(false);
     }
   };
 
@@ -176,7 +199,7 @@ function SearchBar() {
   }, [isVisible])
 
   function handleGetChart(symbol) {
-    setMenuOpen(false)
+    setsearchOpen(false)
     getChart(symbol)
   }
 
@@ -190,7 +213,7 @@ function SearchBar() {
       <div className={classes.StatusDiv}>
         <ul>
           <li> isVisible: {isVisible.toString()} </li>
-          <li> MenuOpen: {menuOpen.toString()} </li>
+          <li> searchOpen: {searchOpen.toString()} </li>
           <li> response:
             <ul>
               <li> Loading: {response.isLoading.toString()} </li>
@@ -205,9 +228,11 @@ function SearchBar() {
         </ul>
       </div>
       <Paper className={classes.searchBar}>
-        <IconButton className={classes.iconButton} aria-label="Menu">
-          <Menu />
-        </IconButton>
+        <ClickAwayListener onClickAway={closeMenu}>
+          <IconButton onClick={openMenu} className={classes.iconButton} aria-label="Menu">
+            <Menu />
+          </IconButton>
+        </ClickAwayListener>
         <InputBase
           className={classes.input}
           ref={searchRef}
@@ -233,8 +258,30 @@ function SearchBar() {
           <Clear />
         </IconButton>
       </Paper>
-      {response.isSearch ?
-        isVisible && menuOpen ?
+      {
+        menuOpen ?
+        <div className={classes.filterMenu}>
+            <List>
+             <ListItem button>
+               <ListItemIcon>
+                 <Inbox />
+               </ListItemIcon>
+               <ListItemText primary="Inbox" />
+             </ListItem>
+             <ListItem button>
+               <ListItemIcon>
+                 <Drafts />
+               </ListItemIcon>
+               <ListItemText primary="Drafts" />
+             </ListItem>
+           </List>
+        </div>
+         :
+         null
+      }
+      {
+        response.isSearch ?
+        isVisible && searchOpen ?
         !response.isLoading ?
           !response.results.data || !response.results.data.bestMatches ?
           <div className={classes.list}>
@@ -266,7 +313,6 @@ function SearchBar() {
                 )}
               </List>
             </div>
-
          :
          <div className={classes.list}>
            <List component="nav">
