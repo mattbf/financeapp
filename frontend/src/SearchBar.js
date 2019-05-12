@@ -42,7 +42,14 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('sm')]: {
         width: '100%',
       },
-
+      opacity: '0.7',
+      '&:hover': {
+       opacity: "1",
+     },
+     ':focus': {
+      opacity: "1",
+    },
+      transition: 'opacity 0.25s',
     },
     searchBar: {
       display: 'flex',
@@ -75,7 +82,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     list  : {
       width: '100%',
-      maxWidth: 360,
       backgroundColor: theme.palette.background.paper,
     },
     rightList: {
@@ -95,7 +101,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function SearchBar() {
   const classes = useStyles();
   const searchRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [searchOpen, setsearchOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [params, setParams] = useState({
@@ -209,7 +215,7 @@ function SearchBar() {
 ));
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{opacity: !isVisible ? '1' : null}}>
       <div className={classes.StatusDiv}>
         <ul>
           <li> isVisible: {isVisible.toString()} </li>
