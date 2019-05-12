@@ -10,6 +10,7 @@ import {
 
 import {
   ArrowUpward,
+  ArrowDownward,
   InfoOutlined,
 } from '@material-ui/icons';
 
@@ -49,6 +50,10 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'absolute',
       right: '2px',
       top: '2px',
+    },
+    valueHeader: {
+      display: 'flex',
+      alignItems: 'bottom',
     }
   }),
 );
@@ -59,18 +64,13 @@ function KPI(info) {
   return (
     <div className={classes.root}>
       <Paper className={classes.card}>
-        <div className={classes.infoButton}>
-          <Tooltip title={info.tooltip} interactive placement="left-end">
-            <IconButton aria-label="Delete"  size="small">
-              <InfoOutlined fontSize="inherit"/>
-            </IconButton>
-          </Tooltip>
-        </div>
-        <Typography variant='subtitle2' className={classes.Heading}> {info.name} </Typography>
-        <div className={classes.valuebox}>
-          <Typography variant='subtitle1' className={classes.Value}> {info.prefix} </Typography>
-          <Typography variant='subtitle1' className={classes.Value}> {info.value} </Typography>
-          <Typography variant='subtitle1' className={classes.Value}> {info.suffix} </Typography>
+        <div className={classes.valueHeader}>
+          <Typography variant='h5' className={classes.Heading}> Value{info.name} </Typography>
+          <div className={classes.valuebox}>
+            <Typography variant='subtitle1' className={classes.Value}> diff{info.prefix} </Typography>
+            <Typography variant='subtitle1' className={classes.Value}> perc%{info.value} </Typography>
+            <Typography variant='subtitle1' className={classes.Value}> {info.suffix} </Typography>
+          </div>
         </div>
       </Paper>
     </div>
