@@ -2,12 +2,44 @@ import React, {useEffect, useState} from 'react';
 import StockChart from './StockChart.js';
 import StockAPI from './StockAPI.js';
 import {match} from 'react-router-dom';
+import KPI from './KPI.js';
 
 //.match.params.userId
 
 import {
   Button,
 } from '@material-ui/core';
+
+const stockKpis = [
+  {
+    name:'Value',
+    value:'1951',
+    prefix:'',
+    suffix:'',
+    tooltip:'This is the tooltip description. You can put anything in here',
+  },
+  {
+    name:'Another value',
+    value:'1,000,000',
+    prefix:'$',
+    suffix:'M',
+    tooltip:'This is the tooltip description.',
+  },
+  {
+    name:'Short',
+    value:'100',
+    prefix:'$',
+    suffix:'',
+    tooltip:'This is the tooltip description. You can put anything in here. This is the tooltip description. You can put anything in here.',
+  },
+  {
+    name:'Long title KPI',
+    value:'4.5',
+    prefix:'',
+    suffix:'M',
+    tooltip:'Short',
+  },
+]
 
 function StockInfoPage({match}) {
   const {
@@ -37,6 +69,16 @@ function StockInfoPage({match}) {
         "No data"
     }
       <Button onClick={getinfo}> Get info </Button>
+
+      {stockKpis.map(kpi =>
+        <KPI
+          name={kpi.name}
+          value={kpi.value}
+          prefix={kpi.prefix}
+          suffix={kpi.suffix}
+          tooltip={kpi.tooltip}
+        />
+      )}
     </div>
   )
 }

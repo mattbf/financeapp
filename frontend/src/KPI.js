@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
     },
     Heading: {
-
+      marginRight: '10px',
     },
     Value: {
 
@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function KPI(info) {
   const classes = useStyles();
+  console.log(info)
   return (
     <div className={classes.root}>
       <Paper className={classes.card}>
