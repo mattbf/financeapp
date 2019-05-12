@@ -38,13 +38,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     Value: {
       marginRight: '5px',
-      color: upordown ? '#00c676' : '#ff1744',
+      //color: info.isPos ? '#00c676' : '#ff1744',
     },
     percent: {
-      color: upordown ? '#00c676' : '#ff1744'
+      //color: info.isPos ? '#00c676' : '#ff1744'
     },
     arrow: {
-      color: upordown ? '#00c676' : '#ff1744',
+      //color: info.isPos ? '#00c676' : '#ff1744',
       marginBottom: '2px',
     },
     valuebox: {
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     valueHeader: {
       display: 'flex',
-      alignItems: 'bottom',
+      alignItems: 'center',
     },
   }),
 );
@@ -77,19 +77,19 @@ function KPI(info) {
     <div className={classes.root}>
       <Paper className={classes.card}>
         <div className={classes.valueHeader}>
-          <Typography variant='h5' className={classes.Heading}> 101.57{info.name} </Typography>
-          <div className={classes.valuebox}>
-            <Typography variant='subtitle1' className={classes.percent}> {upordown ? '+' : '-'}</Typography>
-            <Typography variant='subtitle1' className={classes.Value}> 2.01{info.prefix} </Typography>
-            <Typography variant='subtitle1' className={classes.percent}> ({info.prefix} </Typography>
-            <Typography variant='subtitle1' className={classes.percent}> 8.09{info.value} </Typography>
-            <Typography variant='subtitle1' className={classes.percent}> %){info.suffix} </Typography>
-            {upordown ? <ArrowUpward style={{ fontSize: 20 }} className={classes.arrow}/> : <ArrowDownward style={{ fontSize: 20 }} className={classes.arrow}/> }
+          <Typography variant='h5' className={classes.Heading}> {info.value} </Typography>
+          <div className={classes.valuebox} style={{color: info.isPos ? '#00c676' : '#ff1744',}}>
+            <Typography variant='subtitle1' className={classes.percent}> {info.isPos ? '+' : '-'}</Typography>
+            <Typography variant='subtitle1' className={classes.Value}> {info.change} </Typography>
+            <Typography variant='subtitle1' className={classes.percent}> ( </Typography>
+            <Typography variant='subtitle1' className={classes.percent}> {info.percent} </Typography>
+            <Typography variant='subtitle1' className={classes.percent}> %) </Typography>
+            {info.isPos ? <ArrowUpward style={{ fontSize: 20 }} className={classes.arrow}/> : <ArrowDownward style={{ fontSize: 20 }} className={classes.arrow}/> }
 
           </div>
         </div>
-        <Typography variant='subtitle1'> SYBL{info.suffix} </Typography>
-        <Typography variant='body2' className={classes.companyText}> Company Name could be long{info.suffix} </Typography>
+        <Typography variant='subtitle1'> {info.symbol} </Typography>
+        <Typography variant='body2' className={classes.companyText}> {info.company} </Typography>
       </Paper>
     </div>
   )
