@@ -17,6 +17,8 @@ import {
 import {
   Menu,
   Settings,
+  ArrowUpward,
+  ArrowDownward,
 } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -125,6 +127,7 @@ function StockChart(data) {
           <div className={classes.StockInfo}>
             <Typography variant='h3'>{data.data.results.request.params.symbol} </Typography>
             <Typography variant='h4'>{data.data.results.kpis.close.close} </Typography>
+            <ArrowUpward color="secondary" />
           </div>
           <IconButton aria-label="Delete" className={classes.margin}>
             <Settings />
@@ -157,25 +160,25 @@ function StockChart(data) {
             <Legend />
           </AreaChart>
           <div className={classes.TFBlock}>
-            <Button color="primary" className={classes.button}>
+            <Button value={'daily'} color="primary" className={classes.button}>
               Today
             </Button>
-            <Button color="primary" className={classes.button}>
+            <Button value={'fiveDays'} color="primary" className={classes.button}>
               5D
             </Button>
-            <Button color="primary" className={classes.button}>
+            <Button value={'month'} color="primary" className={classes.button}>
               1M
             </Button>
-            <Button color="primary" className={classes.button}>
+            <Button value={'sixMonths'} color="primary" className={classes.button}>
               6M
             </Button>
-            <Button color="primary" className={classes.button}>
+            <Button value={'year'} color="primary" className={classes.button}>
               1Y
             </Button>
-            <Button color="primary" className={classes.button}>
+            <Button value={'fiveYears'} color="primary" className={classes.button}>
               5Y
             </Button>
-            <Button color="primary" className={classes.button}>
+            <Button value={'max'} color="primary" className={classes.button}>
               MAX
             </Button>
           </div>

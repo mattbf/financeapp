@@ -3,6 +3,7 @@ import useStockSearch from './useStockSearch.js';
 import StockInfo from './StockInfo.js';
 import SearchBar from './SearchBar.js';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(
   createStyles({
@@ -21,7 +22,7 @@ function HomePage() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-
+      <Link to="/testing/1"> testing </Link>
       <SearchBar/>
     </div>
   )
