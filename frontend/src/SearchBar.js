@@ -304,7 +304,7 @@ function SearchBar() {
             <div className={classes.list}>
               <List component="nav">
                 {response.results.data.bestMatches.slice(0, 6).map((match, index) =>
-                  <Link to={`${match["1. symbol"]}`}>
+                  <Link style={{textDecoration: 'none'}} to={`${match["1. symbol"]}`}>
                     <ListItem button key={index} >
                         <ListItemText className={classes.symbol} primary={match["1. symbol"]} />
                         <ListItemText className={classes.rightList} primary={match["2. name"]} />
