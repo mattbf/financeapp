@@ -15,6 +15,7 @@ import {
 
 const stockKpis = [
   {
+    symbol: 'MSFT',
     name:'Value',
     value:'1951',
     prefix:'',
@@ -22,6 +23,7 @@ const stockKpis = [
     tooltip:'This is the tooltip description. You can put anything in here',
   },
   {
+    symbol: 'UBER',
     name:'Another value',
     value:'1,000,000',
     prefix:'$',
@@ -29,6 +31,7 @@ const stockKpis = [
     tooltip:'This is the tooltip description.',
   },
   {
+    symbol: 'TCPL',
     name:'Short',
     value:'100',
     prefix:'$',
@@ -36,6 +39,7 @@ const stockKpis = [
     tooltip:'This is the tooltip description. You can put anything in here. This is the tooltip description. You can put anything in here.',
   },
   {
+    symbol: 'MSFT',
     name:'Long title KPI',
     value:'4.5',
     prefix:'',
@@ -43,6 +47,7 @@ const stockKpis = [
     tooltip:'Short',
   },
   {
+    symbol: 'MSFT',
     name:'Value',
     value:'1000.09',
     prefix:'',
@@ -50,6 +55,7 @@ const stockKpis = [
     tooltip:'Short',
   },
   {
+    symbol: 'MSFT',
     name:'Parameter',
     value:'12345678',
     prefix:'$',
@@ -101,6 +107,7 @@ function StockInfoPage({match}) {
     <div className={classes.kpiWrapper}>
       {stockKpis.map(kpi =>
         <KPI
+          symbol={kpi.symbol}
           name={kpi.name}
           value={kpi.value}
           prefix={kpi.prefix}

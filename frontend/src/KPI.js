@@ -1,5 +1,7 @@
 import React from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
+import {match} from 'react-router-dom';
 
 import {
   Paper,
@@ -74,9 +76,11 @@ function KPI(info) {
     <div className={classes.root}>
       <Paper className={classes.card}>
         <div className={classes.infoButtons}>
-          <IconButton aria-label="Delete"  size="small" className={classes.colorHover}>
-            <TrendingUp fontSize="inherit"/>
-          </IconButton>
+          <Link style={{textDecoration: 'none'}} to={`/${info.symbol}/${info.name}`}>
+            <IconButton aria-label="Delete"  size="small" className={classes.colorHover}>
+              <TrendingUp fontSize="inherit"/>
+            </IconButton>
+          </Link>
           <Tooltip title={info.tooltip} interactive placement="bottom-end">
             <IconButton aria-label="Delete"  size="small">
               <InfoOutlined fontSize="inherit"/>
@@ -95,3 +99,5 @@ function KPI(info) {
 }
 
 export default KPI
+
+//<Link style={{textDecoration: 'none'}} to={`${match["1. symbol"]}`}>

@@ -162,29 +162,29 @@ def get_stock_kpis(request):
             '%Y-%m-%d'
         )
 
-        SMAdata = requests.get(
-            'https://www.alphavantage.co/query?',
-            params={
-                'symbol': request.query_params.get('symbol'),
-                'function': 'TIME_SERIES_DAILY',
-                'apikey': request.query_params.get('apikey'),
-                'outputsize': 'full',
-            },
-        )
-
-        kpidataFormated = format_data(
-            json.loads(Data.content.decode('utf-8')),
-            "Time Series (Daily)",
-            '%Y-%m-%d'
-        )
+        # SMAdata = requests.get(
+        #     'https://www.alphavantage.co/query?',
+        #     params={
+        #         'symbol': request.query_params.get('symbol'),
+        #         'function': 'TIME_SERIES_DAILY',
+        #         'apikey': request.query_params.get('apikey'),
+        #         'outputsize': 'full',
+        #     },
+        # )
+        #
+        # kpidataFormated = format_data(
+        #     json.loads(Data.content.decode('utf-8')),
+        #     "Time Series (Daily)",
+        #     '%Y-%m-%d'
+        # )
 
         return Response({
                         'kpis': {
                             '52High': 120,
                             '52Low': dailyFormated[-1],
-                            'PE': 5,
-                            'MarketCap': 5,
-                            'SMA': 5,
+                            'PE': 5.23,
+                            'MarketCap': 10190,
+                            'SMA': 100,
                         },
                         'request': {'method': request.method,
                                     'path': request.path,
