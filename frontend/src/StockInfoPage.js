@@ -21,6 +21,7 @@ const stockKpis = [
     prefix:'',
     suffix:'',
     tooltip:'This is the tooltip description. You can put anything in here',
+    trend: true,
   },
   {
     symbol: 'UBER',
@@ -29,6 +30,7 @@ const stockKpis = [
     prefix:'$',
     suffix:'M',
     tooltip:'This is the tooltip description.',
+    trend: true,
   },
   {
     symbol: 'TCPL',
@@ -37,6 +39,7 @@ const stockKpis = [
     prefix:'$',
     suffix:'',
     tooltip:'This is the tooltip description. You can put anything in here. This is the tooltip description. You can put anything in here.',
+    trend: true,
   },
   {
     symbol: 'MSFT',
@@ -45,6 +48,7 @@ const stockKpis = [
     prefix:'',
     suffix:'M',
     tooltip:'Short',
+    trend: false,
   },
   {
     symbol: 'MSFT',
@@ -53,6 +57,7 @@ const stockKpis = [
     prefix:'',
     suffix:'M',
     tooltip:'Short',
+    trend: true,
   },
   {
     symbol: 'MSFT',
@@ -61,6 +66,7 @@ const stockKpis = [
     prefix:'$',
     suffix:'B',
     tooltip:'Short',
+    trend: false,
   },
 ]
 
@@ -113,6 +119,7 @@ function StockInfoPage({match}) {
           prefix={kpi.prefix}
           suffix={kpi.suffix}
           tooltip={kpi.tooltip}
+          trend={kpi.trend}
         />
       )}
     </div>

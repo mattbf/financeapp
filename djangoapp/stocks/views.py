@@ -42,6 +42,7 @@ def format_data(json, selector, dateFormat):
             'open': json[selector][key]["1. open"],
             'close': json[selector][key]["4. close"],
             'high': json[selector][key]["2. high"],
+            'low': json[selector][key]["3. low"],
             'volume': json[selector][key]["5. volume"],
         })
     return newObj
@@ -162,6 +163,9 @@ def get_stock_kpis(request):
             '%Y-%m-%d'
         )
 
+        WH = max(dataFormated.high for obj in dataFormated)
+        WL = min(dataFormated.low for obj in dataFormated)
+
         # SMAdata = requests.get(
         #     'https://www.alphavantage.co/query?',
         #     params={
@@ -177,17 +181,40 @@ def get_stock_kpis(request):
         #     "Time Series (Daily)",
         #     '%Y-%m-%d'
         # )
-
-        return Response({
-                        'kpis': {
-                            '52High': 120,
-                            '52Low': dailyFormated[-1],
-                            'PE': 5.23,
-                            'MarketCap': 10190,
-                            'SMA': 100,
-                        },
-                        'request': {'method': request.method,
-                                    'path': request.path,
-                                    'params': request.query_params,
-                                    },
-                        })
+        if Data.status_code == 200:
+            return Response({
+                            'kpis': {
+                                '52High': {
+                                    'symbol': request.query_params.get('symbol'),
+                                    'name': '52 Week High',
+                                    'value': WH,
+                                    'prefix': '',
+                                    'suffix': '',
+                                    'tooltip': 'The highest stock value in the past 52 weeks',
+                                    'trend': False,
+                                },
+                                '52Low': {
+                                    'symbol': request.query_params.get('symbol'),
+                                    'name': '52 Week Low',
+                                    'value': WL,
+                                    'prefix': '',
+                                    'suffix': '',
+                                    'tooltip': 'The lowest stock value in the past 52 weeks',
+                                    'trend': False,
+                                },
+                                'PE': 5.23,
+                                'MarketCap': 10190,
+                                'SMA': 100,
+                            },
+                            'request': {'method': request.method,
+                                        'path': request.path,
+                                        'params': request.query_params,
+                                        },
+                            })
+        else:
+            return Response({
+                'request': {'method': request.method,
+                            'path': request.path,
+                            'params': request.query_params,
+                            },
+            })

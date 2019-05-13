@@ -76,11 +76,15 @@ function KPI(info) {
     <div className={classes.root}>
       <Paper className={classes.card}>
         <div className={classes.infoButtons}>
-          <Link style={{textDecoration: 'none'}} to={`/${info.symbol}/${info.name}`}>
-            <IconButton aria-label="Delete"  size="small" className={classes.colorHover}>
-              <TrendingUp fontSize="inherit"/>
-            </IconButton>
-          </Link>
+          {info.trend ?
+            <Link style={{textDecoration: 'none'}} to={`/${info.symbol}/${info.name}`}>
+              <IconButton aria-label="Delete"  size="small" className={classes.colorHover}>
+                <TrendingUp fontSize="inherit"/>
+              </IconButton>
+            </Link>
+            :
+            null
+          }
           <Tooltip title={info.tooltip} interactive placement="bottom-end">
             <IconButton aria-label="Delete"  size="small">
               <InfoOutlined fontSize="inherit"/>
