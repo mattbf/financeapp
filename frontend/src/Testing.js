@@ -1,6 +1,7 @@
 import React from 'react';
 import KPI from './KPI.js';
 import StockKPI from './StockKPI.js';
+import PrimaryAppBar from './PrimaryAppBar.js';
 
 const stockKpis = [
   {
@@ -33,6 +34,7 @@ const stockKpis = [
 function Testing() {
   return (
     <div>
+    <PrimaryAppBar/>
       {stockKpis.map(kpi =>
         <StockKPI
           symbol={kpi.symbol}

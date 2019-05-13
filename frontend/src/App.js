@@ -12,7 +12,9 @@ import purple from '@material-ui/core/colors/purple';
 const theme = createMuiTheme({
   palette: {
     //type: 'dark',
-    primary: { main: '#00c853' }, // Purple and green play nicely together.
+    primary: {
+      main: '#000000',
+    }, // Purple and green play nicely together.
     secondary: { main: '#d50000' }, // This is just green.A700 as hex.
   },
 });

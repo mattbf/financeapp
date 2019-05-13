@@ -64,7 +64,7 @@ function KPI(info) {
     <div className={classes.root}>
       <Paper className={classes.card}>
         <div className={classes.infoButton}>
-          <Tooltip title={info.tooltip} interactive placement="left-end">
+          <Tooltip title={info.tooltip} interactive placement="bottom-end">
             <IconButton aria-label="Delete"  size="small">
               <InfoOutlined fontSize="inherit"/>
             </IconButton>
