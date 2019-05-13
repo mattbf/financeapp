@@ -41,9 +41,10 @@ def format_data(json, selector, dateFormat):
             'date': key,
             'open': json[selector][key]["1. open"],
             'close': json[selector][key]["4. close"],
+            'high': json[selector][key]["2. high"],
             'volume': json[selector][key]["5. volume"],
         })
-    return newObj[::-1]
+    return newObj
 
 
 @api_view(['GET', 'POST'])
@@ -136,3 +137,57 @@ def get_stock_info(request):
         })
     else:
         return None
+
+
+@api_view(['GET', 'POST'])
+def get_stock_kpis(request):
+
+    if request.method == 'GET':
+
+        Params = {
+            'symbol': request.query_params.get('symbol'),
+            'function': 'TIME_SERIES_DAILY',
+            'apikey': request.query_params.get('apikey'),
+            'outputsize': 'full',
+        }
+
+        Data = requests.get(
+            'https://www.alphavantage.co/query?',
+            params=Params,
+        )
+
+        dataFormated = format_data(
+            json.loads(Data.content.decode('utf-8')),
+            "Time Series (Daily)",
+            '%Y-%m-%d'
+        )
+
+        SMAdata = requests.get(
+            'https://www.alphavantage.co/query?',
+            params={
+                'symbol': request.query_params.get('symbol'),
+                'function': 'TIME_SERIES_DAILY',
+                'apikey': request.query_params.get('apikey'),
+                'outputsize': 'full',
+            },
+        )
+
+        kpidataFormated = format_data(
+            json.loads(Data.content.decode('utf-8')),
+            "Time Series (Daily)",
+            '%Y-%m-%d'
+        )
+
+        return Response({
+                        'kpis': {
+                            '52High': 120,
+                            '52Low': dailyFormated[-1],
+                            'PE': 5,
+                            'MarketCap': 5,
+                            'SMA': 5,
+                        },
+                        'request': {'method': request.method,
+                                    'path': request.path,
+                                    'params': request.query_params,
+                                    },
+                        })

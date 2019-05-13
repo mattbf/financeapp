@@ -11,6 +11,7 @@ import {
 import {
   ArrowUpward,
   InfoOutlined,
+  TrendingUp,
 } from '@material-ui/icons';
 
 
@@ -50,10 +51,18 @@ const useStyles = makeStyles((theme: Theme) =>
     margin: {
       margin: theme.spacing(1),
     },
-    infoButton: {
+    infoButtons: {
+      display: 'flex',
+      alignItems: 'center',
       position: 'absolute',
       right: '2px',
       top: '2px',
+    },
+    colorHover: {
+      '&:hover': {
+       color: "#00C676",
+       backgroundColor: 'rgba(0, 198, 118, 0.15)',
+     },
     }
   }),
 );
@@ -64,7 +73,10 @@ function KPI(info) {
   return (
     <div className={classes.root}>
       <Paper className={classes.card}>
-        <div className={classes.infoButton}>
+        <div className={classes.infoButtons}>
+          <IconButton aria-label="Delete"  size="small" className={classes.colorHover}>
+            <TrendingUp fontSize="inherit"/>
+          </IconButton>
           <Tooltip title={info.tooltip} interactive placement="bottom-end">
             <IconButton aria-label="Delete"  size="small">
               <InfoOutlined fontSize="inherit"/>

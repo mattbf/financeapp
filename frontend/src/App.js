@@ -14,7 +14,7 @@ const theme = createMuiTheme({
     //type: 'dark',
     primary: {
       main: '#000000',
-    }, // Purple and green play nicely together.
+    }, 
     secondary: { main: '#d50000' }, // This is just green.A700 as hex.
   },
 });
