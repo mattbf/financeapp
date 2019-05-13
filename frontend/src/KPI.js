@@ -20,7 +20,11 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'start',
-
+      width: '45%',
+      margin: theme.spacing(1),
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
     },
     card: {
       paddingTop: theme.spacing(1),
@@ -28,8 +32,8 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
       position: 'relative',
-      minWidth: '125px',
-      height: '75px',
+      width: '100%',
+      height: '85px',
       margin: theme.spacing(1),
     },
     Heading: {

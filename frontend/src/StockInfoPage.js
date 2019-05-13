@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import StockChart from './StockChart.js';
 import StockAPI from './StockAPI.js';
 import {match} from 'react-router-dom';
 import KPI from './KPI.js';
 
+
 //.match.params.userId
 
 import {
   Button,
+  Paper,
 } from '@material-ui/core';
 
 const stockKpis = [
@@ -39,37 +42,63 @@ const stockKpis = [
     suffix:'M',
     tooltip:'Short',
   },
+  {
+    name:'Value',
+    value:'1000.09',
+    prefix:'',
+    suffix:'M',
+    tooltip:'Short',
+  },
+  {
+    name:'Parameter',
+    value:'12345678',
+    prefix:'$',
+    suffix:'B',
+    tooltip:'Short',
+  },
 ]
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    Wrapper: {
+      display: 'flex',
+    },
+    graph: {
+      width: '65%',
+    },
+    kpiWrapper: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      width: '35%',
+      alignItems: 'center',
+    },
+  }),
+);
+
 function StockInfoPage({match}) {
-  const {
-    symbolInfo,
-    getSymbolInfo,
-  } = StockAPI();
-
-  function getinfo() {
-    //getSymbolInfo('MSFT', 'B62IP93O6OGM4LCA')
-    console.log(symbolInfo)
-  }
-  //const [timeFrame, setTimeFrame] = useState('')
-  console.log(match.params.symbol)
-
-  useEffect(() => {
-    getSymbolInfo(match.params.symbol, 'B62IP93O6OGM4LCA')
-  }, [])
+  const classes = useStyles()
+  // const {
+  //   symbolInfo,
+  //   getSymbolInfo,
+  // } = StockAPI();
+  //
+  // function getinfo() {
+  //   //getSymbolInfo('MSFT', 'B62IP93O6OGM4LCA')
+  //   console.log(symbolInfo)
+  // }
+  // //const [timeFrame, setTimeFrame] = useState('')
+  // console.log(match.params.symbol)
+  //
+  // useEffect(() => {
+  //   getSymbolInfo(match.params.symbol, 'B62IP93O6OGM4LCA')
+  // }, [])
 
   return (
-    <div>
-    {symbolInfo.isLoading ?
-      "Loading"
-      :
-        symbolInfo.results ?
-        <StockChart data={symbolInfo} />
-        :
-        "No data"
-    }
-      <Button onClick={getinfo}> Get info </Button>
-
+    <div className={classes.Wrapper}>
+    <div className={classes.graph}>
+      <Paper> </Paper>
+    </div>
+    <div className={classes.kpiWrapper}>
       {stockKpis.map(kpi =>
         <KPI
           name={kpi.name}
@@ -80,7 +109,17 @@ function StockInfoPage({match}) {
         />
       )}
     </div>
+    </div>
   )
 }
 
 export default StockInfoPage
+
+// {symbolInfo.isLoading ?
+//   "Loading"
+//   :
+//     symbolInfo.results ?
+//     <StockChart data={symbolInfo} />
+//     :
+//     "No data"
+// }
