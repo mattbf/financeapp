@@ -1,7 +1,9 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import KPI from './KPI.js';
 import StockKPI from './StockKPI.js';
 import PrimaryAppBar from './PrimaryAppBar.js';
+import BreadCrumbs from './MaterialComponents/BreadCrumbs.js';
 
 const stockKpis = [
   {
@@ -31,10 +33,43 @@ const stockKpis = [
 
 ]
 
+
+const useStyles = makeStyles(theme => ({
+  breadcrumb: {
+    marginTop: '15px',
+    marginLeft: '15px',
+  },
+}));
+
+
+
 function Testing() {
+  const classes = useStyles();
+
+  const BreadLinks = [
+    {
+      id: 0,
+      name: 'Link 1',
+      link: '/testing/1',
+    },
+    {
+      id: 1,
+      name: 'Another Link',
+      link: '/MSFT',
+    },
+    {
+      id: 2,
+      name: 'Symbol Link',
+      link: '/TCPL',
+    },
+
+  ]
+  
   return (
     <div>
-    <PrimaryAppBar/>
+      <div className={classes.breadcrumb}>
+        <BreadCrumbs BreadLinks={BreadLinks}/>
+      </div>
       {stockKpis.map(kpi =>
         <StockKPI
           symbol={kpi.symbol}

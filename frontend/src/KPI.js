@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingRight: theme.spacing(2),
       position: 'relative',
       width: '100%',
+      maxWidth: '300px',
       height: '85px',
       margin: theme.spacing(1),
     },
