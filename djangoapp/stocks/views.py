@@ -229,3 +229,72 @@ def get_stock_kpis(request):
                             'params': request.query_params,
                             },
             })
+
+
+@api_view(['GET', 'POST'])
+def get_stock_graph(request):
+
+    if request.method == 'GET':
+
+        frameDict = {
+            "fiveDays": slice(0, 5),
+            "month": slice(0, 30),
+            "sixMonths": slice(0, 180),
+            "year": slice(0, 365),
+            "fiveYears": slice(0, 1825),
+            "max": slice(0, -1),
+        }
+        # a = [1, 2, 3, 4]
+        # print(a[mapDict["first"]])
+
+        if (request.query_params.get('function') == 'TIME_SERIES_INTRADAY'):
+            Params = {
+                'symbol': request.query_params.get('symbol'),
+                'function': request.query_params.get('function'),
+                'interval': '30min',
+                'apikey': request.query_params.get('apikey'),
+                'outputsize': 'full',
+            }
+
+            Data = requests.get(
+                'https://www.alphavantage.co/query?',
+                params=Params,
+            )
+            dataFormated = format_data(
+                json.loads(Data.content.decode('utf-8')),
+                "Time Series (30min)",
+                '%Y-%m-%d'
+            )
+        else:
+            Params = {
+                'symbol': request.query_params.get('symbol'),
+                'function': request.query_params.get('function'),
+                'apikey': request.query_params.get('apikey'),
+                'outputsize': 'full',
+            }
+
+            Data = requests.get(
+                'https://www.alphavantage.co/query?',
+                params=Params,
+            )
+            dataFormated = format_data(
+                json.loads(Data.content.decode('utf-8')),
+                "Time Series (Daily)",
+                '%Y-%m-%d'
+            )[frameDict[request.query_params.get('frame')]]
+
+        if Data.status_code == 200:
+            return Response({
+                            'data': dataFormated,
+                            'request': {'method': request.method,
+                                        'path': request.path,
+                                        'params': request.query_params,
+                                        },
+                            })
+        else:
+            return Response({
+                'request': {'method': request.method,
+                            'path': request.path,
+                            'params': request.query_params,
+                            },
+            })

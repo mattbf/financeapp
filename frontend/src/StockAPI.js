@@ -167,8 +167,17 @@ function StockAPI() {
   }
 
   //Get historic stock price for one stock
-  function getChart(symbol) {
-    if (symbol == 'RESET') {
+  function getChart(config) {
+    if (config.symbol == 'RESET') {
+      setChartData({
+         isLoading: false,
+         isReq: false,
+         isError: false,
+         data: [],
+       })
+       return
+    }
+    if (config == {}) {
       setChartData({
          isLoading: false,
          isReq: false,
@@ -185,27 +194,19 @@ function StockAPI() {
          })
          axios({
            method: 'GET',
-           url: 'http://localhost:8000/api/stocks/',
+           url: 'http://localhost:8000/api/stocks/symbol/graph/',
            params: {
-             function: 'TIME_SERIES_DAILY',
-             symbol: symbol,
-             apikey: 'demo',
+             function: config.timeFunc,
+             symbol: config.symbol,
+             apikey: config.apikey,
+             frame: config.frame,
            },
-         })
-           .then(function(response) {
-             var keys = Object.keys(response.data.data["Time Series (Daily)"])
-             keys.forEach(function(key){
-                 newJson.push({
-                   date: new Date(Date.parse(key)),
-                   open: response.data.data["Time Series (Daily)"][key]["1. open"]
-                 })
-             });
-           }).then(function() {
+         }).then(function(response) {
              setChartData({
                isLoading: false,
                isReq: true,
                isError: false,
-               data: newJson
+               data: response.data
              })
            })
            .catch(function (error) {
@@ -265,7 +266,7 @@ function StockAPI() {
       },
     })
     .then(function(response) {
-      console.log(response)
+      
       setSymbolStats({
         isLoading: false,
         isError: false,

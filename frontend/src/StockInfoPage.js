@@ -90,10 +90,16 @@ const useStyles = makeStyles((theme: Theme) =>
 function StockInfoPage({match}) {
   const classes = useStyles()
   const [kpis, setKpis] = useState([])
+  const [graphConfig, setGraphConfig] = useState({
+    symbol: match.params.symbol,
+    timeFunc: 'TIME_SERIES_INTRADAY',
+    frame: '1D',
+    apikey: 'B62IP93O6OGM4LCA'
+  })
   const[test, setTest] = useState(true)
   const {
-    symbolInfo,
-    getSymbolInfo,
+    chartData,
+    getChart,
     getSymbolStats,
     symbolStats,
   } = StockAPI();
@@ -114,7 +120,7 @@ function StockInfoPage({match}) {
   }, [])
 
   useEffect(() => {
-    console.log(symbolStats.results)
+    console.log(chartData)
   }, [test])
 
   function handleClick() {
@@ -125,31 +131,11 @@ function StockInfoPage({match}) {
     <div className={classes.Wrapper}>
     <div className={classes.graph}>
       <Button onClick={handleClick}> Click </Button>
-      <Paper> </Paper>
+      <Paper>
+        <StockChart symbol={match.params.symbol}/>
+      </Paper>
     </div>
-    <div className={classes.kpiWrapper}>
-      {symbolStats.isLoading ?
-        "loading"
-      :
-        symbolStats.results ?
-          symbolStats.results.kpis ?
-              symbolStats.results.kpis.map(kpi =>
-                <KPI
-                  symbol={kpi.symbol}
-                  name={kpi.name}
-                  value={kpi.value}
-                  prefix={kpi.prefix}
-                  suffix={kpi.suffix}
-                  tooltip={kpi.tooltip}
-                  trend={kpi.trend}
-                />
-              )
-            :
-            "kpis not true"
-          :
-          "no Kpis"
-    }
-    </div>
+
     </div>
   )
 }
@@ -166,14 +152,27 @@ export default StockInfoPage
 // }
 
 
-// symbolStats.results.kpis.map(kpi =>
-//   <KPI
-//     symbol={kpi.symbol}
-//     name={kpi.name}
-//     value={kpi.value}
-//     prefix={kpi.prefix}
-//     suffix={kpi.suffix}
-//     tooltip={kpi.tooltip}
-//     trend={kpi.trend}
-//   />
-// )
+// <div className={classes.kpiWrapper}>
+//   {symbolStats.isLoading ?
+//     "loading"
+//   :
+//     symbolStats.results ?
+//       symbolStats.results.kpis ?
+//           symbolStats.results.kpis.map((kpi, index) =>
+//             <KPI
+//               key={index}
+//               symbol={kpi.symbol}
+//               name={kpi.name}
+//               value={kpi.value}
+//               prefix={kpi.prefix}
+//               suffix={kpi.suffix}
+//               tooltip={kpi.tooltip}
+//               trend={kpi.trend}
+//             />
+//           )
+//         :
+//         "kpis not true"
+//       :
+//       "no Kpis"
+// }
+// </div>
