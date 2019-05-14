@@ -70,6 +70,7 @@ function StockAPI() {
             isSearch: true,
             results: response.data,
           })
+          console.log(response)
         })
         .catch(function (error) {
           setResponse({

@@ -163,8 +163,13 @@ def get_stock_kpis(request):
             '%Y-%m-%d'
         )
 
-        WH = max(dataFormated.high for obj in dataFormated)
-        WL = min(dataFormated.low for obj in dataFormated)
+        # WH = max(obj['high'] for obj in dataFormated)
+        WL = min(obj['low'] for obj in dataFormated)
+        Harr = []
+        for obj in dataFormated:
+            Harr.append(obj['high'])
+            Harr = list(map(float, Harr[:365]))
+        WH = max(Harr)
 
         # SMAdata = requests.get(
         #     'https://www.alphavantage.co/query?',
@@ -188,6 +193,7 @@ def get_stock_kpis(request):
                                     'symbol': request.query_params.get('symbol'),
                                     'name': '52 Week High',
                                     'value': WH,
+                                    'arry': Harr,
                                     'prefix': '',
                                     'suffix': '',
                                     'tooltip': 'The highest stock value in the past 52 weeks',
