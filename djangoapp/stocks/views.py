@@ -164,12 +164,16 @@ def get_stock_kpis(request):
         )
 
         # WH = max(obj['high'] for obj in dataFormated)
-        WL = min(obj['low'] for obj in dataFormated)
+        Larr = []
         Harr = []
         for obj in dataFormated:
             Harr.append(obj['high'])
             Harr = list(map(float, Harr[:365]))
         WH = max(Harr)
+        for obj in dataFormated:
+            Larr.append(obj['low'])
+            Larr = list(map(float, Larr[:365]))
+        WL = min(Larr)
 
         # SMAdata = requests.get(
         #     'https://www.alphavantage.co/query?',
@@ -186,20 +190,24 @@ def get_stock_kpis(request):
         #     "Time Series (Daily)",
         #     '%Y-%m-%d'
         # )
+
+        # 'PE': 5.23,
+        # 'MarketCap': 10190,
+        # 'SMA': 100,
+
         if Data.status_code == 200:
             return Response({
-                            'kpis': {
-                                '52High': {
+                            'kpis': [
+                                {
                                     'symbol': request.query_params.get('symbol'),
                                     'name': '52 Week High',
                                     'value': WH,
-                                    'arry': Harr,
                                     'prefix': '',
                                     'suffix': '',
                                     'tooltip': 'The highest stock value in the past 52 weeks',
                                     'trend': False,
                                 },
-                                '52Low': {
+                                {
                                     'symbol': request.query_params.get('symbol'),
                                     'name': '52 Week Low',
                                     'value': WL,
@@ -208,10 +216,7 @@ def get_stock_kpis(request):
                                     'tooltip': 'The lowest stock value in the past 52 weeks',
                                     'trend': False,
                                 },
-                                'PE': 5.23,
-                                'MarketCap': 10190,
-                                'SMA': 100,
-                            },
+                            ],
                             'request': {'method': request.method,
                                         'path': request.path,
                                         'params': request.query_params,

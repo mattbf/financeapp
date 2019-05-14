@@ -89,11 +89,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function StockInfoPage({match}) {
   const classes = useStyles()
-  // const {
-  //   symbolInfo,
-  //   getSymbolInfo,
-  // } = StockAPI();
-  //
+  const [kpis, setKpis] = useState([])
+  const[test, setTest] = useState(true)
+  const {
+    symbolInfo,
+    getSymbolInfo,
+    getSymbolStats,
+    symbolStats,
+  } = StockAPI();
+
   // function getinfo() {
   //   //getSymbolInfo('MSFT', 'B62IP93O6OGM4LCA')
   //   console.log(symbolInfo)
@@ -105,23 +109,46 @@ function StockInfoPage({match}) {
   //   getSymbolInfo(match.params.symbol, 'B62IP93O6OGM4LCA')
   // }, [])
 
+  useEffect(() => {
+    getSymbolStats(match.params.symbol, 'B62IP93O6OGM4LCA')
+  }, [])
+
+  useEffect(() => {
+    console.log(symbolStats.results)
+  }, [test])
+
+  function handleClick() {
+    setTest(!test)
+  }
+
   return (
     <div className={classes.Wrapper}>
     <div className={classes.graph}>
+      <Button onClick={handleClick}> Click </Button>
       <Paper> </Paper>
     </div>
     <div className={classes.kpiWrapper}>
-      {stockKpis.map(kpi =>
-        <KPI
-          symbol={kpi.symbol}
-          name={kpi.name}
-          value={kpi.value}
-          prefix={kpi.prefix}
-          suffix={kpi.suffix}
-          tooltip={kpi.tooltip}
-          trend={kpi.trend}
-        />
-      )}
+      {symbolStats.isLoading ?
+        "loading"
+      :
+        symbolStats.results ?
+          symbolStats.results.kpis ?
+              symbolStats.results.kpis.map(kpi =>
+                <KPI
+                  symbol={kpi.symbol}
+                  name={kpi.name}
+                  value={kpi.value}
+                  prefix={kpi.prefix}
+                  suffix={kpi.suffix}
+                  tooltip={kpi.tooltip}
+                  trend={kpi.trend}
+                />
+              )
+            :
+            "kpis not true"
+          :
+          "no Kpis"
+    }
     </div>
     </div>
   )
@@ -137,3 +164,16 @@ export default StockInfoPage
 //     :
 //     "No data"
 // }
+
+
+// symbolStats.results.kpis.map(kpi =>
+//   <KPI
+//     symbol={kpi.symbol}
+//     name={kpi.name}
+//     value={kpi.value}
+//     prefix={kpi.prefix}
+//     suffix={kpi.suffix}
+//     tooltip={kpi.tooltip}
+//     trend={kpi.trend}
+//   />
+// )
