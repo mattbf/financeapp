@@ -54,7 +54,7 @@ function StockChart(symbol) {
   const [graphConfig, setGraphConfig] = useState({
     symbol: symbol.symbol,
     timeFunc: 'TIME_SERIES_DAILY',
-    frame: 'fiveDays',
+    frame: 'month',
     apikey: 'B62IP93O6OGM4LCA'
   })
   const {
@@ -89,16 +89,21 @@ function StockChart(symbol) {
 
   }
 
-  const handleSetTime = event => {
-    console.log("config changed")
-    console.log(event.target.value)
+  function handleSetTime(timeframe) {
+    //console.log("config changed")
+    //console.log(event.target.value)
     setGraphConfig({
       symbol: symbol.symbol,
-      timeFunc: 'TIME_SERIES_DAILY',
-      frame: event.target.value,
+      timeFunc: 'TIME_SERIES_INTRADAY',
+      frame: timeframe,
       apikey: 'B62IP93O6OGM4LCA'
     })
   }
+
+  const handleSingleChange = name => event => {
+    console.log("event " + event.target.value)
+    setGraphConfig({ ...graphConfig, [name]: event.target.value });
+  };
 
   // useEffect(() => {
   //   if (timeFrame.historic) {
@@ -154,14 +159,18 @@ function StockChart(symbol) {
                   <stop offset="75%" stopColor="#82ca9d" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <Area
-                dot={false}
-                type="monotone"
-                dataKey='open'
-                stroke={fakeCond ? "#8884d8" : "#82ca9d" }
-                fill={fakeCond ? "url(#colorUv)" : "url(#colorPv)"}
-                strokeWidth={3}
-              />
+              {chartData.isLoading ?
+                "Loading"
+                :
+                <Area
+                  dot={false}
+                  type="monotone"
+                  dataKey='open'
+                  stroke={fakeCond ? "#8884d8" : "#82ca9d" }
+                  fill={fakeCond ? "url(#colorUv)" : "url(#colorPv)"}
+                  strokeWidth={3}
+                />
+              }
               <CartesianGrid  stroke="#ccc" strokeDasharray="3 3" />
               <XAxis dataKey="date" />
               <YAxis />
@@ -172,25 +181,25 @@ function StockChart(symbol) {
             "wait"
           }
           <div className={classes.TFBlock}>
-            <Button value={'daily'} color="primary"  onClick={handleSetTime} className={classes.button}>
+            <Button value='daily' color="primary"  onClick={handleSingleChange('daily')} className={classes.button}>
               Today
             </Button>
-            <Button value={'fiveDays'} color="primary" onClick={handleSetTime} className={classes.button}>
+            <Button value='fiveDays' color="primary" onClick={handleSingleChange('fiveDays')} className={classes.button}>
               5D
             </Button>
-            <Button value={'month'} color="primary" onClick={handleSetTime} className={classes.button}>
+            <Button value='month' color="primary" onClick={handleSingleChange('month')} className={classes.button}>
               1M
             </Button>
-            <Button value={'sixMonths'} color="primary" onClick={handleSetTime} className={classes.button}>
+            <Button value='sixMonths' color="primary" onClick={handleSingleChange('sixMonths')} className={classes.button}>
               6M
             </Button>
-            <Button value={'year'} color="primary" onClick={handleSetTime} className={classes.button}>
+            <Button value='year' color="primary" onClick={handleSingleChange('year')} className={classes.button}>
               1Y
             </Button>
-            <Button value={'fiveYears'} color="primary" onClick={handleSetTime} className={classes.button}>
+            <Button value='fiveYears' color="primary" onClick={handleSingleChange('fiveYears')} className={classes.button}>
               5Y
             </Button>
-            <Button value={'max'} color="primary" onClick={handleSetTime} className={classes.button}>
+            <Button value='max' color="primary" onClick={handleSingleChange('max')} className={classes.button}>
               MAX
             </Button>
           </div>
