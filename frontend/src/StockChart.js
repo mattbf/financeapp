@@ -57,6 +57,15 @@ function StockChart(symbol) {
     frame: 'month',
     apikey: 'B62IP93O6OGM4LCA'
   })
+  const [frames, setFrames] = useState({
+    daily: 'daily',
+    fiveDays: 'fiveDays',
+    month: 'month',
+    sixMonths: 'sixMonths',
+    year: 'year',
+    fiveYears: 'fiveYears',
+    max: 'max',
+  })
   const {
     chartData,
     getChart,
@@ -92,6 +101,19 @@ function StockChart(symbol) {
   function handleSetTime(timeframe) {
     //console.log("config changed")
     //console.log(event.target.value)
+    console.log(timeframe)
+    setGraphConfig({
+      symbol: symbol.symbol,
+      timeFunc: 'TIME_SERIES_DAILY',
+      frame: timeframe,
+      apikey: 'B62IP93O6OGM4LCA'
+    })
+  }
+
+  function handleSetIntra(timeframe) {
+    //console.log("config changed")
+    //console.log(event.target.value)
+    console.log(timeframe)
     setGraphConfig({
       symbol: symbol.symbol,
       timeFunc: 'TIME_SERIES_INTRADAY',
@@ -100,10 +122,11 @@ function StockChart(symbol) {
     })
   }
 
-  const handleSingleChange = name => event => {
-    console.log("event " + event.target.value)
-    setGraphConfig({ ...graphConfig, [name]: event.target.value });
-  };
+  // const handleSingleChange = name => e => {
+  //   console.log("event " + e.target.value)
+  //   console.log("name " + name)
+  //   setGraphConfig({ ...graphConfig, [name]: e.target.value });
+  // };
 
   // useEffect(() => {
   //   if (timeFrame.historic) {
@@ -181,25 +204,25 @@ function StockChart(symbol) {
             "wait"
           }
           <div className={classes.TFBlock}>
-            <Button value='daily' color="primary"  onClick={handleSingleChange('daily')} className={classes.button}>
+            <Button value='daily' color="primary" onClick={() => handleSetIntra('daily')}  className={classes.button}>
               Today
             </Button>
-            <Button value='fiveDays' color="primary" onClick={handleSingleChange('fiveDays')} className={classes.button}>
+            <Button value={frames.fiveDays} color="primary" onClick={() => handleSetTime('fiveDays')} className={classes.button}>
               5D
             </Button>
-            <Button value='month' color="primary" onClick={handleSingleChange('month')} className={classes.button}>
+            <Button value='month' color="primary" onClick={() => handleSetTime('month')} className={classes.button}>
               1M
             </Button>
-            <Button value='sixMonths' color="primary" onClick={handleSingleChange('sixMonths')} className={classes.button}>
+            <Button value='sixMonths' color="primary" onClick={() => handleSetTime('sixMonths')} className={classes.button}>
               6M
             </Button>
-            <Button value='year' color="primary" onClick={handleSingleChange('year')} className={classes.button}>
+            <Button value='year' color="primary" onClick={() => handleSetTime('year')} className={classes.button}>
               1Y
             </Button>
-            <Button value='fiveYears' color="primary" onClick={handleSingleChange('fiveYears')} className={classes.button}>
+            <Button value='fiveYears' color="primary" onClick={() => handleSetTime('fiveYears')} className={classes.button}>
               5Y
             </Button>
-            <Button value='max' color="primary" onClick={handleSingleChange('max')} className={classes.button}>
+            <Button value='max' color="primary" onClick={() => handleSetTime('max')} className={classes.button}>
               MAX
             </Button>
           </div>
