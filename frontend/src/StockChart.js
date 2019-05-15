@@ -89,7 +89,7 @@ function StockChart(symbol) {
 
   }
 
-  function handleSetTime(event) {
+  const handleSetTime = event => {
     console.log("config changed")
     console.log(event.target.value)
     setGraphConfig({
@@ -172,25 +172,25 @@ function StockChart(symbol) {
             "wait"
           }
           <div className={classes.TFBlock}>
-            <Button value={'daily'} color="primary"  onClick={(event) => {handleSetTime(event)}} className={classes.button}>
+            <Button value={'daily'} color="primary"  onClick={handleSetTime} className={classes.button}>
               Today
             </Button>
-            <Button value={'fiveDays'} color="primary" onClick={(event) => {handleSetTime(event)}} className={classes.button}>
+            <Button value={'fiveDays'} color="primary" onClick={handleSetTime} className={classes.button}>
               5D
             </Button>
-            <Button value={'month'} color="primary" onClick={(event) => {handleSetTime(event)}} className={classes.button}>
+            <Button value={'month'} color="primary" onClick={handleSetTime} className={classes.button}>
               1M
             </Button>
-            <Button value={'sixMonths'} color="primary" onClick={(event) => {handleSetTime(event)}} className={classes.button}>
+            <Button value={'sixMonths'} color="primary" onClick={handleSetTime} className={classes.button}>
               6M
             </Button>
-            <Button value={'year'} color="primary" onClick={(event) => {handleSetTime(event)}} className={classes.button}>
+            <Button value={'year'} color="primary" onClick={handleSetTime} className={classes.button}>
               1Y
             </Button>
-            <Button value={'fiveYears'} color="primary" onClick={(event) => {handleSetTime(event)}} className={classes.button}>
+            <Button value={'fiveYears'} color="primary" onClick={handleSetTime} className={classes.button}>
               5Y
             </Button>
-            <Button value={'max'} color="primary" onClick={(event) => {handleSetTime(event)}} className={classes.button}>
+            <Button value={'max'} color="primary" onClick={handleSetTime} className={classes.button}>
               MAX
             </Button>
           </div>
