@@ -71,12 +71,18 @@ function StockChart(symbol) {
     getChart,
     getSymbolStats,
     symbolStats,
+    quote,
+    getQuote,
   } = StockAPI();
 
   useEffect(() => {
     getChart(graphConfig)
     console.log("config updated")
   }, [graphConfig])
+
+  useEffect(() => {
+    getQuote(symbol.symbol, 'B62IP93O6OGM4LCA')
+  }, [])
 
   const classes = useStyles();
 
@@ -92,10 +98,8 @@ function StockChart(symbol) {
     setOpen(true);
   }
 
-  function hanldeRefresh() {
-    // getSymbolInfo('MSFT', 'B62IP93O6OGM4LCA')
-    // setAllData(symbolInfo)
-
+  function handleRefresh() {
+    console.log(quote)
   }
 
   function handleSetTime(timeframe) {
@@ -160,11 +164,20 @@ function StockChart(symbol) {
       <div className={classes.ChartContainer}>
         <Paper>
           <div className={classes.ChartHeading}>
-          <div className={classes.StockInfo}>
-            <Typography variant='h3'>symbol </Typography>
-            <Typography variant='h4'>close </Typography>
-            <ArrowUpward color="secondary" />
-          </div>
+
+          {quote.isLoading ?
+            "Loading"
+            :
+             quote.data.data ?
+            <div className={classes.StockInfo}>
+              <Typography variant='h3'>{quote.data.data.symbol} </Typography>
+              <Typography variant='h4'>{quote.data.data.price} </Typography>
+              <ArrowUpward color="secondary" />
+            </div>
+            :
+            "No Data"
+          }
+
           <IconButton aria-label="Delete" className={classes.margin}>
             <Settings />
           </IconButton>
@@ -226,8 +239,7 @@ function StockChart(symbol) {
               MAX
             </Button>
           </div>
-
-          <Button onClick={hanldeRefresh}> Refresh </Button>
+          <Button onClick={handleRefresh}> log </Button>
         </Paper>
       </div>
   )

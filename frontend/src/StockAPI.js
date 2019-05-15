@@ -48,6 +48,11 @@ function StockAPI() {
     isError: false,
     data: [],
   })
+  const [quote, setQuote] = useState({
+    isLoading: false,
+    isError: false,
+    data: [],
+  })
   let newDailyJson = []
   let newJson = []
 
@@ -110,6 +115,35 @@ function StockAPI() {
         console.log(error);
         })
     return getRes
+  }
+
+  //get stock quote
+  function getQuote(symbol, apikey) {
+
+    axios({
+      method: 'GET',
+      url: 'http://localhost:8000/api/stocks/quote/',
+      params: {
+        function: 'GLOBAL_QUOTE',
+        symbol: symbol,
+        apikey: apikey,
+      },
+    })
+      .then(function(response) {
+          setQuote({
+            isLoading: false,
+            isError: false,
+            data: response.data,
+          })
+        })
+        .catch(function (error) {
+          setQuote({
+            isLoading: false,
+            isError: true,
+            data: [],
+          })
+        console.log(error);
+        })
   }
 
   //Get the intra day stok price for one stock
@@ -266,7 +300,7 @@ function StockAPI() {
       },
     })
     .then(function(response) {
-      
+
       setSymbolStats({
         isLoading: false,
         isError: false,
@@ -296,6 +330,8 @@ function StockAPI() {
       getSymbolInfo,
       getSymbolStats,
       symbolStats,
+      getQuote,
+      quote,
     }
 
 }

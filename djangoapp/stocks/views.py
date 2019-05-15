@@ -30,6 +30,49 @@ def get_stocks(request):
                          })
 
 
+@api_view(['GET', 'POST'])
+def get_quote(request):
+    """
+ gte quote
+ """
+    if request.method == 'GET':
+
+        data = requests.get(
+            'https://www.alphavantage.co/query?',
+            params=request.query_params
+        )
+
+        dataFormated = format_quote(
+            json.loads(data.content.decode('utf-8')),
+            "Global Quote",
+        )
+
+        return Response({'data': dataFormated,
+                         'request': {'method': request.method,
+                                     'path': request.path,
+                                     'params': request.query_params,
+                                     },
+                         })
+
+
+def format_quote(json, selector):
+        # print(json[selector])
+    quote = json[selector]
+    # print(key)
+    newObj = {
+        'LTD': quote["07. latest trading day"],
+        'open': quote["02. open"],
+        'symbol': quote["01. symbol"],
+        'high': quote["03. high"],
+        'low': quote["04. low"],
+        'volume': quote["06. volume"],
+        'price': quote["05. price"],
+        'change': quote["09. change"],
+        'percentChange': quote["10. change percent"],
+    }
+    return newObj
+
+
 def format_data(json, selector, dateFormat):
     newObj = []
     # print(json[selector])
