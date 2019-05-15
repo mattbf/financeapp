@@ -94,7 +94,7 @@ def format_data(json, selector, dateFormat):
             'low': json[selector][key]["3. low"],
             'volume': json[selector][key]["5. volume"],
         })
-    return newObj
+    return newObj[::-1]
 
 
 @api_view(['GET', 'POST'])

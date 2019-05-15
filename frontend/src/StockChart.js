@@ -54,8 +54,8 @@ function StockChart(symbol) {
   console.log("symbol: " + symbol.symbol)
   const [graphConfig, setGraphConfig] = useState({
     symbol: symbol.symbol,
-    timeFunc: 'TIME_SERIES_DAILY',
-    frame: 'month',
+    timeFunc: 'TIME_SERIES_INTRADAY',
+    frame: 'daily',
     apikey: 'B62IP93O6OGM4LCA'
   })
   const [frames, setFrames] = useState({

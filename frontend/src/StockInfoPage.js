@@ -82,7 +82,8 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexWrap: 'wrap',
       width: '35%',
-      alignItems: 'center',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
     },
   }),
 );
