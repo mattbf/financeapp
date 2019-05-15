@@ -104,17 +104,6 @@ function StockInfoPage({match}) {
     symbolStats,
   } = StockAPI();
 
-  // function getinfo() {
-  //   //getSymbolInfo('MSFT', 'B62IP93O6OGM4LCA')
-  //   console.log(symbolInfo)
-  // }
-  // //const [timeFrame, setTimeFrame] = useState('')
-  // console.log(match.params.symbol)
-  //
-  // useEffect(() => {
-  //   getSymbolInfo(match.params.symbol, 'B62IP93O6OGM4LCA')
-  // }, [])
-
   useEffect(() => {
     getSymbolStats(match.params.symbol, 'B62IP93O6OGM4LCA')
   }, [])
@@ -134,45 +123,33 @@ function StockInfoPage({match}) {
       <Paper>
         <StockChart symbol={match.params.symbol}/>
       </Paper>
-    </div>
-
+      </div>
+      <div className={classes.kpiWrapper}>
+        {symbolStats.isLoading ?
+          "loading"
+        :
+          symbolStats.results ?
+            symbolStats.results.kpis ?
+                symbolStats.results.kpis.map((kpi, index) =>
+                  <KPI
+                    key={index}
+                    symbol={kpi.symbol}
+                    name={kpi.name}
+                    value={kpi.value}
+                    prefix={kpi.prefix}
+                    suffix={kpi.suffix}
+                    tooltip={kpi.tooltip}
+                    trend={kpi.trend}
+                  />
+                )
+              :
+              "kpis not true"
+            :
+            "no Kpis"
+      }
+      </div>
     </div>
   )
 }
 
 export default StockInfoPage
-
-// {symbolInfo.isLoading ?
-//   "Loading"
-//   :
-//     symbolInfo.results ?
-//     <StockChart data={symbolInfo} />
-//     :
-//     "No data"
-// }
-
-
-// <div className={classes.kpiWrapper}>
-//   {symbolStats.isLoading ?
-//     "loading"
-//   :
-//     symbolStats.results ?
-//       symbolStats.results.kpis ?
-//           symbolStats.results.kpis.map((kpi, index) =>
-//             <KPI
-//               key={index}
-//               symbol={kpi.symbol}
-//               name={kpi.name}
-//               value={kpi.value}
-//               prefix={kpi.prefix}
-//               suffix={kpi.suffix}
-//               tooltip={kpi.tooltip}
-//               trend={kpi.trend}
-//             />
-//           )
-//         :
-//         "kpis not true"
-//       :
-//       "no Kpis"
-// }
-// </div>
