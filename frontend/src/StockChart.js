@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 function StockChart(symbol) {
+  console.log("symbol: " + symbol.symbol)
   const [graphConfig, setGraphConfig] = useState({
     symbol: symbol.symbol,
     timeFunc: 'TIME_SERIES_DAILY',
@@ -81,7 +82,7 @@ function StockChart(symbol) {
   }, [graphConfig])
 
   useEffect(() => {
-    getQuote(symbol.symbol, 'B62IP93O6OGM4LCA')
+    getQuote(symbol, 'B62IP93O6OGM4LCA')
   }, [])
 
   const classes = useStyles();

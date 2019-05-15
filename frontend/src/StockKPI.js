@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import StockAPI from './StockAPI.js';
 
 import {
   Paper,
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
       position: 'relative',
-      width: '275px',
+      width: '300px',
       height: '100px',
       margin: theme.spacing(1),
     },
@@ -69,31 +70,49 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const upordown = true
+// const upordown = true //convert to int then use Math.sign()
+// {quote.data.data.change
 
-function KPI(info) {
+function KPI(symbol) {
   const classes = useStyles();
-  console.log(info)
+  console.log(symbol)
+  const {
+    quote,
+    getQuote,
+  } = StockAPI();
+
+  useEffect(() => {
+    getQuote(symbol, 'B62IP93O6OGM4LCA')
+  }, [])
+
+
   return (
     <div className={classes.root}>
-      <Link style={{textDecoration: 'none'}} to={`/${info.symbol}`}>
-        <Paper className={classes.card}>
-          <div className={classes.valueHeader}>
-            <Typography variant='h5' className={classes.Heading}> {info.value} </Typography>
-            <div className={classes.valuebox} style={{color: info.isPos ? '#00c676' : '#ff1744',}}>
-              <Typography variant='subtitle1' className={classes.percent}> {info.isPos ? '+' : '-'}</Typography>
-              <Typography variant='subtitle1' className={classes.Value}> {info.change} </Typography>
-              <Typography variant='subtitle1' className={classes.percent}> ( </Typography>
-              <Typography variant='subtitle1' className={classes.percent}> {info.percent} </Typography>
-              <Typography variant='subtitle1' className={classes.percent}> %) </Typography>
-              {info.isPos ? <ArrowUpward style={{ fontSize: 20 }} className={classes.arrow}/> : <ArrowDownward style={{ fontSize: 20 }} className={classes.arrow}/> }
+    {quote.isLoading ?
+      "Loading"
+      :
+        quote.data.data ?
+        <Link style={{textDecoration: 'none'}} to={`/${quote.data.data.symbol}`}>
+          <Paper className={classes.card}>
+            <div className={classes.valueHeader}>
+              <Typography variant='h5' className={classes.Heading}> {quote.data.data.price} </Typography>
+              <div className={classes.valuebox} style={{color: quote.data.data.isPos ? '#00c676' : '#ff1744',}}>
+                <Typography variant='subtitle1' className={classes.percent}></Typography>
+                <Typography variant='subtitle1' className={classes.Value}> {quote.data.data.change} </Typography>
+                <Typography variant='subtitle1' className={classes.percent}> ( </Typography>
+                <Typography variant='subtitle1' className={classes.percent}> {quote.data.data.percentChange} </Typography>
+                <Typography variant='subtitle1' className={classes.percent}> ) </Typography>
+                {quote.data.data.isPos ? <ArrowUpward style={{ fontSize: 20 }} className={classes.arrow}/> : <ArrowDownward style={{ fontSize: 20 }} className={classes.arrow}/> }
 
+              </div>
             </div>
-          </div>
-          <Typography variant='subtitle1'> {info.symbol} </Typography>
-          <Typography variant='body2' className={classes.companyText}> {info.company} </Typography>
-        </Paper>
-      </Link>
+            <Typography variant='subtitle1'> {quote.data.data.symbol} </Typography>
+            <Typography variant='body2' className={classes.companyText}> Company </Typography>
+          </Paper>
+        </Link>
+        :
+        "no Data"
+      }
     </div>
   )
 }

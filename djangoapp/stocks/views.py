@@ -58,6 +58,11 @@ def get_quote(request):
 def format_quote(json, selector):
         # print(json[selector])
     quote = json[selector]
+    if (float(json[selector]["09. change"]) < 0):
+        pos = False
+    else:
+        pos = True
+
     # print(key)
     newObj = {
         'LTD': quote["07. latest trading day"],
@@ -69,6 +74,7 @@ def format_quote(json, selector):
         'price': quote["05. price"],
         'change': quote["09. change"],
         'percentChange': quote["10. change percent"],
+        'isPos': pos,
     }
     return newObj
 

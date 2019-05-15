@@ -119,13 +119,13 @@ function StockAPI() {
 
   //get stock quote
   function getQuote(symbol, apikey) {
-
+    console.log("symbol in api: " + symbol)
     axios({
       method: 'GET',
       url: 'http://localhost:8000/api/stocks/quote/',
       params: {
         function: 'GLOBAL_QUOTE',
-        symbol: symbol,
+        symbol: symbol.symbol,
         apikey: apikey,
       },
     })
