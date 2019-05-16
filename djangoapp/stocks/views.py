@@ -97,8 +97,8 @@ def format_sectors(json, selector):
         # print(json[selector])
     newObj = []
     sector = json[selector]
-    for key, value in sector:
-        if (float(value) < 0):
+    for key, value in sector.items():
+        if (float(value.strip('%')) < 0):
             pos = False
         else:
             pos = True

@@ -78,7 +78,7 @@ function KPI(info) {
       <Paper className={classes.card}>
         <div className={classes.infoButtons}>
           {info.trend ?
-            <Link style={{textDecoration: 'none'}} to={`/${info.symbol}/${info.name}`}>
+            <Link style={{textDecoration: 'none'}} to={`/stocks/${info.symbol}/${info.name}`}>
               <IconButton aria-label="Delete"  size="small" className={classes.colorHover}>
                 <TrendingUp fontSize="inherit"/>
               </IconButton>

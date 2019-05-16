@@ -23,6 +23,7 @@ function HomePage() {
   return (
     <div className={classes.root}>
       <Link to="/testing/1"> testing </Link>
+      <Link to="/sectors/"> sectors </Link>
       <SearchBar/>
     </div>
   )

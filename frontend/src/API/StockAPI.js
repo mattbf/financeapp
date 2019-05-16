@@ -153,7 +153,7 @@ function StockAPI() {
 
   //get sector performance
   function getSectors(frame, apikey) {
-    //console.log("symbol in api: " + symbol)
+    console.log("frame in api: " + frame)
     setSectors({
       isLoading: true,
       isError: false,
@@ -165,7 +165,7 @@ function StockAPI() {
       params: {
         function: 'SECTOR',
         apikey: apikey,
-        frame: frame.frame,
+        frame: frame,
       },
     })
       .then(function(response) {

@@ -102,7 +102,7 @@ function KPI(symbol) {
       "Loading"
       :
         quote.data.data ?
-        <Link style={{textDecoration: 'none'}} to={`/${quote.data.data.symbol}`}>
+        <Link style={{textDecoration: 'none'}} to={`/stocks/${quote.data.data.symbol}`}>
           <Paper className={classes.card}>
             <div className={classes.infoButtons}>
               <Link style={{textDecoration: 'none'}} to={`/${quote.data.data.symbol}`}>

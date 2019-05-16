@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
       position: 'relative',
-      width: '250px',
-      height: '125px',
+      width: '225px',
+      height: '100px',
       margin: theme.spacing(1),
     },
     Heading: {
@@ -80,56 +80,23 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-// const upordown = true //convert to int then use Math.sign()
-// {quote.data.data.change
 
-function SectorKPI(symbol) {
+function SectorKPI(info) {
   const classes = useStyles();
-  console.log(symbol)
-  const {
-    quote,
-    getQuote,
-  } = StockAPI();
-
-  useEffect(() => {
-    getQuote(symbol, 'B62IP93O6OGM4LCA')
-  }, [])
-
+  console.log("info passed to sector card: ")
+  console.log(info)
 
   return (
     <div className={classes.root}>
-    {quote.isLoading ?
-      "Loading"
-      :
-        quote.data.data ?
-        <Link style={{textDecoration: 'none'}} to={`/${quote.data.data.symbol}`}>
           <Paper className={classes.card}>
-            <div className={classes.infoButtons}>
-              <Link style={{textDecoration: 'none'}} to={`/${quote.data.data.symbol}`}>
-                <IconButton aria-label="Delete"  size="small" className={classes.colorHover}>
-                  <TrendingUp fontSize="inherit"/>
-                </IconButton>
-              </Link>
-            </div>
             <div className={classes.valueHeader}>
-              <Typography variant='h5' className={classes.Heading}> {quote.data.data.price} </Typography>
-              <div className={classes.valuebox} style={{color: quote.data.data.isPos ? '#00c676' : '#ff1744',}}>
-                <Typography variant='subtitle1' className={classes.percent}></Typography>
-                <Typography variant='subtitle1' className={classes.Value}> {quote.data.data.change} </Typography>
-                <Typography variant='subtitle1' className={classes.percent}> ( </Typography>
-                <Typography variant='subtitle1' className={classes.percent}> {quote.data.data.percentChange} </Typography>
-                <Typography variant='subtitle1' className={classes.percent}> ) </Typography>
-                {quote.data.data.isPos ? <ArrowUpward style={{ fontSize: 20 }} className={classes.arrow}/> : <ArrowDownward style={{ fontSize: 20 }} className={classes.arrow}/> }
-
+              <Typography variant='subtitle2' className={classes.Heading}>{info.info.sector} </Typography>
+              <div className={classes.valuebox} style={{color: info.info.isPos ? '#00c676' : '#ff1744',}}>
+                <Typography variant='subtitle1' className={classes.percent}>{info.info.change}</Typography>
+                {info.info.isPos ? <ArrowUpward style={{ fontSize: 20 }} className={classes.arrow}/> : <ArrowDownward style={{ fontSize: 20 }} className={classes.arrow}/> }
               </div>
             </div>
-            <Typography variant='subtitle1'> {quote.data.data.symbol} </Typography>
-            <Typography variant='body2' className={classes.companyText}> Company </Typography>
           </Paper>
-        </Link>
-        :
-        "no Data"
-      }
     </div>
   )
 }
