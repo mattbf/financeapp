@@ -72,27 +72,13 @@ function CustomizedMenus(props) {
       >
       {props.list ?
         props.list.map((item, index) =>
-          <StyledMenuItem key={index} onClick={props.func(item.time)}>
-           <ListItemText primary={item.name} />
+          <StyledMenuItem button key={index} onClick={props.func(item.time)}>
+           <ListItemText primary={item.name + "  " + item.time} />
          </StyledMenuItem>
         )
         :
         null
       }
-
-
-        <StyledMenuItem>
-          <ListItemIcon>
-            <DraftsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Inbox" />
-        </StyledMenuItem>
       </StyledMenu>
     </div>
   );
