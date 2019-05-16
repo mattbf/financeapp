@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import StockChart from './StockChart.js';
-import StockAPI from './StockAPI.js';
+import StockChart from './GeneralComponents/StockChart.js';
+import StockAPI from './API/StockAPI.js';
 import {match} from 'react-router-dom';
-import KPI from './KPI.js';
+import KPI from './GeneralComponents/KPI.js';
 import BreadCrumbs from './MaterialComponents/BreadCrumbs.js';
-import PrimaryAppBar from './PrimaryAppBar.js';
+import PrimaryAppBar from './GeneralComponents/PrimaryAppBar.js';
 
 
 import {
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '35%',
       alignItems: 'flex-start',
       justifyContent: 'flex-start',
+      border: 'solid',
     },
   }),
 );

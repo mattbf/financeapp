@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import StockAPI from './StockAPI.js';
-import PrimaryAppBar from './PrimaryAppBar.js';
+import StockAPI from './API/StockAPI.js';
+import PrimaryAppBar from './GeneralComponents/PrimaryAppBar.js';
 import {match} from 'react-router-dom';
 
 import {

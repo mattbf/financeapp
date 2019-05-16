@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-import StockChart from './StockChart.js';
+import StockChart from './GeneralComponents/StockChart.js';
 
 function StockInfo() {
   const [params, setParams] = useState({

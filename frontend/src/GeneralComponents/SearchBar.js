@@ -1,9 +1,9 @@
 import React, {useEffect, useState, createRef, useRef} from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import useStockSearch from './useStockSearch.js';
 import StockChart from './StockChart.js';
 import { Link } from "react-router-dom";
-import CircularLoad from './MaterialComponents/CircularLoad.js';
+import CircularLoad from '../MaterialComponents/CircularLoad.js';
+import StockAPI from '../API/StockAPI.js';
 
 import {
   Paper,
@@ -30,7 +30,7 @@ import {
 
 import red from '@material-ui/core/colors/red';
 
-import StockAPI from './StockAPI.js';
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

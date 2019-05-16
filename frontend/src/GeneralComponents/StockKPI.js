@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import StockAPI from './StockAPI.js';
+import StockAPI from '../API/StockAPI.js';
 
 import {
   Paper,

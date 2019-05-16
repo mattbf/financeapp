@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, AreaChart, Area } from 'recharts';
 import axios from 'axios';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import StockAPI from './StockAPI.js';
+import StockAPI from '../API/StockAPI.js';
 
 import {
   Button,

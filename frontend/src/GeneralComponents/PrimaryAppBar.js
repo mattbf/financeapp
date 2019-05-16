@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import {match} from 'react-router-dom';
-import BreadCrumbs from './MaterialComponents/BreadCrumbs.js';
+import BreadCrumbs from '../MaterialComponents/BreadCrumbs.js';
 
 import {
   AppBar,

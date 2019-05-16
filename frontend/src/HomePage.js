@@ -1,7 +1,7 @@
 import React from 'react';
 import useStockSearch from './useStockSearch.js';
 import StockInfo from './StockInfo.js';
-import SearchBar from './SearchBar.js';
+import SearchBar from './GeneralComponents/SearchBar.js';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 

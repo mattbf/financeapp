@@ -1,8 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import KPI from './KPI.js';
-import StockKPI from './StockKPI.js';
-import PrimaryAppBar from './PrimaryAppBar.js';
+import KPI from './GeneralComponents/KPI.js';
+import StockKPI from './GeneralComponents/StockKPI.js';
+import PrimaryAppBar from './GeneralComponents/PrimaryAppBar.js';
 import BreadCrumbs from './MaterialComponents/BreadCrumbs.js';
 
 const stockKpis = [
