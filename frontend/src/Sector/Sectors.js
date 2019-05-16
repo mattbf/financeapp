@@ -1,11 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import StockAPI from '../API/StockAPI.js';
 import SectorKPI from './SectorKPI.js';
+import MenuButton from '../MaterialComponents/MenuButton.js';
 
 import {
   Button,
 } from '@material-ui/core';
 
+
+const buttonFunctions = [
+  {
+    name: 'Realtime Performance',
+    time: 'realtime',
+  },
+  {
+    name: 'One Day Performance',
+    time: 'day',
+  },
+]
 function Sectors() {
   const {
     sectors,
@@ -18,14 +30,16 @@ function Sectors() {
     getSectors(frame, 'xxx') //B62IP93O6OGM4LCA
   }, [frame])
 
-  function changeFrame() {
-    setFrame('fiveDay')
+  function changeFrame(frameset) {
+    console.log("change frame called")
+    setFrame(frameset)
   }
 
   return (
     <div>
       <Button onClick={console.log(sectors)}> Log </Button>
       <Button onClick={changeFrame}> change </Button>
+      <MenuButton frame={frame} list={buttonFunctions} func={changeFrame}/>
       {sectors.isLoading ?
         "loading"
         :

@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
       position: 'relative',
-      width: '225px',
-      height: '100px',
+      width: '215px',
+      height: '65px',
       margin: theme.spacing(1),
     },
     Heading: {
@@ -83,8 +83,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function SectorKPI(info) {
   const classes = useStyles();
-  console.log("info passed to sector card: ")
-  console.log(info)
+  // console.log("info passed to sector card: ")
+  // console.log(info)
 
   return (
     <div className={classes.root}>
