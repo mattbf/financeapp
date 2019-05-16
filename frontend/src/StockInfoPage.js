@@ -4,6 +4,7 @@ import StockChart from './StockChart.js';
 import StockAPI from './StockAPI.js';
 import {match} from 'react-router-dom';
 import KPI from './KPI.js';
+import BreadCrumbs from './MaterialComponents/BreadCrumbs.js';
 
 
 //.match.params.userId
@@ -70,6 +71,7 @@ const stockKpis = [
   },
 ]
 
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     Wrapper: {
@@ -104,50 +106,70 @@ function StockInfoPage({match}) {
     getSymbolStats,
     symbolStats,
   } = StockAPI();
-
+  // const [crumbs, setCrumbs] = useState([])
   useEffect(() => {
     getSymbolStats(match.params.symbol, 'B62IP93O6OGM4LCA')
+    // generateCrumbs()
   }, [])
 
-  useEffect(() => {
-    console.log(chartData)
-  }, [test])
+  const BreadLinks = [
+    {
+      id: 0,
+      name: 'Link 1',
+      link: '/testing/1',
+    },
+    {
+      id: 1,
+      name: 'Another Link',
+      link: '/MSFT',
+    },
+    {
+      id: 2,
+      name: 'Symbol Link',
+      link: '/TCPL',
+    },
 
-  function handleClick() {
-    setTest(!test)
-  }
+  ]
+  console.log("symbol is: " + match.params.symbol )
+  console.log(match.params.symbol != undefined ? "true" : "false")
+  console.log("kpi is: " + match.params.kpi )
+  console.log(match.params.kpi != undefined ? "true" : "false")
+
+
 
   return (
-    <div className={classes.Wrapper}>
-    <div className={classes.graph}>
-      <Button onClick={handleClick}> Click </Button>
-      <Paper>
-        <StockChart symbol={match.params.symbol}/>
-      </Paper>
-      </div>
-      <div className={classes.kpiWrapper}>
-        {symbolStats.isLoading ?
-          "loading"
-        :
-          symbolStats.results ?
-            symbolStats.results.kpis ?
-                symbolStats.results.kpis.map((kpi, index) =>
-                  <KPI
-                    key={index}
-                    symbol={kpi.symbol}
-                    name={kpi.name}
-                    value={kpi.value}
-                    prefix={kpi.prefix}
-                    suffix={kpi.suffix}
-                    tooltip={kpi.tooltip}
-                    trend={kpi.trend}
-                  />
-                )
+    <div>
+      <BreadCrumbs match={match}/>
+      <div className={classes.Wrapper}>
+      <div className={classes.graph}>
+        <Paper>
+          <StockChart symbol={match.params.symbol}/>
+        </Paper>
+        </div>
+        <div className={classes.kpiWrapper}>
+          {symbolStats.isLoading ?
+            "loading"
+          :
+            symbolStats.results ?
+              symbolStats.results.kpis ?
+                  symbolStats.results.kpis.map((kpi, index) =>
+                    <KPI
+                      key={index}
+                      symbol={kpi.symbol}
+                      name={kpi.name}
+                      value={kpi.value}
+                      prefix={kpi.prefix}
+                      suffix={kpi.suffix}
+                      tooltip={kpi.tooltip}
+                      trend={kpi.trend}
+                    />
+                  )
+                :
+                "kpis not true"
               :
-              "kpis not true"
-            :
-            "no Kpis"
-      }
+              "no Kpis"
+        }
+        </div>
       </div>
     </div>
   )

@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import StockAPI from './StockAPI.js';
+import BreadCrumbs from './MaterialComponents/BreadCrumbs.js';
+import {match} from 'react-router-dom';
 
 import {
   Button,
 } from '@material-ui/core';
 
-function KPIPage() {
+function KPIPage({match}) {
   const {doGet, response, getRes} = StockAPI()
   const[data, setData] = useState(true)
   const[test, setTest] = useState(true)
@@ -16,7 +18,7 @@ function KPIPage() {
       url: 'http://localhost:8000/api/stocks/symbol/kpis/',
       params: {
         symbol: 'MSFT',
-        
+
         apikey: 'B62IP93O6OGM4LCA',
       },
     }))
@@ -33,6 +35,7 @@ function KPIPage() {
 
   return(
     <div>
+    <BreadCrumbs match={match} />
      KPi page
      <Button onClick={handleClick}> Click </Button>
     </div>

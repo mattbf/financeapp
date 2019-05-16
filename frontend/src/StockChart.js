@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     ChartContainer: {
       width: '100%',
+      margin: theme.spacing(2)
     },
     margin: {
      margin: theme.spacing(1),
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 function StockChart(symbol) {
-  console.log("symbol: " + symbol.symbol)
+  //console.log("symbol: " + symbol.symbol)
   const [graphConfig, setGraphConfig] = useState({
     symbol: symbol.symbol,
     timeFunc: 'TIME_SERIES_INTRADAY',
@@ -78,7 +79,7 @@ function StockChart(symbol) {
 
   useEffect(() => {
     getChart(graphConfig)
-    console.log("config updated")
+    //console.log("config updated")
   }, [graphConfig])
 
   useEffect(() => {
@@ -88,7 +89,7 @@ function StockChart(symbol) {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
-  console.log(chartData)
+  //console.log(chartData)
 
 
   function handleClose() {
@@ -100,7 +101,7 @@ function StockChart(symbol) {
   }
 
   function handleRefresh() {
-    console.log(quote)
+    //console.log(quote)
   }
 
   function handleSetTime(timeframe) {
@@ -118,7 +119,7 @@ function StockChart(symbol) {
   function handleSetIntra(timeframe) {
     //console.log("config changed")
     //console.log(event.target.value)
-    console.log(timeframe)
+    //console.log(timeframe)
     setGraphConfig({
       symbol: symbol.symbol,
       timeFunc: 'TIME_SERIES_INTRADAY',

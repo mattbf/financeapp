@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -15,10 +15,34 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
-function BreadCrumbs(BreadLinks) {
-  console.log(BreadLinks)
+function BreadCrumbs(match) {
+  console.log(match)
   const classes = useStyles();
+
+  const [crumbs, setCrumbs] = useState([])
+  useEffect(() => {
+    generateCrumbs(match)
+  }, [])
+
+  function generateCrumbs(match) {
+    console.log("gen crumbs called")
+    if (match.match.params.symbol != undefined) {
+      crumbs.push({
+        id: 0,
+        name: match.match.params.symbol,
+        link: `/${match.match.params.symbol}/`,
+      })
+      if (match.match.params.kpi != undefined) {
+        crumbs.push({
+          id: 1,
+          name: match.match.params.kpi,
+          link: `/${match.match.params.kpi}/`,
+        })
+      }
+    }
+    return crumbs
+  }
+
   return (
     <div className={classes.root}>
       <Paper elevation={0} className={classes.paper}>
@@ -26,14 +50,19 @@ function BreadCrumbs(BreadLinks) {
           <Link color="inherit" href="/">
             Home
           </Link>
-          { BreadLinks.BreadLinks.map((crumb, index) =>
-            <Link
-              key={index}
-              color={index + 1 == BreadLinks.BreadLinks.length ? 'textPrimary' : 'inherit'}
-              href={crumb.link}
-            > {crumb.name}
-            </Link>
-          )}
+          {crumbs.length > 0 ?
+            crumbs.map((crumb, index) =>
+              <Link
+                key={index}
+                color={index + 1 == crumbs.length ? 'textPrimary' : 'inherit'}
+                href={crumb.link}
+              > {crumb.name}
+              </Link>
+            )
+            :
+            null
+          }
+
         </Breadcrumbs>
       </Paper>
     </div>
