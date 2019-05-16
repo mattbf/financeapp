@@ -35,7 +35,7 @@ function KPIPage({match}) {
 
   return(
     <div>
-    //<PrimaryAppBar match={match}/>
+
      KPi page
      <Button onClick={handleClick}> Click </Button>
     </div>
@@ -43,3 +43,5 @@ function KPIPage({match}) {
 }
 
 export default KPIPage
+
+//<PrimaryAppBar match={match}/>

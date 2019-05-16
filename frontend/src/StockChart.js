@@ -32,9 +32,10 @@ const useStyles = makeStyles((theme: Theme) =>
    },
    ChartHeading: {
      display: 'flex',
+     width: '100%',
    },
    StockInfo: {
-     border: 'solid',
+
    },
    formControl: {
     margin: theme.spacing(1),
@@ -57,7 +58,7 @@ function StockChart(symbol) {
     symbol: symbol.symbol,
     timeFunc: 'TIME_SERIES_INTRADAY',
     frame: 'daily',
-    apikey: 'B62IP93O6OGM4LCA'
+    apikey: 'xxx'
   })
   const [frames, setFrames] = useState({
     daily: 'daily',
@@ -83,7 +84,7 @@ function StockChart(symbol) {
   }, [graphConfig])
 
   useEffect(() => {
-    getQuote(symbol, 'B62IP93O6OGM4LCA')
+    getQuote(symbol, 'xxx') //B62IP93O6OGM4LCA
   }, [])
 
   const classes = useStyles();
@@ -112,7 +113,7 @@ function StockChart(symbol) {
       symbol: symbol.symbol,
       timeFunc: 'TIME_SERIES_DAILY',
       frame: timeframe,
-      apikey: 'B62IP93O6OGM4LCA'
+      apikey: 'xxx'
     })
   }
 
@@ -124,40 +125,10 @@ function StockChart(symbol) {
       symbol: symbol.symbol,
       timeFunc: 'TIME_SERIES_INTRADAY',
       frame: timeframe,
-      apikey: 'B62IP93O6OGM4LCA'
+      apikey: 'xxx'
     })
   }
 
-  // const handleSingleChange = name => e => {
-  //   console.log("event " + e.target.value)
-  //   console.log("name " + name)
-  //   setGraphConfig({ ...graphConfig, [name]: e.target.value });
-  // };
-
-  // useEffect(() => {
-  //   if (timeFrame.historic) {
-  //     if (timeFrame.period == 'fiveDays') {
-  //       setAllData(data.data.results.historic.fiveDays)
-  //     }
-  //     if (timeFrame.period == 'month') {
-  //       setAllData(data.data.results.historic.month)
-  //     }
-  //     if (timeFrame.period == 'sixMonths') {
-  //       setAllData(data.data.results.historic.sixMonths)
-  //     }
-  //     if (timeFrame.period == 'year') {
-  //       setAllData(data.data.results.historic.year)
-  //     }
-  //     if (timeFrame.period == 'fiveYears') {
-  //       setAllData(data.data.results.historic.fiveYears)
-  //     }
-  //     if (timeFrame.period == 'max') {
-  //       setAllData(data.data.results.historic.max)
-  //     }
-  //   } else {
-  //     setAllData(data.data.results.daily)
-  //   }
-  // }, [timeFrame])
 
   const fakeCond = false
 
@@ -172,9 +143,9 @@ function StockChart(symbol) {
             :
              quote.data.data ?
             <div className={classes.StockInfo}>
-              <Typography variant='h3'>{quote.data.data.symbol} </Typography>
-              <Typography variant='h4'>{quote.data.data.price} </Typography>
-              <ArrowUpward color="secondary" />
+              <Typography variant='h4'>{quote.data.data.symbol} </Typography>
+              <Typography variant='h5'>{quote.data.data.price} </Typography>
+              {fakeCond ? <ArrowUpward color="secondary" /> : <ArrowDownward/>}
             </div>
             :
             "No Data"
@@ -202,7 +173,7 @@ function StockChart(symbol) {
                 :
                 <Area
                   dot={false}
-                  type="monotone"
+                  type="step"
                   dataKey='open'
                   stroke={fakeCond ? "#8884d8" : "#82ca9d" }
                   fill={fakeCond ? "url(#colorUv)" : "url(#colorPv)"}
