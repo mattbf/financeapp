@@ -55,6 +55,62 @@ def get_quote(request):
                          })
 
 
+@api_view(['GET', 'POST'])
+def get_sector(request):
+    """
+ gte quote
+ """
+    frameDict = {
+        "realtime": 'Rank A: Real-Time Performance',
+        "day": 'Rank B: 1 Day Performance',
+        "fiveDay": 'Rank C: 5 Day Performance',
+        "month": 'Rank D: 1 Month Performance',
+        "threeMonth": 'Rank E: 3 Month Performance',
+        "year": 'Rank G: 1 Year Performance',
+        "YTD": 'Rank F: Year-to-Date (YTD) Performance',
+        "threeYear": 'Rank H: 3 Year Performance',
+        "fiveYear": 'Rank I: 5 Year Performance',
+        "tenYear": 'Rank J: 10 Year Performance',
+    }
+
+    if request.method == 'GET':
+
+        data = requests.get(
+            'https://www.alphavantage.co/query?',
+            params=request.query_params
+        )
+
+        dataFormated = format_sectors(
+            json.loads(data.content.decode('utf-8')),
+            frameDict[request.query_params.get('frame')]
+        )
+
+        return Response({'data': dataFormated,
+                         'request': {'method': request.method,
+                                     'path': request.path,
+                                     'params': request.query_params,
+                                     },
+                         })
+
+
+def format_sectors(json, selector):
+        # print(json[selector])
+    newObj = []
+    sector = json[selector]
+    for key, value in sector:
+        if (float(value) < 0):
+            pos = False
+        else:
+            pos = True
+        newObj.append({
+            'sector': key,
+            'change': value,
+            'isPos': pos,
+        })
+
+    return newObj
+
+
 def format_quote(json, selector):
         # print(json[selector])
     quote = json[selector]

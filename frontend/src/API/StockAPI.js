@@ -53,6 +53,11 @@ function StockAPI() {
     isError: false,
     data: [],
   })
+  const [sectors, setSectors] = useState({
+    isLoading: false,
+    isError: false,
+    data: [],
+  })
   let newDailyJson = []
   let newJson = []
 
@@ -138,6 +143,40 @@ function StockAPI() {
         })
         .catch(function (error) {
           setQuote({
+            isLoading: false,
+            isError: true,
+            data: [],
+          })
+        console.log(error);
+        })
+  }
+
+  //get sector performance
+  function getSectors(frame, apikey) {
+    //console.log("symbol in api: " + symbol)
+    setSectors({
+      isLoading: true,
+      isError: false,
+      data: response.data,
+    })
+    axios({
+      method: 'GET',
+      url: 'http://localhost:8000/api/sector/',
+      params: {
+        function: 'SECTOR',
+        apikey: apikey,
+        frame: frame.frame,
+      },
+    })
+      .then(function(response) {
+          setSectors({
+            isLoading: false,
+            isError: false,
+            data: response.data,
+          })
+        })
+        .catch(function (error) {
+          setSectors({
             isLoading: false,
             isError: true,
             data: [],
@@ -332,6 +371,8 @@ function StockAPI() {
       symbolStats,
       getQuote,
       quote,
+      getSectors,
+      sectors
     }
 
 }
