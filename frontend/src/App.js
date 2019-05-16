@@ -7,6 +7,7 @@ import SearchBar from './SearchBar.js';
 import HomePage from './HomePage.js';
 import GlobalRouter from './GlobalRouter.js';
 
+
 import purple from '@material-ui/core/colors/purple';
 
 const theme = createMuiTheme({
@@ -14,7 +15,7 @@ const theme = createMuiTheme({
     //type: 'dark',
     primary: {
       main: '#000000',
-    }, 
+    },
     secondary: { main: '#d50000' }, // This is just green.A700 as hex.
   },
 });

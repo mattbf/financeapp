@@ -15,10 +15,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function BreadCrumbs(match) {
-  console.log(match)
+function BreadCrumbs(m) {
+  //console.log(m)
   const classes = useStyles();
-
+  const match = m.match
+  console.log(match)
   const [crumbs, setCrumbs] = useState([])
   useEffect(() => {
     generateCrumbs(match)

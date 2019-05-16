@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import {match} from 'react-router-dom';
+import BreadCrumbs from './MaterialComponents/BreadCrumbs.js';
 
 import {
   AppBar,
@@ -87,7 +89,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PrimaryAppBar() {
+function PrimaryAppBar(match) {
+
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -162,14 +165,7 @@ function PrimaryAppBar() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="Open drawer"
-          >
-            <More />
-          </IconButton>
+          <BreadCrumbs match={match}/>
           <Typography className={classes.title} variant="h6" noWrap>
             Material-UI
           </Typography>

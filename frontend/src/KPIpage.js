@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import StockAPI from './StockAPI.js';
-import BreadCrumbs from './MaterialComponents/BreadCrumbs.js';
+import PrimaryAppBar from './PrimaryAppBar.js';
 import {match} from 'react-router-dom';
 
 import {
@@ -35,7 +35,7 @@ function KPIPage({match}) {
 
   return(
     <div>
-    <BreadCrumbs match={match} />
+    //<PrimaryAppBar match={match}/>
      KPi page
      <Button onClick={handleClick}> Click </Button>
     </div>

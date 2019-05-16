@@ -5,6 +5,7 @@ import StockAPI from './StockAPI.js';
 import {match} from 'react-router-dom';
 import KPI from './KPI.js';
 import BreadCrumbs from './MaterialComponents/BreadCrumbs.js';
+import PrimaryAppBar from './PrimaryAppBar.js';
 
 
 //.match.params.userId
@@ -130,16 +131,16 @@ function StockInfoPage({match}) {
     },
 
   ]
-  console.log("symbol is: " + match.params.symbol )
-  console.log(match.params.symbol != undefined ? "true" : "false")
-  console.log("kpi is: " + match.params.kpi )
-  console.log(match.params.kpi != undefined ? "true" : "false")
+  // console.log("symbol is: " + match.params.symbol )
+  // console.log(match.params.symbol != undefined ? "true" : "false")
+  // console.log("kpi is: " + match.params.kpi )
+  // console.log(match.params.kpi != undefined ? "true" : "false")
 
 
 
   return (
     <div>
-      <BreadCrumbs match={match}/>
+      //<PrimaryAppBar match={match}/>
       <div className={classes.Wrapper}>
       <div className={classes.graph}>
         <Paper>
