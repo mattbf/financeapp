@@ -14,6 +14,7 @@ import {
   ArrowUpward,
   ArrowDownward,
   InfoOutlined,
+  TrendingUp,
 } from '@material-ui/icons';
 
 
@@ -31,8 +32,8 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
       position: 'relative',
-      width: '300px',
-      height: '100px',
+      width: '250px',
+      height: '125px',
       margin: theme.spacing(1),
     },
     Heading: {
@@ -57,14 +58,23 @@ const useStyles = makeStyles((theme: Theme) =>
     margin: {
       margin: theme.spacing(1),
     },
-    infoButton: {
+    infoButtons: {
+      display: 'flex',
+      alignItems: 'center',
       position: 'absolute',
       right: '2px',
       top: '2px',
     },
+    colorHover: {
+      '&:hover': {
+       color: "#00C676",
+       backgroundColor: 'rgba(0, 198, 118, 0.15)',
+     },
+   },
     valueHeader: {
       display: 'flex',
-      alignItems: 'flex-end',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
       justifyContent: 'space-between',
     },
   }),
@@ -94,6 +104,13 @@ function KPI(symbol) {
         quote.data.data ?
         <Link style={{textDecoration: 'none'}} to={`/${quote.data.data.symbol}`}>
           <Paper className={classes.card}>
+            <div className={classes.infoButtons}>
+              <Link style={{textDecoration: 'none'}} to={`/${quote.data.data.symbol}`}>
+                <IconButton aria-label="Delete"  size="small" className={classes.colorHover}>
+                  <TrendingUp fontSize="inherit"/>
+                </IconButton>
+              </Link>
+            </div>
             <div className={classes.valueHeader}>
               <Typography variant='h5' className={classes.Heading}> {quote.data.data.price} </Typography>
               <div className={classes.valuebox} style={{color: quote.data.data.isPos ? '#00c676' : '#ff1744',}}>

@@ -48,29 +48,10 @@ const useStyles = makeStyles(theme => ({
 function Testing() {
   const classes = useStyles();
 
-  const BreadLinks = [
-    {
-      id: 0,
-      name: 'Link 1',
-      link: '/testing/1',
-    },
-    {
-      id: 1,
-      name: 'Another Link',
-      link: '/MSFT',
-    },
-    {
-      id: 2,
-      name: 'Symbol Link',
-      link: '/TCPL',
-    },
-
-  ]
-
   return (
     <div>
       <div className={classes.breadcrumb}>
-        <BreadCrumbs BreadLinks={BreadLinks}/>
+
       </div>
       {stockKpis.map(kpi =>
         <StockKPI
