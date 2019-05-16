@@ -26,21 +26,31 @@ function BreadCrumbs(m) {
   }, [])
 
   function generateCrumbs(match) {
-    console.log("gen crumbs called")
-    if (match.match.params.symbol != undefined) {
-      crumbs.push({
-        id: 0,
-        name: match.match.params.symbol,
-        link: `/${match.match.params.symbol}/`,
-      })
-      if (match.match.params.kpi != undefined) {
+    //console.log("gen crumbs called")
+    if (match.match.path == '/stocks') {
+      if (match.match.params.symbol != undefined) {
         crumbs.push({
-          id: 1,
-          name: match.match.params.kpi,
-          link: `/${match.match.params.kpi}/`,
+          id: 0,
+          name: match.match.params.symbol,
+          link: `/stocks/${match.match.params.symbol}/`,
         })
+        if (match.match.params.kpi != undefined) {
+          crumbs.push({
+            id: 1,
+            name: match.match.params.kpi,
+            link: `/${match.match.params.kpi}/`,
+          })
+        }
       }
     }
+    if (match.match.path == '/sectors') {
+        crumbs.push({
+          id: 0,
+          name: 'Sectors',
+          link: `/sectors/`,
+        })
+    }
+
     return crumbs
   }
 

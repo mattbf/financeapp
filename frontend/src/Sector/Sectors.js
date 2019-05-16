@@ -102,16 +102,18 @@ function Sectors() {
          <MenuItem value='tenYear'>Ten Year Performance</MenuItem>
        </Select>
      </FormControl>
-      {sectors.isLoading ?
-        "loading"
-        :
-          sectors.data.data ?
-            sectors.data.data.map((sector, index) =>
-                <SectorKPI key={index} info={sector}/>
-          )
+       <div className={classes.sectorWrapper}>
+        {sectors.isLoading ?
+          "loading"
           :
-          "data not true"
-      }
+            sectors.data.data ?
+              sectors.data.data.map((sector, index) =>
+                  <SectorKPI key={index} info={sector}/>
+            )
+            :
+            "data not true"
+        }
+      </div>
     </div>
   )
 }

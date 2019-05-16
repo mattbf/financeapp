@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, AreaChart, Area } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, AreaChart, Area, ComposedChart, Bar } from 'recharts';
 import axios from 'axios';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import StockAPI from '../API/StockAPI.js';
@@ -129,6 +129,7 @@ function StockChart(symbol) {
     })
   }
 
+  console.log(chartData)
 
   const fakeCond = false
 
@@ -156,7 +157,7 @@ function StockChart(symbol) {
           </IconButton>
           </div>
           {chartData.data ?
-            <AreaChart width={800} height={300} data={chartData.data.data}
+            <ComposedChart width={800} height={300} data={chartData.data.data}
             margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -172,9 +173,22 @@ function StockChart(symbol) {
                 "Loading"
                 :
                 <Area
+                  yAxisId="left"
                   dot={false}
-                  type="step"
+                  type="monotone"
                   dataKey='open'
+                  stroke={fakeCond ? "#8884d8" : "#82ca9d" }
+                  fill={fakeCond ? "url(#colorUv)" : "url(#colorPv)"}
+                  strokeWidth={3}
+                />
+              }
+              {chartData.isLoading ?
+                null
+                :
+                <Bar
+                  yAxisId="right"
+                  type="step"
+                  dataKey='volume'
                   stroke={fakeCond ? "#8884d8" : "#82ca9d" }
                   fill={fakeCond ? "url(#colorUv)" : "url(#colorPv)"}
                   strokeWidth={3}
@@ -182,10 +196,11 @@ function StockChart(symbol) {
               }
               <CartesianGrid  stroke="#ccc" strokeDasharray="3 3" />
               <XAxis dataKey="date" />
-              <YAxis />
+              <YAxis yAxisId="left" orientation="left" stroke="#8884d8"/>
+              <YAxis yAxisId="right" orientation="right" stroke="#82ca9d"/>
               <Tooltip />
               <Legend />
-            </AreaChart>
+            </ComposedChart>
             :
             "wait"
           }
