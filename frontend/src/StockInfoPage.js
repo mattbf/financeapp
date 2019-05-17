@@ -18,9 +18,15 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     Wrapper: {
       display: 'flex',
+      [theme.breakpoints.down('md')]: {
+        flexDirection: 'column',
+      },
     },
     graph: {
       width: '65%',
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+      },
     },
     kpiWrapper: {
       display: 'flex',
@@ -29,6 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'flex-start',
       justifyContent: 'flex-start',
       border: 'solid',
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+      },
     },
   }),
 );
@@ -57,6 +66,7 @@ function StockInfoPage({match}) {
 
   return (
     <div>
+      <PrimaryAppBar match={match}/>
       <div className={classes.Wrapper}>
       <div className={classes.graph}>
           <StockChart symbol={match.params.symbol}/>

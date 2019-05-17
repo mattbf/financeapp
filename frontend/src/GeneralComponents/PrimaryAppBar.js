@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import {match} from 'react-router-dom';
 import BreadCrumbs from '../MaterialComponents/BreadCrumbs.js';
+import MiniSearchBar from './MiniSearchBar.js';
 
 import {
   AppBar,
@@ -46,11 +47,15 @@ const useStyles = makeStyles(theme => ({
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '100%',
+    width: '400px',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
       width: 'auto',
     },
+  },
+  searchDiv: {
+    width: '400px',
+    border: 'solid',
   },
   searchIcon: {
     width: theme.spacing(7),
@@ -166,20 +171,8 @@ function PrimaryAppBar(match) {
       <AppBar position="static">
         <Toolbar>
           <BreadCrumbs match={match}/>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <Search />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-            />
+          <div className={classes.searchDiv}>
+            <MiniSearchBar/>
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>

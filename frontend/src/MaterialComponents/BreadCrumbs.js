@@ -27,7 +27,7 @@ function BreadCrumbs(m) {
 
   function generateCrumbs(match) {
     //console.log("gen crumbs called")
-    if (match.match.path == '/stocks') {
+    if (match.match.path == '/stocks/:symbol') {
       if (match.match.params.symbol != undefined) {
         crumbs.push({
           id: 0,

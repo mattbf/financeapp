@@ -1,6 +1,5 @@
 import React, {useEffect, useState, createRef, useRef} from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import StockChart from './StockChart.js';
 import { Link } from "react-router-dom";
 import CircularLoad from '../MaterialComponents/CircularLoad.js';
 import StockAPI from '../API/StockAPI.js';
@@ -38,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      width: '50%',
+      width: '85%',
       [theme.breakpoints.down('sm')]: {
         width: '100%',
       },
@@ -98,8 +97,10 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function SearchBar() {
+function ChartSearch(props) {
   const classes = useStyles();
+  const { onClick, ...other } = props;
+
   const searchRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
   const [searchOpen, setsearchOpen] = useState(false)
@@ -152,6 +153,10 @@ function SearchBar() {
     setsearchOpen(true)
     //setIsVisible(true)
     console.log(response)
+  }
+
+  function addSymbol(sym) {
+    onClick(sym)
   }
 
   function openMenu() {
@@ -218,29 +223,7 @@ function SearchBar() {
 
   return (
     <div className={classes.root} style={{opacity: !isVisible ? '1' : null}}>
-      <div className={classes.StatusDiv}>
-        <ul>
-          <li> isVisible: {isVisible.toString()} </li>
-          <li> searchOpen: {searchOpen.toString()} </li>
-          <li> response:
-            <ul>
-              <li> Loading: {response.isLoading.toString()} </li>
-              <li> Error: {response.isError.toString()} </li>
-              <li> isSearch: {response.isSearch.toString()} </li>
-              <li> Data?: {response.results.data ? "true" : "false"} </li>
-              <li> length: {response.results.length} </li>
-              <li> Data: config </li>
-            </ul>
-          </li>
-          <li> keywords: {params.keywords}</li>
-        </ul>
-      </div>
       <Paper className={classes.searchBar}>
-        <ClickAwayListener onClickAway={closeMenu}>
-          <IconButton onClick={openMenu} className={classes.iconButton} aria-label="Menu">
-            <Menu />
-          </IconButton>
-        </ClickAwayListener>
         <InputBase
           className={classes.input}
           ref={searchRef}
@@ -267,27 +250,6 @@ function SearchBar() {
         </IconButton>
       </Paper>
       {
-        menuOpen ?
-        <div className={classes.filterMenu}>
-            <List>
-             <ListItem button>
-               <ListItemIcon>
-                 <Inbox />
-               </ListItemIcon>
-               <ListItemText primary="Inbox" />
-             </ListItem>
-             <ListItem button>
-               <ListItemIcon>
-                 <Drafts />
-               </ListItemIcon>
-               <ListItemText primary="Drafts" />
-             </ListItem>
-           </List>
-        </div>
-         :
-         null
-      }
-      {
         response.isSearch ?
         isVisible && searchOpen ?
         !response.isLoading ?
@@ -312,12 +274,10 @@ function SearchBar() {
             <div className={classes.list}>
               <List component="nav">
                 {response.results.data.bestMatches.slice(0, 6).map((match, index) =>
-                  <Link style={{textDecoration: 'none'}} to={`/stocks/${match["1. symbol"]}`}>
-                    <ListItem button key={index} >
+                    <ListItem button key={index} onClick={() => addSymbol(match["1. symbol"])}>
                         <ListItemText className={classes.symbol} primary={match["1. symbol"]} />
                         <ListItemText className={classes.rightList} primary={match["2. name"]} />
                     </ListItem>
-                  </Link>
                 )}
               </List>
             </div>
@@ -334,37 +294,8 @@ function SearchBar() {
         :
         null
       }
-      { chartData.isReq ?
-          chartData.isLoading ?
-            chartData.isError ?
-              "Error"
-            :
-              "Loading"
-              :
-              chartData.data.length == 0 || chartData.data == null ?
-                "No data"
-                :
-                <div>
-                  <StockChart data={chartData.data} />
-                  <Button component={StockInfoLink}> More info </Button>
-                </div>
-                :
-              "Not req"
-      }
     </div>
   );
 }
 
-export default SearchBar;
-
-// {keywords !== " " && res.results.data ?
-
-// {keywords !== " " && results.results.data ?
-// <ul>
-// {results.results.data.bestMatches.map((match, index) =>
-//   <li key={index}> {match["1. symbol"]} </li>
-// )}
-// </ul>
-//  :
-//  "Broaden your search"
-// }
+export default ChartSearch;

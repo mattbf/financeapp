@@ -1,5 +1,6 @@
 import React, {useEffect, useState, createRef, useRef} from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 import StockChart from './StockChart.js';
 import { Link } from "react-router-dom";
 import CircularLoad from '../MaterialComponents/CircularLoad.js';
@@ -95,10 +96,35 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       backgroundColor: theme.palette.background.paper,
   },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    width: theme.spacing(7),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    left: 2,
+  },
   }),
 );
 
-function SearchBar() {
+function MiniSearchBar() {
   const classes = useStyles();
   const searchRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
@@ -217,55 +243,29 @@ function SearchBar() {
 ));
 
   return (
-    <div className={classes.root} style={{opacity: !isVisible ? '1' : null}}>
-      <div className={classes.StatusDiv}>
-        <ul>
-          <li> isVisible: {isVisible.toString()} </li>
-          <li> searchOpen: {searchOpen.toString()} </li>
-          <li> response:
-            <ul>
-              <li> Loading: {response.isLoading.toString()} </li>
-              <li> Error: {response.isError.toString()} </li>
-              <li> isSearch: {response.isSearch.toString()} </li>
-              <li> Data?: {response.results.data ? "true" : "false"} </li>
-              <li> length: {response.results.length} </li>
-              <li> Data: config </li>
-            </ul>
-          </li>
-          <li> keywords: {params.keywords}</li>
-        </ul>
-      </div>
-      <Paper className={classes.searchBar}>
-        <ClickAwayListener onClickAway={closeMenu}>
-          <IconButton onClick={openMenu} className={classes.iconButton} aria-label="Menu">
-            <Menu />
+    <div>
+      <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <IconButton
+            className={classes.iconButton}
+            aria-label="Search"
+            onClick={handleSearch}
+          >
+            <Search />
           </IconButton>
-        </ClickAwayListener>
+        </div>
         <InputBase
-          className={classes.input}
           ref={searchRef}
-          placeholder="Search"
+          placeholder="Search Stocks..."
           value={params.keywords}
           onChange={handleSingleChange('keywords')}
           onKeyPress={handleKeyPress}
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
          />
-        <IconButton
-          className={classes.iconButton}
-          aria-label="Search"
-          onClick={handleSearch}
-        >
-          <Search />
-        </IconButton>
-        <Divider className={classes.divider} />
-        <IconButton
-          color="secondary"
-          className={classes.iconButton}
-          aria-label="Directions"
-          onClick={clearSearch}
-        >
-          <Clear />
-        </IconButton>
-      </Paper>
+        </div>
       {
         menuOpen ?
         <div className={classes.filterMenu}>
@@ -349,22 +349,10 @@ function SearchBar() {
                   <Button component={StockInfoLink}> More info </Button>
                 </div>
                 :
-              "Not req"
+              null
       }
     </div>
   );
 }
 
-export default SearchBar;
-
-// {keywords !== " " && res.results.data ?
-
-// {keywords !== " " && results.results.data ?
-// <ul>
-// {results.results.data.bestMatches.map((match, index) =>
-//   <li key={index}> {match["1. symbol"]} </li>
-// )}
-// </ul>
-//  :
-//  "Broaden your search"
-// }
+export default MiniSearchBar;
