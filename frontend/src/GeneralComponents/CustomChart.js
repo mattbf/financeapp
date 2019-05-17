@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-function StockChart(symbol) {
+function CustomChart(symbol) {
   const [graphConfig, setGraphConfig] = useState({
     symbol: symbol.symbol,
     timeFunc: 'TIME_SERIES_INTRADAY',
@@ -92,6 +92,11 @@ function StockChart(symbol) {
     getQuote,
   } = StockAPI();
 
+  const [symbolArray, setSymbolArray] = useState([
+    { key: 0, label: 'MSFT', color: '#00c676' },
+    { key: 1, label: 'UBER', color: '#00c676' },
+  ]);
+
   useEffect(() => {
     getChart(graphConfig)
     //console.log("config updated")
@@ -115,7 +120,23 @@ function StockChart(symbol) {
     setDialogOpen(false);
     setSelectedValue(value);
     console.log("Called: " + value)
+    addSymbol(value)
   };
+
+  const colorObj = {
+    0: '#00c676',
+    1: '#f50057',
+    2: '#3d5afe',
+    3: '#651fff',
+  }
+
+  function addSymbol(sym) {
+    // const newKey = symbolArray[-1].key + 1
+    console.log(symbolArray[-1])
+    setSymbolArray({
+      key: 2, label: sym, color: colorObj[2]
+    })
+  }
 
   function handleClose() {
     setOpen(false);
@@ -155,11 +176,15 @@ function StockChart(symbol) {
       <div className={classes.ChartContainer}>
         <Paper>
           <div className={classes.ChartHeading}>
-          <ChipsArray onClick={handleDialogOpen}/>
+          <ChipsArray onClick={handleDialogOpen} symbols={symbolArray}/>
           <IconButton aria-label="Delete" className={classes.settingsButton} onClick={handleDialogOpen}>
             <Settings />
           </IconButton>
-          <SearchDialog selectedValue={selectedValue} open={dialogOpen} onClose={handleDialogClose} />
+          <SearchDialog
+            selectedValue={selectedValue}
+            open={dialogOpen}
+            onClose={handleDialogClose}
+          />
           </div>
           {chartData.data ?
             <ComposedChart width={900} height={300} data={chartData.data.data}
@@ -239,4 +264,4 @@ function StockChart(symbol) {
 
 // y axis domain={[124, 130]}
 
-export default StockChart
+export default CustomChart

@@ -9,7 +9,8 @@ import {
 } from '@material-ui/core';
 
 import {
-  Add
+  Add,
+  Close,
 } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
@@ -29,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 
 function ChipsArray(props) {
   const classes = useStyles();
-  const { onClick, ...other } = props;
+  const { onClick, symbols, ...other } = props;
 
   const [chipData, setChipData] = React.useState([
     { key: 0, label: 'Angular' },
@@ -52,12 +53,14 @@ function ChipsArray(props) {
 
   return (
     <div className={classes.root}>
-      {chipData.map(data => {
+      {symbols.length > 0 ?
+        symbols.map(data => {
         let icon;
 
         if (data.label === 'React') {
           icon = <TagFacesIcon />;
         }
+
 
         return (
           <Chip
@@ -67,10 +70,14 @@ function ChipsArray(props) {
             onDelete={handleDelete(data)}
             className={classes.chip}
             variant="outlined"
-            color='primary'
+            style={{color: data.color, borderColor: data.color, }}
+
           />
         );
-      })}
+      })
+      :
+      null
+    }
       <IconButton onClick={onClick} className={classes.margin} aria-label="Add" size="small">
         <Add />
       </IconButton>
