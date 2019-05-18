@@ -134,8 +134,22 @@ function CustomChart(symbol) {
 
   console.log(symbolArray.length)
 
+  function containsObject(sym) {
+    var i;
+    for (i = 0; i < symbolArray.length; i++) {
+        if (symbolArray[i].label === sym) {
+            return true;
+        }
+    }
+
+    return false;
+  }
+
   function addSymbol(sym) {
     if (sym == null || sym == " " || sym == undefined) {
+      return
+    }
+    else if (containsObject(sym) == true) {
       return
     }
     else{
@@ -159,6 +173,7 @@ function CustomChart(symbol) {
     //   key: 2, label: sym, color: colorObj[2]
     // })
   }
+
   const deleteSymbol = data => () => {
     const chipToDelete = symbolArray.indexOf(data);
     console.log("delete called: " + data.label) //might have to change to obj
