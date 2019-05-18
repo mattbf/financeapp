@@ -132,8 +132,11 @@ function CustomChart(symbol) {
 
   function addSymbol(sym) {
     // const newKey = symbolArray[-1].key + 1
-    console.log(symbolArray[-1])
-    setSymbolArray({
+    // console.log(symbolArray[-1])
+    // setSymbolArray({
+    //   key: 2, label: sym, color: colorObj[2]
+    // })
+    symbolArray.push({
       key: 2, label: sym, color: colorObj[2]
     })
   }
