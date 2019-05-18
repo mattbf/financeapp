@@ -15,10 +15,10 @@ import {
   Select,
   Typography,
   Dialog,
+  Menu,
 } from '@material-ui/core'
 
 import {
-  Menu,
   Settings,
   ArrowUpward,
   ArrowDownward,
@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 function CustomChart(symbol) {
+  const [anchorEl, setAnchorEl] = useState(null);
   const [graphConfig, setGraphConfig] = useState({
     symbol: symbol.symbol,
     timeFunc: 'TIME_SERIES_INTRADAY',
@@ -113,6 +114,14 @@ function CustomChart(symbol) {
   const [open, setOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(1);
+
+  function handleOpenMenu(event) {
+   setAnchorEl(event.currentTarget);
+ }
+
+ function handleCloseMenu() {
+   setAnchorEl(null);
+ }
 
   const handleDialogOpen = () => {
     setDialogOpen(true);
@@ -174,11 +183,12 @@ function CustomChart(symbol) {
     // })
   }
 
-  const deleteSymbol = data => () => {
+   const deleteSymbol = data => () => {
+    //function deleteSymbol(data) {
     const chipToDelete = symbolArray.indexOf(data);
     console.log("delete called: " + data.label) //might have to change to obj
     symbolArray.splice(chipToDelete, 1);
-    //setSymbolArray(symbolArray);
+    setSymbolArray(symbolArray);
     console.log(symbolArray)
   };
 
@@ -221,9 +231,14 @@ function CustomChart(symbol) {
         <Paper>
           <div className={classes.ChartHeading}>
           <ChipsArray onClick={handleDialogOpen} onDelete={deleteSymbol} symbols={symbolArray}/>
-          <IconButton aria-label="Delete" className={classes.settingsButton} onClick={handleDialogOpen}>
+          <IconButton aria-label="Delete" className={classes.settingsButton} onClick={handleOpenMenu}>
             <Settings />
           </IconButton>
+          <Menu id="simple-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleCloseMenu}>
+            <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
+            <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
+            <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
+          </Menu>
           <SearchDialog
             selectedValue={selectedValue}
             open={dialogOpen}

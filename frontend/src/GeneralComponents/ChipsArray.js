@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
@@ -32,47 +32,29 @@ function ChipsArray(props) {
   const classes = useStyles();
   const { onClick, onDelete, symbols, ...other } = props;
 
-  const [chipData, setChipData] = React.useState([
-    { key: 0, label: 'Angular' },
-    { key: 1, label: 'jQuery' },
-    { key: 2, label: 'Polymer' },
-    { key: 3, label: 'React' },
-    { key: 4, label: 'Vue.js' },
-  ]);
+  const [chipData, setChipData] = useState(symbols)
+
+  useEffect(() => {
+    console.log("chip useEffect called")
+    setChipData(symbols)
+  }, [props.symbols.length])
 
   function deleteChip(data) {
     onDelete(data)
   }
 
-  console.log(symbols.length)
   return (
     <div className={classes.root}>
-      {symbols.length > 0 ?
-        symbols.map(data => {
-        let icon;
-
-        if (data.label === 'React') {
-          icon = <TagFacesIcon />;
-        }
-
-
-        return (
-          <Chip
-            key={data.key}
-            icon={icon}
-            label={data.label}
-            onDelete={deleteChip(data)}
-            className={classes.chip}
-            variant="outlined"
-            deleteIcon={<Close />}
-            style={{color: data.color, borderColor: data.color, }}
-
-          />
-        );
-      })
-      :
-      null
-    }
+      {symbols.map(data =>
+        <Chip
+        key={data.key}
+        label={data.label}
+        onDelete={onDelete(data)}
+        className={classes.chip}
+        variant="outlined"
+        style={{color: data.color, borderColor: data.color, }}
+        />
+      )}
     {symbols.length <= 2 ?
       <IconButton onClick={onClick} className={classes.margin} aria-label="Add" size="small">
         <Add />

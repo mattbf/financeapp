@@ -6,6 +6,7 @@ import PrimaryAppBar from './GeneralComponents/PrimaryAppBar.js';
 import BreadCrumbs from './MaterialComponents/BreadCrumbs.js';
 import MiniSearchBar from './GeneralComponents/MiniSearchBar.js';
 import CustomChart from './GeneralComponents/CustomChart.js';
+import SymbolChip from './GeneralComponents/SymbolChip.js';
 
 const useStyles = makeStyles(theme => ({
   breadcrumb: {
@@ -20,6 +21,7 @@ function Testing() {
   return (
     <div>
         <CustomChart/>
+        <SymbolChip/>
     </div>
   )
 }
