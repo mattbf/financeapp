@@ -4,6 +4,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import {match} from 'react-router-dom';
 import BreadCrumbs from '../MaterialComponents/BreadCrumbs.js';
 import MiniSearchBar from './MiniSearchBar.js';
+import { Link } from 'react-router-dom';
 
 import {
   AppBar,
@@ -176,6 +177,9 @@ function PrimaryAppBar(match) {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <Link to='/sectors'>
+              <Typography>Sectors</Typography>
+            </Link>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <Mail />

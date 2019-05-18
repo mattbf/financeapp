@@ -330,6 +330,16 @@ def get_stock_kpis(request):
                                     'tooltip': 'Test kpi with tooltip',
                                     'trend': True,
                                 },
+                                {
+                                    'symbol': request.query_params.get('symbol'),
+                                    'name': 'Volume',
+                                    'value': dataFormated[0]['volume'],
+                                    'prefix': '',
+                                    'suffix': '',
+                                    'tooltip': 'Amount of stocks traded in most recent trading day',
+                                    'trend': True,
+                                },
+
                             ],
                             'request': {'method': request.method,
                                         'path': request.path,
