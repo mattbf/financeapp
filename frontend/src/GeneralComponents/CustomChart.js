@@ -93,9 +93,11 @@ function CustomChart(symbol) {
   } = StockAPI();
 
   const [symbolArray, setSymbolArray] = useState([
-    { key: 0, label: 'MSFT', color: '#00c676' },
-    { key: 1, label: 'UBER', color: '#00c676' },
+
   ]);
+
+  // { key: 0, label: 'MSFT', color: '#00c676' },
+  // { key: 1, label: 'UBER', color: '#00c676' },
 
   useEffect(() => {
     getChart(graphConfig)
@@ -130,16 +132,40 @@ function CustomChart(symbol) {
     3: '#651fff',
   }
 
+  console.log(symbolArray.length)
+
   function addSymbol(sym) {
-    // const newKey = symbolArray[-1].key + 1
-    // console.log(symbolArray[-1])
+    if (sym == null || sym == " " || sym == undefined) {
+      return
+    }
+    else{
+      if (symbolArray.length != 0) {
+        const newKey = symbolArray[symbolArray.length -1].key + 1
+        symbolArray.push({
+          key: newKey, label: sym, color: colorObj[newKey]
+        })
+      }
+      else {
+        const newKey = 0
+        symbolArray.push({
+          key: newKey, label: sym, color: colorObj[newKey]
+        })
+      }
+    }
+
+    //console.log(symbolArray[symbolArray.length -1 ])
+    //console.log(symbolArray.length)
     // setSymbolArray({
     //   key: 2, label: sym, color: colorObj[2]
     // })
-    symbolArray.push({
-      key: 2, label: sym, color: colorObj[2]
-    })
   }
+  const deleteSymbol = data => () => {
+    const chipToDelete = symbolArray.indexOf(data);
+    console.log("delete called: " + data.label) //might have to change to obj
+    symbolArray.splice(chipToDelete, 1);
+    //setSymbolArray(symbolArray);
+    console.log(symbolArray)
+  };
 
   function handleClose() {
     setOpen(false);
@@ -179,7 +205,7 @@ function CustomChart(symbol) {
       <div className={classes.ChartContainer}>
         <Paper>
           <div className={classes.ChartHeading}>
-          <ChipsArray onClick={handleDialogOpen} symbols={symbolArray}/>
+          <ChipsArray onClick={handleDialogOpen} onDelete={deleteSymbol} symbols={symbolArray}/>
           <IconButton aria-label="Delete" className={classes.settingsButton} onClick={handleDialogOpen}>
             <Settings />
           </IconButton>

@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 
 function ChipsArray(props) {
   const classes = useStyles();
-  const { onClick, symbols, ...other } = props;
+  const { onClick, onDelete, symbols, ...other } = props;
 
   const [chipData, setChipData] = React.useState([
     { key: 0, label: 'Angular' },
@@ -40,17 +40,8 @@ function ChipsArray(props) {
     { key: 4, label: 'Vue.js' },
   ]);
 
-  const handleDelete = data => () => {
-    if (data.label === 'React') {
-      alert('Why would you want to delete React?! :)');
-      return;
-    }
 
-    const chipToDelete = chipData.indexOf(data);
-    chipData.splice(chipToDelete, 1);
-    setChipData(chipData);
-  };
-
+  console.log(symbols.length)
   return (
     <div className={classes.root}>
       {symbols.length > 0 ?
@@ -67,7 +58,7 @@ function ChipsArray(props) {
             key={data.key}
             icon={icon}
             label={data.label}
-            onDelete={handleDelete(data)}
+            onDelete={onDelete(data)}
             className={classes.chip}
             variant="outlined"
             style={{color: data.color, borderColor: data.color, }}
@@ -78,9 +69,14 @@ function ChipsArray(props) {
       :
       null
     }
+    {symbols.length <= 2 ?
       <IconButton onClick={onClick} className={classes.margin} aria-label="Add" size="small">
         <Add />
       </IconButton>
+      :
+      null
+    }
+
     </div>
   );
 }
