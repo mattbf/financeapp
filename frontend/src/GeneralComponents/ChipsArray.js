@@ -40,6 +40,9 @@ function ChipsArray(props) {
     { key: 4, label: 'Vue.js' },
   ]);
 
+  function deleteChip(data) {
+    onDelete(data)
+  }
 
   console.log(symbols.length)
   return (
@@ -58,9 +61,10 @@ function ChipsArray(props) {
             key={data.key}
             icon={icon}
             label={data.label}
-            onDelete={onDelete(data)}
+            onDelete={deleteChip(data)}
             className={classes.chip}
             variant="outlined"
+            deleteIcon={<Close />}
             style={{color: data.color, borderColor: data.color, }}
 
           />
